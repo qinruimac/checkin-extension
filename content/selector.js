@@ -9,7 +9,31 @@ if (!window.__checkinSelectorInitialized) {
   window.__checkinSelectorInitialized = true;
 
   const STORAGE_KEY = 'checkin_tasks';
-  const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
+    // ===== i18n（支持手动语言切换）=====
+  let _customMsgs = null;
+  async function _initI18n() {
+    const { user_language } = await chrome.storage.local.get('user_language');
+    if (user_language && user_language !== 'auto') {
+      try {
+        const r = await fetch(chrome.runtime.getURL(`_locales/${user_language}/messages.json`));
+        _customMsgs = await r.json();
+      } catch (e) { _customMsgs = null; }
+    } else { _customMsgs = null; }
+  }
+  function _getMsg(key, subs) {
+    if (!_customMsgs || !_customMsgs[key]) return chrome.i18n.getMessage(key, subs);
+    const entry = _customMsgs[key];
+    let msg = entry.message || '';
+    if (entry.placeholders && subs) {
+      const arr = Array.isArray(subs) ? subs : [subs];
+      for (const [name, info] of Object.entries(entry.placeholders)) {
+        const idx = parseInt(info.content.replace(/\$/g, '')) - 1;
+        msg = msg.replace(new RegExp(`\\$${name}\\$`, 'g'), arr[idx] || '');
+      }
+    }
+    return msg;
+  }
+  const i18n = (key, subs) => _getMsg(key, subs);
 
   // 选择模式状态
   let selectorMode = false;
@@ -376,7 +400,7 @@ if (!window.__checkinSelectorInitialized) {
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'startSelector') {
-      enterSelectorMode();
+      _initI18n().then(() => enterSelectorMode());
       sendResponse({ success: true });
     }
     return true;

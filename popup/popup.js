@@ -3,13 +3,43 @@
  * 责责任务列表的加载/渲染/删除、选取签到按钮、手工添加、执行所有签到及倒计时逻辑
  */
 
-// ===== i18n 快捷方法 =====
-const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
+// ===== i18n 系统（支持手动语言切换）=====
+let customMessages = null;
+
+async function loadCustomLanguage(lang) {
+  if (!lang || lang === 'auto') {
+    customMessages = null;
+    return;
+  }
+  try {
+    const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
+    const response = await fetch(url);
+    customMessages = await response.json();
+  } catch (e) {
+    customMessages = null;
+  }
+}
+
+function customGetMessage(key, substitutions) {
+  if (!customMessages || !customMessages[key]) {
+    return chrome.i18n.getMessage(key, substitutions);
+  }
+  const entry = customMessages[key];
+  let msg = entry.message || '';
+  if (entry.placeholders && substitutions) {
+    const subs = Array.isArray(substitutions) ? substitutions : [substitutions];
+    for (const [name, info] of Object.entries(entry.placeholders)) {
+      const idx = parseInt(info.content.replace(/\$/g, '')) - 1;
+      msg = msg.replace(new RegExp(`\\$${name}\\$`, 'g'), subs[idx] || '');
+    }
+  }
+  return msg;
+}
+
+const i18n = (key, substitutions) => customGetMessage(key, substitutions);
 
 // ===== i18n HTML 占位符替换 =====
-// Edge 可能不自动预处理 HTML 中的 __MSG_key__，手动遍历 DOM 替换
-(function applyI18nToHTML() {
-  // 替换所有文本节点中的 __MSG_key__
+function applyI18nToHTML() {
   const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT);
   const textNodes = [];
   let node;
@@ -17,25 +47,19 @@ const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
     if (node.textContent.includes('__MSG_')) textNodes.push(node);
   }
   textNodes.forEach(n => {
-    n.textContent = n.textContent.replace(/__MSG_(\w+)__/g, (_, key) => chrome.i18n.getMessage(key) || _);
+    n.textContent = n.textContent.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _);
   });
-  // 替换所有属性中的 __MSG_key__（placeholder、title 等）
   document.querySelectorAll('*').forEach(el => {
     for (const attr of [...el.attributes]) {
       if (attr.value.includes('__MSG_')) {
-        el.setAttribute(attr.name, attr.value.replace(/__MSG_(\w+)__/g, (_, key) => chrome.i18n.getMessage(key) || _));
+        el.setAttribute(attr.name, attr.value.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _));
       }
     }
   });
-})();
+}
 
-// ===== 常量定义 =====
-const STORAGE_KEY = 'checkin_tasks';
-const PAGE_SIZE = 10;
-let currentPage = 1;
-
-// ===== DOM 元素引用 =====
 const btnPick = document.getElementById('btn-pick');
+const langSelect = document.getElementById('lang-select');
 const btnToggleForm = document.getElementById('btn-toggle-form');
 const btnExecute = document.getElementById('btn-execute');
 const manualForm = document.getElementById('manual-form');
@@ -484,12 +508,23 @@ btnCloseResult.addEventListener('click', () => {
   resultPanel.classList.add('hidden');
 });
 
-// ===== 初始化 =====
-document.addEventListener('DOMContentLoaded', () => {
+// ===== 初始化（异步加载语言后再渲染）=====
+(async () => {
+  // 读取语言偏好
+  const result = await chrome.storage.local.get(['user_language']);
+  const savedLang = result.user_language || 'auto';
+  langSelect.value = savedLang;
+  await loadCustomLanguage(savedLang);
+  applyI18nToHTML();
   renderTaskList();
   onTaskTypeChange();
-});
 
-// 初始渲染
-renderTaskList();
-onTaskTypeChange();
+  // 语言切换
+  langSelect.addEventListener('change', async () => {
+    const lang = langSelect.value;
+    await chrome.storage.local.set({ user_language: lang });
+    await loadCustomLanguage(lang);
+    applyI18nToHTML();
+    renderTaskList();
+  });
+})();
