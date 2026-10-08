@@ -181,7 +181,7 @@ if (!window.__checkinSelectorInitialized) {
     hintBar.id = '__checkinHintBar';
     hintBar.style.cssText = `
       position: fixed; top: 0; left: 0; right: 0; z-index: 2147483647;
-      background: #4A90D9; color: #fff; padding: 8px 16px;
+      background: #0d6efd; color: #fff; padding: 8px 16px;
       font-size: 14px; font-family: sans-serif; text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     `;
@@ -225,33 +225,33 @@ if (!window.__checkinSelectorInitialized) {
     // 创建对话框
     const dialog = document.createElement('div');
     dialog.style.cssText = `
-      background: #fff; border-radius: 12px; padding: 24px;
+      background: #fff; border-radius: 0.5rem; padding: 24px;
       width: 400px; max-width: 90vw; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     `;
 
     dialog.innerHTML = `
-      <h2 style="margin:0 0 16px;font-size:18px;color:#333;">✅ 已选中签到按钮</h2>
+      <h2 style="margin:0 0 16px;font-size:18px;color:#212529;">✅ 已选中签到按钮</h2>
       <div style="margin-bottom:12px;">
-        <div style="font-size:12px;color:#999;margin-bottom:4px;">元素标签</div>
-        <div style="font-size:13px;color:#333;padding:8px;background:#f5f5f5;border-radius:4px;word-break:break-all;">
+        <div style="font-size:12px;color:#6c757d;margin-bottom:4px;">元素标签</div>
+        <div style="font-size:13px;color:#212529;padding:8px;background:#f8f9fa;border-radius:0.375rem;word-break:break-all;">
           &lt;${element.tagName.toLowerCase()}&gt;
         </div>
       </div>
       <div style="margin-bottom:12px;">
-        <div style="font-size:12px;color:#999;margin-bottom:4px;">CSS 选择器</div>
-        <div style="font-size:12px;color:#666;padding:8px;background:#f5f5f5;border-radius:4px;word-break:break-all;font-family:monospace;">
+        <div style="font-size:12px;color:#6c757d;margin-bottom:4px;">CSS 选择器</div>
+        <div style="font-size:12px;color:#6c757d;padding:8px;background:#f8f9fa;border-radius:0.375rem;word-break:break-all;font-family:monospace;">
           ${escapeHtmlForDialog(selector)}
         </div>
       </div>
       <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:12px;color:#999;margin-bottom:4px;">任务名称</label>
+        <label style="display:block;font-size:12px;color:#6c757d;margin-bottom:4px;">任务名称</label>
         <input type="text" id="__checkinTaskName" value="${escapeHtmlForDialog(defaultName)}"
-          style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #ddd;border-radius:4px;box-sizing:border-box;"
+          style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #dee2e6;border-radius:0.375rem;box-sizing:border-box;"
           maxlength="50">
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <button id="__checkinCancel" style="padding:8px 16px;font-size:14px;border:none;border-radius:6px;background:#f0f0f0;color:#666;cursor:pointer;">取消</button>
-        <button id="__checkinConfirm" style="padding:8px 16px;font-size:14px;border:none;border-radius:6px;background:#4A90D9;color:#fff;cursor:pointer;">确认保存</button>
+        <button id="__checkinCancel" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#f8f9fa;color:#6c757d;cursor:pointer;">取消</button>
+        <button id="__checkinConfirm" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#0d6efd;color:#fff;cursor:pointer;">确认保存</button>
       </div>
     `;
 
@@ -348,8 +348,8 @@ if (!window.__checkinSelectorInitialized) {
     const toast = document.createElement('div');
     toast.style.cssText = `
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-      z-index: 2147483647; background: rgba(0,0,0,0.8); color: #fff;
-      padding: 12px 24px; border-radius: 8px; font-size: 14px;
+      z-index: 2147483647; background: rgba(33,37,41,0.9); color: #fff;
+      padding: 12px 24px; border-radius: 0.375rem; font-size: 14px;
       font-family: sans-serif; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       animation: __checkinToastIn 0.3s ease;
     `;
