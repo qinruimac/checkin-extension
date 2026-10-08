@@ -1,6 +1,6 @@
 # 网页签到助手 (edge-checkin-extension)
 
-一个基于 Manifest V3 的 Edge 浏览器扩展，用于便捷网页签到。支持选取页面元素自动点击签到、手工添加签到任务、批量执行所有签到任务。
+一个基于 Manifest V3 的 Edge 浏览器扩展，用于便捷网页签到。支持选取页面元素自动点击签到、手工添加签到任务、批量执行所有签到任务。支持 10 种语言界面切换。
 
 ## 功能特性
 
@@ -30,26 +30,46 @@
 - 弹窗主区域显示所有签到任务
 - 每个任务显示：名称、URL（截断）、类型图标（🖱️点击 / 🌐打开）
 - 支持删除单个任务
+- 任务列表分页显示（每页 10 条），支持翻页
 - 任务列表持久化存储（chrome.storage.local）
+
+### 5. 多语言支持（i18n）
+- 支持 10 种语言：英语、简体中文、繁体中文、日语、韩语、法语、德语、俄语、西班牙语、葡萄牙语
+- 自动检测浏览器语言，也支持手动切换
+- 弹窗右上角有语言下拉菜单，可随时切换界面语言
+- 语言偏好保存在本地，重启浏览器后保持
+- 所有界面文本、提示信息、通知内容均支持多语言
 
 ## 文件结构
 
 ```
 edge-checkin-extension/
 ├── manifest.json              # 扩展配置（Manifest V3）
+├── _locales/                  # 多语言资源
+│   ├── en/messages.json       # 英语
+│   ├── zh_CN/messages.json    # 简体中文
+│   ├── zh_TW/messages.json    # 繁体中文
+│   ├── ja/messages.json       # 日语
+│   ├── ko/messages.json       # 韩语
+│   ├── fr/messages.json       # 法语
+│   ├── de/messages.json       # 德语
+│   ├── ru/messages.json       # 俄语
+│   ├── es/messages.json       # 西班牙语
+│   └── pt/messages.json       # 葡萄牙语
 ├── popup/
 │   ├── popup.html             # 弹窗页面
 │   ├── popup.css              # 弹窗样式
-│   └── popup.js               # 弹窗逻辑
+│   └── popup.js               # 弹窗逻辑（含 i18n 和语言切换）
 ├── content/
-│   ├── selector.js            # 元素选择器模式
-│   └── auto-click.js          # 自动点击执行
+│   ├── selector.js            # 元素选择器模式（含 i18n）
+│   └── auto-click.js          # 自动点击执行（含 i18n）
 ├── background/
-│   └── service-worker.js      # 后台服务工作者
+│   └── service-worker.js      # 后台服务工作者（含 i18n）
 ├── icons/
 │   ├── icon16.png             # 16x16 图标
 │   ├── icon48.png             # 48x48 图标
 │   └── icon128.png            # 128x128 图标
+├── PRIVACY.md                 # 隐私政策
 └── README.md                  # 说明文档
 ```
 
@@ -90,25 +110,34 @@ edge-checkin-extension/
 4. 倒计时结束后自动执行所有任务
 5. 查看执行结果汇总
 
+### 切换语言
+
+1. 点击工具栏中的签到助手图标
+2. 在弹窗右上角找到语言下拉菜单
+3. 选择所需语言，界面立即切换
+4. 选择"自动"则跟随浏览器语言设置
+
 ## 技术说明
 
 - **Manifest V3**：使用最新的扩展开发规范，不使用已废弃的 API
-- **chrome.storage.local**：任务列表持久化存储
+- **chrome.storage.local**：任务列表和语言偏好持久化存储
 - **chrome.scripting.executeScript**：动态注入 content script 执行点击
 - **chrome.notifications**：执行完成后发送桌面通知
 - **CSS 选择器生成算法**：从目标元素向上遍历 DOM 树，优先使用 id，其次使用 class+tag 组合，最后使用 nth-of-type 路径，确保选择器稳定且唯一
 - **模拟点击**：派发完整的鼠标事件序列（mousedown → mouseup → click），同时调用原生 click() 作为兜底
+- **i18n 实现**：使用 Chrome/Edge 原生 `_locales/` 机制 + 自定义语言切换层。popup、content script、service worker 均支持手动语言切换，通过 `chrome.storage.local` 持久化偏好，content script 通过 `web_accessible_resources` 声明访问 `_locales/` 资源
 
 ## 权限说明
 
 | 权限 | 用途 |
 |------|------|
 | activeTab | 访问当前标签页进行元素选取 |
-| storage | 持久化存储任务列表 |
+| storage | 持久化存储任务列表和语言偏好 |
 | tabs | 创建和管理标签页 |
 | scripting | 动态注入 content script |
 | notifications | 发送桌面通知 |
 | host_permissions: `<all_urls>` | 在任意网页上执行签到操作 |
+| web_accessible_resources: `_locales/*` | content script 加载多语言资源文件 |
 
 ## 注意事项
 
@@ -116,3 +145,7 @@ edge-checkin-extension/
 - CSS 选择器基于添加时的页面结构生成，如果网站改版可能需要重新选取
 - 执行任务时标签页在后台打开，不会切换当前标签页
 - 建议在添加任务前先手动签到一次，确认签到按钮的位置和选择器
+
+## 隐私政策
+
+详见 [PRIVACY.md](PRIVACY.md)。所有数据仅存储在本地浏览器中，不上传任何服务器。
