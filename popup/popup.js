@@ -523,20 +523,30 @@ btnCloseResult.addEventListener('click', () => {
 // ===== 初始化（异步加载语言后再渲染）=====
 (async () => {
   // 读取语言偏好
-  const result = await chrome.storage.local.get(['user_language']);
-  const savedLang = result.user_language || 'auto';
-  langSelect.value = savedLang;
-  await loadCustomLanguage(savedLang);
-  applyI18nToHTML();
+  try {
+    const result = await chrome.storage.local.get(['user_language']);
+    const savedLang = result.user_language || 'auto';
+    langSelect.value = savedLang;
+    await loadCustomLanguage(savedLang);
+    applyI18nToHTML();
+  } catch (e) {
+    console.error('i18n init error:', e);
+  }
+
+  // 无论 i18n 是否成功，都要渲染任务列表
   renderTaskList();
   onTaskTypeChange();
 
   // 语言切换
   langSelect.addEventListener('change', async () => {
-    const lang = langSelect.value;
-    await chrome.storage.local.set({ user_language: lang });
-    await loadCustomLanguage(lang);
-    applyI18nToHTML();
+    try {
+      const lang = langSelect.value;
+      await chrome.storage.local.set({ user_language: lang });
+      await loadCustomLanguage(lang);
+      applyI18nToHTML();
+    } catch (e) {
+      console.error('lang switch error:', e);
+    }
     renderTaskList();
   });
 })();
