@@ -111,12 +111,10 @@ async function renderTaskList() {
     } catch (e) {
       domain = '';
     }
-    const faviconUrl = domain
-      ? `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
-      : '';
-    const iconHtml = faviconUrl
-      ? `<img src="${faviconUrl}" class="task-favicon" alt="${escapeHtml(task.name)}"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    // 三级回退：网站自身 favicon → DuckDuckGo → emoji
+    const iconHtml = domain
+      ? `<img src="https://${domain}/favicon.ico" class="task-favicon" alt="${escapeHtml(task.name)}"
+           onerror="this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex'};this.src='https://icons.duckduckgo.com/ip3/${domain}.ico'">
          <span class="task-icon" style="display:none">${fallbackIcon}</span>`
       : `<span class="task-icon">${fallbackIcon}</span>`;
     return `
