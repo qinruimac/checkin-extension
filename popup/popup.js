@@ -112,9 +112,10 @@ async function renderTaskList() {
       domain = '';
     }
     // 三级回退：网站自身 favicon → DuckDuckGo → emoji
+    // 注意：MV3 CSP 禁止内联 onerror，改用 addEventListener 绑定
     const iconHtml = domain
       ? `<img src="https://${domain}/favicon.ico" class="task-favicon" alt="${escapeHtml(task.name)}"
-           onerror="this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex'};this.src='https://icons.duckduckgo.com/ip3/${domain}.ico'">
+           data-domain="${domain}">
          <span class="task-icon" style="display:none">${fallbackIcon}</span>`
       : `<span class="task-icon">${fallbackIcon}</span>`;
     return `
@@ -128,6 +129,23 @@ async function renderTaskList() {
       </div>
     `;
   }).join('');
+
+  // 绑定 favicon 三级回退（避免内联 onerror 违反 MV3 CSP）
+  taskList.querySelectorAll('.task-favicon').forEach(img => {
+    const domain = img.dataset.domain;
+    img.addEventListener('error', function onErr() {
+      if (img.dataset.fallback === 'done') return;
+      img.dataset.fallback = 'done';
+      // 切到 DuckDuckGo
+      img.removeEventListener('error', onErr);
+      img.addEventListener('error', function finalErr() {
+        img.style.display = 'none';
+        const fb = img.nextElementSibling;
+        if (fb) fb.style.display = 'flex';
+      });
+      img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+    });
+  });
 
   // 绑定删除按钮事件
   document.querySelectorAll('.task-delete').forEach(btn => {
