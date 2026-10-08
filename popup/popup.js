@@ -104,10 +104,24 @@ async function renderTaskList() {
 
   // 渲染任务卡片
   taskList.innerHTML = tasks.map(task => {
-    const icon = task.type === 'click' ? '🎯' : '🔗';
+    const fallbackIcon = task.type === 'click' ? '🎯' : '🔗';
+    let domain = '';
+    try {
+      domain = new URL(task.url).hostname;
+    } catch (e) {
+      domain = '';
+    }
+    const faviconUrl = domain
+      ? `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
+      : '';
+    const iconHtml = faviconUrl
+      ? `<img src="${faviconUrl}" class="task-favicon" alt="${escapeHtml(task.name)}"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <span class="task-icon" style="display:none">${fallbackIcon}</span>`
+      : `<span class="task-icon">${fallbackIcon}</span>`;
     return `
       <div class="task-card" data-id="${task.id}">
-        <span class="task-icon">${icon}</span>
+        <span class="task-icon">${iconHtml}</span>
         <div class="task-info">
           <div class="task-name">${escapeHtml(task.name)}</div>
           <div class="task-url" title="${escapeHtml(task.url)}">${escapeHtml(truncateUrl(task.url))}</div>
