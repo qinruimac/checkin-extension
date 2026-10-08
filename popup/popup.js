@@ -104,7 +104,7 @@ async function renderTaskList() {
 
   // 渲染任务卡片
   taskList.innerHTML = tasks.map(task => {
-    const icon = task.type === 'click' ? '��️' : '��';
+    const icon = task.type === 'click' ? '🎯' : '🔗';
     return `
       <div class="task-card" data-id="${task.id}">
         <span class="task-icon">${icon}</span>
