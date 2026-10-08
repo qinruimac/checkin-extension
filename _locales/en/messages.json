@@ -1,84 +1,286 @@
 {
-  "extName": { "message": "Web Check-in Assistant" },
-  "extDescription": { "message": "A handy web check-in extension. Pick page elements to auto-click for check-in, manually add check-in tasks, and batch-execute all tasks." },
-
-  "btnPick": { "message": "Pick Check-in Button" },
-  "btnManualAdd": { "message": "Add Manually" },
-  "btnExecute": { "message": "Execute All" },
-
-  "formTitle": { "message": "Add Check-in Task Manually" },
-  "labelTaskName": { "message": "Task Name" },
-  "placeholderTaskName": { "message": "e.g., Daily check-in for Site X" },
-  "labelTaskUrl": { "message": "Page URL" },
-  "labelTaskType": { "message": "Task Type" },
-  "optionClick": { "message": "Click to Check-in" },
-  "optionOpen": { "message": "Open Page Only" },
-  "labelSelector": { "message": "CSS Selector (optional)" },
-  "placeholderSelector": { "message": "Leave empty to just open the page" },
-  "btnSaveTask": { "message": "Save Task" },
-  "btnCancel": { "message": "Cancel" },
-  "btnDeleteTask": { "message": "Delete task" },
-  "defaultTaskName": { "message": "Check-in task" },
-
-  "sectionTitle": { "message": "Check-in Task List" },
-  "taskCount": { "message": "$count$ tasks", "placeholders": { "count": { "content": "$1" } } },
-  "emptyText": { "message": "No check-in tasks yet" },
-  "emptyHint": { "message": "Click a button above to add your first check-in task" },
-
-  "pagePrev": { "message": "‹ Prev" },
-  "pageNext": { "message": "Next ›" },
-
-  "countdownText": { "message": "Starting check-in execution..." },
-  "btnCancelExecute": { "message": "Cancel" },
-  "executingText": { "message": "Executing check-in tasks..." },
-  "executingTask": { "message": "Executing: $name$", "placeholders": { "name": { "content": "$1" } } },
-  "progressInfo": { "message": "Progress: $current$ / $total$", "placeholders": { "current": { "content": "$1" }, "total": { "content": "$2" } } },
-  "resultTitle": { "message": "Execution Complete" },
-  "resultSuccess": { "message": "Success" },
-  "resultFail": { "message": "Failed" },
-  "btnClose": { "message": "Close" },
-  "resultDetailFormat": { "message": "$name$: $message$", "placeholders": { "name": { "content": "$1" }, "message": { "content": "$2" } } },
-
-  "footerStats": { "message": "$total$ tasks | Click $click$ | Open $open$", "placeholders": { "total": { "content": "$1" }, "click": { "content": "$2" }, "open": { "content": "$3" } } },
-
-  "toastTaskDeleted": { "message": "Task deleted" },
-  "toastNoTab": { "message": "Cannot get current tab" },
-  "toastUnsupportedPage": { "message": "Element picking is not supported on this page" },
-  "toastClickToSelect": { "message": "Click the check-in button on the page" },
-  "toastSelectorFailed": { "message": "Cannot start selector, please refresh the page and retry" },
-  "toastSelectorStartFailed": { "message": "Failed to start selector" },
-  "toastInputName": { "message": "Please enter a task name" },
-  "toastInputUrl": { "message": "Please enter a page URL" },
-  "toastInvalidUrl": { "message": "Invalid URL format" },
-  "toastTaskAdded": { "message": "Task added successfully" },
-  "toastNoTasks": { "message": "No check-in tasks to execute" },
-  "toastCancelled": { "message": "Execution cancelled" },
-  "toastTaskAddedSelector": { "message": "Check-in task added" },
-  "toastTaskSaved": { "message": "Check-in task saved: $name$", "placeholders": { "name": { "content": "$1" } } },
-
-  "selectorHint": { "message": "Click the check-in button on the page | Press ESC to cancel" },
-  "selectorDialogTitle": { "message": "✅ Check-in button selected" },
-  "selectorLabelTag": { "message": "Element Tag" },
-  "selectorLabelSelector": { "message": "CSS Selector" },
-  "selectorLabelName": { "message": "Task Name" },
-  "selectorCancel": { "message": "Cancel" },
-  "selectorConfirm": { "message": "Confirm & Save" },
-
-  "msgUrlEmpty": { "message": "URL is empty" },
-  "msgTabClosed": { "message": "Tab was closed" },
-  "msgPageOpened": { "message": "Page opened" },
-  "msgExecError": { "message": "Execution error" },
-  "msgNoResult": { "message": "Injection returned no result" },
-  "msgInjectFailed": { "message": "Injection failed: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-  "msgUnknownError": { "message": "Unknown error" },
-  "msgNoSelector": { "message": "No CSS selector provided" },
-  "msgInvalidSelector": { "message": "Invalid CSS selector" },
-  "msgElementNotFound": { "message": "No matching element found" },
-  "msgWaitTimeout": { "message": "Timed out waiting for element" },
-  "msgClickSuccess": { "message": "Click succeeded" },
-  "msgClickFailed": { "message": "Click failed: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-  "msgExecFailed": { "message": "Execution failed: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-
-  "notifTitle": { "message": "Check-in Execution Complete" },
-  "notifMessage": { "message": "Executed $total$ tasks: $success$ succeeded, $fail$ failed.", "placeholders": { "total": { "content": "$1" }, "success": { "content": "$2" }, "fail": { "content": "$3" } } }
+  "extName": {
+    "message": "Web Check-in Assistant"
+  },
+  "extDescription": {
+    "message": "A handy web check-in extension. Pick elements to auto-click, add tasks, and batch-execute all check-ins."
+  },
+  "btnPick": {
+    "message": "Pick Check-in Button"
+  },
+  "btnManualAdd": {
+    "message": "Add Manually"
+  },
+  "btnExecute": {
+    "message": "Execute All"
+  },
+  "formTitle": {
+    "message": "Add Check-in Task Manually"
+  },
+  "labelTaskName": {
+    "message": "Task Name"
+  },
+  "placeholderTaskName": {
+    "message": "e.g., Daily check-in for Site X"
+  },
+  "labelTaskUrl": {
+    "message": "Page URL"
+  },
+  "labelTaskType": {
+    "message": "Task Type"
+  },
+  "optionClick": {
+    "message": "Click to Check-in"
+  },
+  "optionOpen": {
+    "message": "Open Page Only"
+  },
+  "labelSelector": {
+    "message": "CSS Selector (optional)"
+  },
+  "placeholderSelector": {
+    "message": "Leave empty to just open the page"
+  },
+  "btnSaveTask": {
+    "message": "Save Task"
+  },
+  "btnCancel": {
+    "message": "Cancel"
+  },
+  "btnDeleteTask": {
+    "message": "Delete task"
+  },
+  "defaultTaskName": {
+    "message": "Check-in task"
+  },
+  "sectionTitle": {
+    "message": "Check-in Task List"
+  },
+  "taskCount": {
+    "message": "$count$ tasks",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyText": {
+    "message": "No check-in tasks yet"
+  },
+  "emptyHint": {
+    "message": "Click a button above to add your first check-in task"
+  },
+  "pagePrev": {
+    "message": "‹ Prev"
+  },
+  "pageNext": {
+    "message": "Next ›"
+  },
+  "countdownText": {
+    "message": "Starting check-in execution..."
+  },
+  "btnCancelExecute": {
+    "message": "Cancel"
+  },
+  "executingText": {
+    "message": "Executing check-in tasks..."
+  },
+  "executingTask": {
+    "message": "Executing: $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "progressInfo": {
+    "message": "Progress: $current$ / $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "resultTitle": {
+    "message": "Execution Complete"
+  },
+  "resultSuccess": {
+    "message": "Success"
+  },
+  "resultFail": {
+    "message": "Failed"
+  },
+  "btnClose": {
+    "message": "Close"
+  },
+  "resultDetailFormat": {
+    "message": "$name$: $message$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "message": {
+        "content": "$2"
+      }
+    }
+  },
+  "footerStats": {
+    "message": "$total$ tasks | Click $click$ | Open $open$",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      },
+      "click": {
+        "content": "$2"
+      },
+      "open": {
+        "content": "$3"
+      }
+    }
+  },
+  "toastTaskDeleted": {
+    "message": "Task deleted"
+  },
+  "toastNoTab": {
+    "message": "Cannot get current tab"
+  },
+  "toastUnsupportedPage": {
+    "message": "Element picking is not supported on this page"
+  },
+  "toastClickToSelect": {
+    "message": "Click the check-in button on the page"
+  },
+  "toastSelectorFailed": {
+    "message": "Cannot start selector, please refresh the page and retry"
+  },
+  "toastSelectorStartFailed": {
+    "message": "Failed to start selector"
+  },
+  "toastInputName": {
+    "message": "Please enter a task name"
+  },
+  "toastInputUrl": {
+    "message": "Please enter a page URL"
+  },
+  "toastInvalidUrl": {
+    "message": "Invalid URL format"
+  },
+  "toastTaskAdded": {
+    "message": "Task added successfully"
+  },
+  "toastNoTasks": {
+    "message": "No check-in tasks to execute"
+  },
+  "toastCancelled": {
+    "message": "Execution cancelled"
+  },
+  "toastTaskAddedSelector": {
+    "message": "Check-in task added"
+  },
+  "toastTaskSaved": {
+    "message": "Check-in task saved: $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "selectorHint": {
+    "message": "Click the check-in button on the page | Press ESC to cancel"
+  },
+  "selectorDialogTitle": {
+    "message": "✅ Check-in button selected"
+  },
+  "selectorLabelTag": {
+    "message": "Element Tag"
+  },
+  "selectorLabelSelector": {
+    "message": "CSS Selector"
+  },
+  "selectorLabelName": {
+    "message": "Task Name"
+  },
+  "selectorCancel": {
+    "message": "Cancel"
+  },
+  "selectorConfirm": {
+    "message": "Confirm & Save"
+  },
+  "msgUrlEmpty": {
+    "message": "URL is empty"
+  },
+  "msgTabClosed": {
+    "message": "Tab was closed"
+  },
+  "msgPageOpened": {
+    "message": "Page opened"
+  },
+  "msgExecError": {
+    "message": "Execution error"
+  },
+  "msgNoResult": {
+    "message": "Injection returned no result"
+  },
+  "msgInjectFailed": {
+    "message": "Injection failed: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgUnknownError": {
+    "message": "Unknown error"
+  },
+  "msgNoSelector": {
+    "message": "No CSS selector provided"
+  },
+  "msgInvalidSelector": {
+    "message": "Invalid CSS selector"
+  },
+  "msgElementNotFound": {
+    "message": "No matching element found"
+  },
+  "msgWaitTimeout": {
+    "message": "Timed out waiting for element"
+  },
+  "msgClickSuccess": {
+    "message": "Click succeeded"
+  },
+  "msgClickFailed": {
+    "message": "Click failed: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgExecFailed": {
+    "message": "Execution failed: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "notifTitle": {
+    "message": "Check-in Execution Complete"
+  },
+  "notifMessage": {
+    "message": "Executed $total$ tasks: $success$ succeeded, $fail$ failed.",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "fail": {
+        "content": "$3"
+      }
+    }
+  }
 }

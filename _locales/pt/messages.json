@@ -1,84 +1,286 @@
 {
-  "extName": { "message": "Assistente de Check-in Web" },
-  "extDescription": { "message": "Uma extensão prática para check-in web. Seleciona elementos da página para auto-clique, adiciona tarefas manualmente e executa todas as tarefas em lote." },
-
-  "btnPick": { "message": "Selecionar botão" },
-  "btnManualAdd": { "message": "Adicionar manualmente" },
-  "btnExecute": { "message": "Executar tudo" },
-
-  "formTitle": { "message": "Adicionar tarefa de check-in manualmente" },
-  "labelTaskName": { "message": "Nome da tarefa" },
-  "placeholderTaskName": { "message": "ex.: Check-in diário de um site" },
-  "labelTaskUrl": { "message": "URL da página" },
-  "labelTaskType": { "message": "Tipo de tarefa" },
-  "optionClick": { "message": "Clique para check-in" },
-  "optionOpen": { "message": "Apenas abrir página" },
-  "labelSelector": { "message": "Seletor CSS (opcional)" },
-  "placeholderSelector": { "message": "Vazio para apenas abrir a página" },
-  "btnSaveTask": { "message": "Salvar tarefa" },
-  "btnCancel": { "message": "Cancelar" },
-  "btnDeleteTask": { "message": "Excluir tarefa" },
-  "defaultTaskName": { "message": "Tarefa de check-in" },
-
-  "sectionTitle": { "message": "Lista de tarefas de check-in" },
-  "taskCount": { "message": "$count$ tarefas", "placeholders": { "count": { "content": "$1" } } },
-  "emptyText": { "message": "Nenhuma tarefa de check-in" },
-  "emptyHint": { "message": "Clique num botão acima para adicionar sua primeira tarefa" },
-
-  "pagePrev": { "message": "‹ Anterior" },
-  "pageNext": { "message": "Próximo ›" },
-
-  "countdownText": { "message": "Iniciando execução de check-in..." },
-  "btnCancelExecute": { "message": "Cancelar" },
-  "executingText": { "message": "Executando tarefas de check-in..." },
-  "executingTask": { "message": "Executando: $name$", "placeholders": { "name": { "content": "$1" } } },
-  "progressInfo": { "message": "Progresso: $current$ / $total$", "placeholders": { "current": { "content": "$1" }, "total": { "content": "$2" } } },
-  "resultTitle": { "message": "Execução concluída" },
-  "resultSuccess": { "message": "Sucesso" },
-  "resultFail": { "message": "Falha" },
-  "btnClose": { "message": "Fechar" },
-  "resultDetailFormat": { "message": "$name$: $message$", "placeholders": { "name": { "content": "$1" }, "message": { "content": "$2" } } },
-
-  "footerStats": { "message": "$total$ tarefas | Clique $click$ | Abrir $open$", "placeholders": { "total": { "content": "$1" }, "click": { "content": "$2" }, "open": { "content": "$3" } } },
-
-  "toastTaskDeleted": { "message": "Tarefa excluída" },
-  "toastNoTab": { "message": "Não foi possível obter a aba atual" },
-  "toastUnsupportedPage": { "message": "A seleção de elementos não é suportada nesta página" },
-  "toastClickToSelect": { "message": "Clique no botão de check-in da página" },
-  "toastSelectorFailed": { "message": "Não foi possível iniciar o seletor, atualize a página e tente novamente" },
-  "toastSelectorStartFailed": { "message": "Falha ao iniciar o seletor" },
-  "toastInputName": { "message": "Digite o nome da tarefa" },
-  "toastInputUrl": { "message": "Digite a URL da página" },
-  "toastInvalidUrl": { "message": "Formato de URL inválido" },
-  "toastTaskAdded": { "message": "Tarefa adicionada com sucesso" },
-  "toastNoTasks": { "message": "Nenhuma tarefa de check-in para executar" },
-  "toastCancelled": { "message": "Execução cancelada" },
-  "toastTaskAddedSelector": { "message": "Tarefa de check-in adicionada" },
-  "toastTaskSaved": { "message": "Tarefa salva: $name$", "placeholders": { "name": { "content": "$1" } } },
-
-  "selectorHint": { "message": "Clique no botão de check-in | ESC para cancelar" },
-  "selectorDialogTitle": { "message": "✅ Botão de check-in selecionado" },
-  "selectorLabelTag": { "message": "Tag do elemento" },
-  "selectorLabelSelector": { "message": "Seletor CSS" },
-  "selectorLabelName": { "message": "Nome da tarefa" },
-  "selectorCancel": { "message": "Cancelar" },
-  "selectorConfirm": { "message": "Confirmar e salvar" },
-
-  "msgUrlEmpty": { "message": "URL vazia" },
-  "msgTabClosed": { "message": "Aba fechada" },
-  "msgPageOpened": { "message": "Página aberta" },
-  "msgExecError": { "message": "Erro de execução" },
-  "msgNoResult": { "message": "Injeção sem resultado" },
-  "msgInjectFailed": { "message": "Falha na injeção: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-  "msgUnknownError": { "message": "Erro desconhecido" },
-  "msgNoSelector": { "message": "Seletor CSS não fornecido" },
-  "msgInvalidSelector": { "message": "Seletor CSS inválido" },
-  "msgElementNotFound": { "message": "Elemento não encontrado" },
-  "msgWaitTimeout": { "message": "Tempo de espera esgotado, elemento não encontrado" },
-  "msgClickSuccess": { "message": "Clique bem-sucedido" },
-  "msgClickFailed": { "message": "Falha no clique: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-  "msgExecFailed": { "message": "Falha na execução: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-
-  "notifTitle": { "message": "Check-in concluído" },
-  "notifMessage": { "message": "$total$ tarefas executadas: $success$ com sucesso, $fail$ com falha.", "placeholders": { "total": { "content": "$1" }, "success": { "content": "$2" }, "fail": { "content": "$3" } } }
+  "extName": {
+    "message": "Assistente de Check-in Web"
+  },
+  "extDescription": {
+    "message": "Extensao para check-in web. Seleciona elementos para auto-clique, adiciona tarefas e executa em lote."
+  },
+  "btnPick": {
+    "message": "Selecionar botão"
+  },
+  "btnManualAdd": {
+    "message": "Adicionar manualmente"
+  },
+  "btnExecute": {
+    "message": "Executar tudo"
+  },
+  "formTitle": {
+    "message": "Adicionar tarefa de check-in manualmente"
+  },
+  "labelTaskName": {
+    "message": "Nome da tarefa"
+  },
+  "placeholderTaskName": {
+    "message": "ex.: Check-in diário de um site"
+  },
+  "labelTaskUrl": {
+    "message": "URL da página"
+  },
+  "labelTaskType": {
+    "message": "Tipo de tarefa"
+  },
+  "optionClick": {
+    "message": "Clique para check-in"
+  },
+  "optionOpen": {
+    "message": "Apenas abrir página"
+  },
+  "labelSelector": {
+    "message": "Seletor CSS (opcional)"
+  },
+  "placeholderSelector": {
+    "message": "Vazio para apenas abrir a página"
+  },
+  "btnSaveTask": {
+    "message": "Salvar tarefa"
+  },
+  "btnCancel": {
+    "message": "Cancelar"
+  },
+  "btnDeleteTask": {
+    "message": "Excluir tarefa"
+  },
+  "defaultTaskName": {
+    "message": "Tarefa de check-in"
+  },
+  "sectionTitle": {
+    "message": "Lista de tarefas de check-in"
+  },
+  "taskCount": {
+    "message": "$count$ tarefas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyText": {
+    "message": "Nenhuma tarefa de check-in"
+  },
+  "emptyHint": {
+    "message": "Clique num botão acima para adicionar sua primeira tarefa"
+  },
+  "pagePrev": {
+    "message": "‹ Anterior"
+  },
+  "pageNext": {
+    "message": "Próximo ›"
+  },
+  "countdownText": {
+    "message": "Iniciando execução de check-in..."
+  },
+  "btnCancelExecute": {
+    "message": "Cancelar"
+  },
+  "executingText": {
+    "message": "Executando tarefas de check-in..."
+  },
+  "executingTask": {
+    "message": "Executando: $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "progressInfo": {
+    "message": "Progresso: $current$ / $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "resultTitle": {
+    "message": "Execução concluída"
+  },
+  "resultSuccess": {
+    "message": "Sucesso"
+  },
+  "resultFail": {
+    "message": "Falha"
+  },
+  "btnClose": {
+    "message": "Fechar"
+  },
+  "resultDetailFormat": {
+    "message": "$name$: $message$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "message": {
+        "content": "$2"
+      }
+    }
+  },
+  "footerStats": {
+    "message": "$total$ tarefas | Clique $click$ | Abrir $open$",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      },
+      "click": {
+        "content": "$2"
+      },
+      "open": {
+        "content": "$3"
+      }
+    }
+  },
+  "toastTaskDeleted": {
+    "message": "Tarefa excluída"
+  },
+  "toastNoTab": {
+    "message": "Não foi possível obter a aba atual"
+  },
+  "toastUnsupportedPage": {
+    "message": "A seleção de elementos não é suportada nesta página"
+  },
+  "toastClickToSelect": {
+    "message": "Clique no botão de check-in da página"
+  },
+  "toastSelectorFailed": {
+    "message": "Não foi possível iniciar o seletor, atualize a página e tente novamente"
+  },
+  "toastSelectorStartFailed": {
+    "message": "Falha ao iniciar o seletor"
+  },
+  "toastInputName": {
+    "message": "Digite o nome da tarefa"
+  },
+  "toastInputUrl": {
+    "message": "Digite a URL da página"
+  },
+  "toastInvalidUrl": {
+    "message": "Formato de URL inválido"
+  },
+  "toastTaskAdded": {
+    "message": "Tarefa adicionada com sucesso"
+  },
+  "toastNoTasks": {
+    "message": "Nenhuma tarefa de check-in para executar"
+  },
+  "toastCancelled": {
+    "message": "Execução cancelada"
+  },
+  "toastTaskAddedSelector": {
+    "message": "Tarefa de check-in adicionada"
+  },
+  "toastTaskSaved": {
+    "message": "Tarefa salva: $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "selectorHint": {
+    "message": "Clique no botão de check-in | ESC para cancelar"
+  },
+  "selectorDialogTitle": {
+    "message": "✅ Botão de check-in selecionado"
+  },
+  "selectorLabelTag": {
+    "message": "Tag do elemento"
+  },
+  "selectorLabelSelector": {
+    "message": "Seletor CSS"
+  },
+  "selectorLabelName": {
+    "message": "Nome da tarefa"
+  },
+  "selectorCancel": {
+    "message": "Cancelar"
+  },
+  "selectorConfirm": {
+    "message": "Confirmar e salvar"
+  },
+  "msgUrlEmpty": {
+    "message": "URL vazia"
+  },
+  "msgTabClosed": {
+    "message": "Aba fechada"
+  },
+  "msgPageOpened": {
+    "message": "Página aberta"
+  },
+  "msgExecError": {
+    "message": "Erro de execução"
+  },
+  "msgNoResult": {
+    "message": "Injeção sem resultado"
+  },
+  "msgInjectFailed": {
+    "message": "Falha na injeção: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgUnknownError": {
+    "message": "Erro desconhecido"
+  },
+  "msgNoSelector": {
+    "message": "Seletor CSS não fornecido"
+  },
+  "msgInvalidSelector": {
+    "message": "Seletor CSS inválido"
+  },
+  "msgElementNotFound": {
+    "message": "Elemento não encontrado"
+  },
+  "msgWaitTimeout": {
+    "message": "Tempo de espera esgotado, elemento não encontrado"
+  },
+  "msgClickSuccess": {
+    "message": "Clique bem-sucedido"
+  },
+  "msgClickFailed": {
+    "message": "Falha no clique: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgExecFailed": {
+    "message": "Falha na execução: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "notifTitle": {
+    "message": "Check-in concluído"
+  },
+  "notifMessage": {
+    "message": "$total$ tarefas executadas: $success$ com sucesso, $fail$ com falha.",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "fail": {
+        "content": "$3"
+      }
+    }
+  }
 }
