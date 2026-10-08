@@ -9,6 +9,7 @@ if (!window.__checkinAutoClickInitialized) {
   window.__checkinAutoClickInitialized = true;
 
   const AUTO_CLICK_FLAG = 'autoClickConfig';
+  const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
 
   // ===== 模拟点击 =====
 
@@ -54,7 +55,7 @@ if (!window.__checkinAutoClickInitialized) {
    */
   function performAutoClick(selector) {
     if (!selector) {
-      return { success: false, message: '未提供CSS选择器' };
+      return { success: false, message: i18n('msgNoSelector') };
     }
 
     // 尝试查找元素
@@ -62,11 +63,11 @@ if (!window.__checkinAutoClickInitialized) {
     try {
       element = document.querySelector(selector);
     } catch (e) {
-      return { success: false, message: 'CSS选择器无效: ' + e.message };
+      return { success: false, message: i18n('msgInvalidSelector') };
     }
 
     if (!element) {
-      return { success: false, message: '未找到匹配元素' };
+      return { success: false, message: i18n('msgElementNotFound') };
     }
 
     // 检查元素是否可见可点击
@@ -79,9 +80,9 @@ if (!window.__checkinAutoClickInitialized) {
     // 执行模拟点击
     try {
       simulateClick(element);
-      return { success: true, message: '点击成功' };
+      return { success: true, message: i18n('msgClickSuccess') };
     } catch (e) {
-      return { success: false, message: '点击失败: ' + e.message };
+      return { success: false, message: i18n('msgClickFailed', [e.message]) };
     }
   }
 
@@ -137,7 +138,7 @@ if (!window.__checkinAutoClickInitialized) {
     const element = await waitForElement(selector, 10, 500);
 
     if (!element) {
-      return { success: false, message: '等待超时，未找到元素' };
+      return { success: false, message: i18n('msgWaitTimeout') };
     }
 
     // 滚动到元素位置

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>网页签到助手</title>
+  <title>__MSG_extName__</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
   <header class="header">
     <div class="header-left">
       <img src="../icons/icon48.png" alt="logo" class="header-logo">
-      <h1 class="header-title">网页签到助手</h1>
+      <h1 class="header-title">__MSG_extName__</h1>
     </div>
     <span class="header-version">v1.0</span>
   </header>
@@ -21,65 +21,65 @@
     <div class="btn-row">
       <button id="btn-pick" class="btn btn-primary">
         <span class="btn-icon">🎯</span>
-        <span>选取签到按钮</span>
+        <span>__MSG_btnPick__</span>
       </button>
       <button id="btn-toggle-form" class="btn btn-secondary">
         <span class="btn-icon">✏️</span>
-        <span>手工添加</span>
+        <span>__MSG_btnManualAdd__</span>
       </button>
     </div>
     <button id="btn-execute" class="btn btn-success">
       <span class="btn-icon">🚀</span>
-      <span>执行所有签到</span>
+      <span>__MSG_btnExecute__</span>
     </button>
   </section>
 
   <!-- 手工添加表单（可折叠/展开） -->
   <section id="manual-form" class="manual-form hidden">
-    <h2 class="form-title">手工添加签到任务</h2>
+    <h2 class="form-title">__MSG_formTitle__</h2>
     <div class="form-group">
-      <label for="task-name">任务名称</label>
-      <input type="text" id="task-name" placeholder="例如：某网站每日签到" maxlength="50">
+      <label for="task-name">__MSG_labelTaskName__</label>
+      <input type="text" id="task-name" placeholder="__MSG_placeholderTaskName__" maxlength="50">
     </div>
     <div class="form-group">
-      <label for="task-url">页面 URL</label>
+      <label for="task-url">__MSG_labelTaskUrl__</label>
       <input type="url" id="task-url" placeholder="https://example.com/checkin">
     </div>
     <div class="form-group">
-      <label for="task-type">任务类型</label>
+      <label for="task-type">__MSG_labelTaskType__</label>
       <select id="task-type">
-        <option value="click">点击签到</option>
-        <option value="open">仅打开网页</option>
+        <option value="click">__MSG_optionClick__</option>
+        <option value="open">__MSG_optionOpen__</option>
       </select>
     </div>
     <div class="form-group" id="selector-group">
-      <label for="task-selector">CSS 选择器（可选）</label>
-      <input type="text" id="task-selector" placeholder="留空则仅打开网页">
+      <label for="task-selector">__MSG_labelSelector__</label>
+      <input type="text" id="task-selector" placeholder="__MSG_placeholderSelector__">
     </div>
     <div class="form-actions">
-      <button id="btn-save-task" class="btn btn-primary btn-sm">保存任务</button>
-      <button id="btn-cancel-form" class="btn btn-cancel btn-sm">取消</button>
+      <button id="btn-save-task" class="btn btn-primary btn-sm">__MSG_btnSaveTask__</button>
+      <button id="btn-cancel-form" class="btn btn-cancel btn-sm">__MSG_btnCancel__</button>
     </div>
   </section>
 
   <!-- 任务列表区域 -->
   <section class="task-section">
     <div class="section-header">
-      <h2 class="section-title">签到任务列表</h2>
-      <span id="task-count" class="task-count">0 个任务</span>
+      <h2 class="section-title">__MSG_sectionTitle__</h2>
+      <span id="task-count" class="task-count">0</span>
     </div>
     <div id="task-list" class="task-list">
       <!-- 任务卡片由 JS 动态渲染 -->
     </div>
     <div id="empty-state" class="empty-state hidden">
       <div class="empty-icon">📋</div>
-      <p class="empty-text">暂无签到任务</p>
-      <p class="empty-hint">点击上方按钮添加你的第一个签到任务</p>
+      <p class="empty-text">__MSG_emptyText__</p>
+      <p class="empty-hint">__MSG_emptyHint__</p>
     </div>
     <div id="pagination" class="pagination hidden">
-      <button id="btn-prev-page" class="btn btn-cancel btn-sm page-btn">‹ 上一页</button>
+      <button id="btn-prev-page" class="btn btn-cancel btn-sm page-btn">__MSG_pagePrev__</button>
       <span id="page-info" class="page-info">1 / 1</span>
-      <button id="btn-next-page" class="btn btn-cancel btn-sm page-btn">下一页 ›</button>
+      <button id="btn-next-page" class="btn btn-cancel btn-sm page-btn">__MSG_pageNext__</button>
     </div>
   </section>
 
@@ -87,34 +87,34 @@
   <section id="execute-panel" class="execute-panel hidden">
     <div id="countdown-panel" class="countdown-panel">
       <div id="countdown-number" class="countdown-number">10</div>
-      <p class="countdown-text">即将开始执行签到任务...</p>
-      <button id="btn-cancel-execute" class="btn btn-danger btn-sm">取消执行</button>
+      <p class="countdown-text">__MSG_countdownText__</p>
+      <button id="btn-cancel-execute" class="btn btn-danger btn-sm">__MSG_btnCancelExecute__</button>
     </div>
     <div id="executing-panel" class="executing-panel hidden">
       <div class="executing-spinner"></div>
-      <p id="executing-text" class="executing-text">正在执行签到任务...</p>
+      <p id="executing-text" class="executing-text">__MSG_executingText__</p>
       <div id="executing-progress" class="executing-progress"></div>
     </div>
     <div id="result-panel" class="result-panel hidden">
-      <h3 class="result-title">执行完成</h3>
+      <h3 class="result-title">__MSG_resultTitle__</h3>
       <div class="result-summary">
         <div class="result-item result-success">
-          <span class="result-label">成功</span>
+          <span class="result-label">__MSG_resultSuccess__</span>
           <span id="result-success" class="result-value">0</span>
         </div>
         <div class="result-item result-fail">
-          <span class="result-label">失败</span>
+          <span class="result-label">__MSG_resultFail__</span>
           <span id="result-fail" class="result-value">0</span>
         </div>
       </div>
       <div id="result-details" class="result-details"></div>
-      <button id="btn-close-result" class="btn btn-primary btn-sm">关闭</button>
+      <button id="btn-close-result" class="btn btn-primary btn-sm">__MSG_btnClose__</button>
     </div>
   </section>
 
   <!-- 底部统计信息 -->
   <footer class="footer">
-    <span id="footer-stats">共 0 个任务 | 点击 0 | 打开 0</span>
+    <span id="footer-stats"></span>
   </footer>
 
   <!-- 消息提示 -->

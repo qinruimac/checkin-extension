@@ -9,6 +9,7 @@ if (!window.__checkinSelectorInitialized) {
   window.__checkinSelectorInitialized = true;
 
   const STORAGE_KEY = 'checkin_tasks';
+  const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
 
   // 选择模式状态
   let selectorMode = false;
@@ -185,7 +186,7 @@ if (!window.__checkinSelectorInitialized) {
       font-size: 14px; font-family: sans-serif; text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     `;
-    hintBar.innerHTML = '�� 请在页面上点击签到按钮 | 按 <strong>ESC</strong> 取消';
+    hintBar.innerHTML = '&#127887; ' + i18n('selectorHint').replace('ESC', '<strong>ESC</strong>');
     document.body.appendChild(hintBar);
   }
 
@@ -210,7 +211,15 @@ if (!window.__checkinSelectorInitialized) {
 
     // 生成默认任务名称：优先用元素文本，其次用页面标题
     const elementText = (element.textContent || '').trim().substr(0, 20);
-    const defaultName = elementText || document.title || '签到任务';
+    const defaultName = elementText || document.title || i18n('defaultTaskName');
+
+    // i18n 文本
+    const tDialogTitle = i18n('selectorDialogTitle');
+    const tLabelTag = i18n('selectorLabelTag');
+    const tLabelSelector = i18n('selectorLabelSelector');
+    const tLabelName = i18n('selectorLabelName');
+    const tCancel = i18n('selectorCancel');
+    const tConfirm = i18n('selectorConfirm');
 
     // 创建遮罩
     const overlay = document.createElement('div');
@@ -230,28 +239,28 @@ if (!window.__checkinSelectorInitialized) {
     `;
 
     dialog.innerHTML = `
-      <h2 style="margin:0 0 16px;font-size:18px;color:#212529;">✅ 已选中签到按钮</h2>
+      <h2 style="margin:0 0 16px;font-size:18px;color:#212529;">${tDialogTitle}</h2>
       <div style="margin-bottom:12px;">
-        <div style="font-size:12px;color:#6c757d;margin-bottom:4px;">元素标签</div>
+        <div style="font-size:12px;color:#6c757d;margin-bottom:4px;">${tLabelTag}</div>
         <div style="font-size:13px;color:#212529;padding:8px;background:#f8f9fa;border-radius:0.375rem;word-break:break-all;">
           &lt;${element.tagName.toLowerCase()}&gt;
         </div>
       </div>
       <div style="margin-bottom:12px;">
-        <div style="font-size:12px;color:#6c757d;margin-bottom:4px;">CSS 选择器</div>
+        <div style="font-size:12px;color:#6c757d;margin-bottom:4px;">${tLabelSelector}</div>
         <div style="font-size:12px;color:#6c757d;padding:8px;background:#f8f9fa;border-radius:0.375rem;word-break:break-all;font-family:monospace;">
           ${escapeHtmlForDialog(selector)}
         </div>
       </div>
       <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:12px;color:#6c757d;margin-bottom:4px;">任务名称</label>
+        <label style="display:block;font-size:12px;color:#6c757d;margin-bottom:4px;">${tLabelName}</label>
         <input type="text" id="__checkinTaskName" value="${escapeHtmlForDialog(defaultName)}"
           style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #dee2e6;border-radius:0.375rem;box-sizing:border-box;"
           maxlength="50">
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <button id="__checkinCancel" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#f8f9fa;color:#6c757d;cursor:pointer;">取消</button>
-        <button id="__checkinConfirm" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#2aa395;color:#fff;cursor:pointer;">确认保存</button>
+        <button id="__checkinCancel" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#f8f9fa;color:#6c757d;cursor:pointer;">${tCancel}</button>
+        <button id="__checkinConfirm" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#2aa395;color:#fff;cursor:pointer;">${tConfirm}</button>
       </div>
     `;
 
@@ -268,7 +277,7 @@ if (!window.__checkinSelectorInitialized) {
 
     // 确认按钮事件
     confirmBtn.addEventListener('click', () => {
-      const taskName = nameInput.value.trim() || '签到任务';
+      const taskName = nameInput.value.trim() || i18n('defaultTaskName');
       saveSelectorTask(taskName, selector);
       overlay.remove();
     });
@@ -338,7 +347,7 @@ if (!window.__checkinSelectorInitialized) {
         });
 
         // 在页面上显示成功提示
-        showSuccessToast('签到任务已保存：' + name);
+        showSuccessToast(i18n('toastTaskSaved', [name]));
       });
     });
   }

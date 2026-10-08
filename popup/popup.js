@@ -3,6 +3,9 @@
  * 责责任务列表的加载/渲染/删除、选取签到按钮、手工添加、执行所有签到及倒计时逻辑
  */
 
+// ===== i18n 快捷方法 =====
+const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
+
 // ===== 常量定义 =====
 const STORAGE_KEY = 'checkin_tasks';
 const PAGE_SIZE = 10;
@@ -93,12 +96,12 @@ async function renderTaskList() {
   const tasks = await loadTasks();
 
   // 更新任务计数
-  taskCount.textContent = `${tasks.length} 个任务`;
+  taskCount.textContent = i18n('taskCount', [String(tasks.length)]);
 
   // 更新底部统计
   const clickCount = tasks.filter(t => t.type === 'click').length;
   const openCount = tasks.filter(t => t.type === 'open').length;
-  footerStats.textContent = `共 ${tasks.length} 个任务 | 点击 ${clickCount} | 打开 ${openCount}`;
+  footerStats.textContent = i18n('footerStats', [String(tasks.length), String(clickCount), String(openCount)]);
 
   // 空状态处理
   if (tasks.length === 0) {
@@ -126,6 +129,7 @@ async function renderTaskList() {
   }
 
   // 渲染任务卡片
+  const deleteTitle = i18n('btnDeleteTask');
   taskList.innerHTML = pageTasks.map(task => {
     const fallbackIcon = task.type === 'click' ? '🎯' : '🔗';
     let domain = '';
@@ -148,7 +152,7 @@ async function renderTaskList() {
           <div class="task-name">${escapeHtml(task.name)}</div>
           <div class="task-url" title="${escapeHtml(task.url)}">${escapeHtml(truncateUrl(task.url))}</div>
         </div>
-        <button class="task-delete" data-id="${task.id}" title="删除任务">✕</button>
+        <button class="task-delete" data-id="${task.id}" title="${deleteTitle}">✕</button>
       </div>
     `;
   }).join('');
@@ -204,7 +208,7 @@ async function deleteTask(id) {
   const totalPages = Math.ceil(newTasks.length / PAGE_SIZE);
   if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
   await renderTaskList();
-  showToast('任务已删除');
+  showToast(i18n('toastTaskDeleted'));
 }
 
 // ===== 选取签到按钮 =====
@@ -215,13 +219,13 @@ async function startPicker() {
     // 获取当前活动标签页
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab) {
-      showToast('无法获取当前标签页');
+      showToast(i18n('toastNoTab'));
       return;
     }
 
     // 检查是否是特殊页面（chrome://, edge:// 等）
     if (tab.url && (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('chrome-extension://'))) {
-      showToast('该页面不支持元素选取');
+      showToast(i18n('toastUnsupportedPage'));
       return;
     }
 
@@ -235,19 +239,19 @@ async function startPicker() {
         }).then(() => {
           // 注入完成后再次发送消息
           chrome.tabs.sendMessage(tab.id, { action: 'startSelector' });
-          showToast('请在页面上点击签到按钮');
+          showToast(i18n('toastClickToSelect'));
         }).catch(() => {
-          showToast('无法启动选择器，请刷新页面后重试');
+          showToast(i18n('toastSelectorFailed'));
         });
       } else {
-        showToast('请在页面上点击签到按钮');
+        showToast(i18n('toastClickToSelect'));
       }
     });
 
     // 关闭弹窗，让用户在页面上操作
     window.close();
   } catch (err) {
-    showToast('启动选择器失败');
+    showToast(i18n('toastSelectorStartFailed'));
   }
 }
 
@@ -280,12 +284,12 @@ async function saveManualTask() {
 
   // 验证输入
   if (!name) {
-    showToast('请输入任务名称');
+    showToast(i18n('toastInputName'));
     taskNameInput.focus();
     return;
   }
   if (!url) {
-    showToast('请输入页面 URL');
+    showToast(i18n('toastInputUrl'));
     taskUrlInput.focus();
     return;
   }
@@ -294,7 +298,7 @@ async function saveManualTask() {
   try {
     new URL(url);
   } catch {
-    showToast('URL 格式不正确');
+    showToast(i18n('toastInvalidUrl'));
     taskUrlInput.focus();
     return;
   }
@@ -324,7 +328,7 @@ async function saveManualTask() {
 
   // 刷新列表
   await renderTaskList();
-  showToast('任务添加成功');
+  showToast(i18n('toastTaskAdded'));
 }
 
 // ===== 执行所有签到 =====
@@ -333,7 +337,7 @@ async function saveManualTask() {
 async function startExecution() {
   const tasks = await loadTasks();
   if (tasks.length === 0) {
-    showToast('没有可执行的签到任务');
+    showToast(i18n('toastNoTasks'));
     return;
   }
 
@@ -373,7 +377,7 @@ async function executeCountdown() {
   // 切换到执行中面板
   countdownPanel.classList.add('hidden');
   executingPanel.classList.remove('hidden');
-  executingText.textContent = '正在执行签到任务...';
+  executingText.textContent = i18n('executingText');
   executingProgress.textContent = '';
 
   try {
@@ -381,7 +385,7 @@ async function executeCountdown() {
     const response = await chrome.runtime.sendMessage({ action: 'executeTasks' });
     showExecutionResult(response);
   } catch (err) {
-    showExecutionResult({ success: 0, fail: 0, details: [], error: '执行失败: ' + err.message });
+    showExecutionResult({ success: 0, fail: 0, details: [], error: i18n('msgExecFailed', [err.message]) });
   }
 }
 
@@ -401,7 +405,8 @@ function showExecutionResult(result) {
     resultDetails.innerHTML = result.details.map(d => {
       const statusIcon = d.success ? '✅' : '❌';
       const statusClass = d.success ? 'success' : 'fail';
-      return `<div class="result-detail-item ${statusClass}">${statusIcon} ${escapeHtml(d.name)}：${escapeHtml(d.message)}</div>`;
+      const detailText = i18n('resultDetailFormat', [escapeHtml(d.name), escapeHtml(d.message)]);
+      return `<div class="result-detail-item ${statusClass}">${statusIcon} ${detailText}</div>`;
     }).join('');
   } else if (result.error) {
     resultDetails.innerHTML = `<div class="result-detail-item fail">❌ ${escapeHtml(result.error)}</div>`;
@@ -417,7 +422,7 @@ function cancelExecution() {
     clearInterval(countdownTimer);
   }
   executePanel.classList.add('hidden');
-  showToast('已取消执行');
+  showToast(i18n('toastCancelled'));
 }
 
 // ===== 监听来自 content script 的消息 =====
@@ -427,12 +432,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'selectorResult') {
     // 选择器返回了任务信息，刷新列表
     renderTaskList();
-    showToast('签到任务已添加');
+    showToast(i18n('toastTaskAddedSelector'));
     sendResponse({ success: true });
   } else if (message.action === 'executeProgress') {
     // 更新执行进度显示
-    executingText.textContent = `正在执行：${message.taskName}`;
-    executingProgress.textContent = `进度：${message.current} / ${message.total}`;
+    executingText.textContent = i18n('executingTask', [message.taskName]);
+    executingProgress.textContent = i18n('progressInfo', [String(message.current), String(message.total)]);
   }
   return true;
 });

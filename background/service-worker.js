@@ -4,6 +4,7 @@
  */
 
 const STORAGE_KEY = 'checkin_tasks';
+const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
 
 // ===== 工具函数 =====
 
@@ -65,7 +66,7 @@ async function executeSingleTask(task) {
   try {
     // 验证URL
     if (!task.url) {
-      return { success: false, message: 'URL为空' };
+      return { success: false, message: i18n('msgUrlEmpty') };
     }
 
     // 打开标签页（后台打开，不打扰用户）
@@ -77,7 +78,7 @@ async function executeSingleTask(task) {
     // 检查标签页是否还存在
     const tabInfo = await chrome.tabs.get(tab.id).catch(() => null);
     if (!tabInfo) {
-      return { success: false, message: '标签页已关闭' };
+      return { success: false, message: i18n('msgTabClosed') };
     }
 
     // 如果是 click 类型且有 selector，执行自动点击
@@ -86,9 +87,9 @@ async function executeSingleTask(task) {
     }
 
     // 仅打开网页类型，打开即成功
-    return { success: true, message: '页面已打开' };
+    return { success: true, message: i18n('msgPageOpened') };
   } catch (err) {
-    return { success: false, message: err.message || '执行异常' };
+    return { success: false, message: err.message || i18n('msgExecError') };
   }
 }
 
@@ -113,18 +114,27 @@ async function performClick(tabId, selector) {
   }
 
   // 方式2：用 chrome.scripting.executeScript 直接注入点击代码
+  // 注入函数无法访问外部变量，需将 i18n 文本作为参数传入
+  const msgs = {
+    noSelector: i18n('msgNoSelector'),
+    invalidSelector: i18n('msgInvalidSelector'),
+    notFound: i18n('msgElementNotFound'),
+    success: i18n('msgClickSuccess'),
+    failPrefix: i18n('msgClickFailed', [''])
+  };
+
   try {
     const results = await chrome.scripting.executeScript({
       target: { tabId: tabId },
       func: injectedClickFunction,
-      args: [selector]
+      args: [selector, msgs]
     });
     if (results && results[0] && results[0].result) {
       return results[0].result;
     }
-    return { success: false, message: '注入执行无结果' };
+    return { success: false, message: i18n('msgNoResult') };
   } catch (execErr) {
-    return { success: false, message: '注入失败: ' + (execErr.message || '未知错误') };
+    return { success: false, message: i18n('msgInjectFailed', [execErr.message || i18n('msgUnknownError')]) };
   }
 }
 
@@ -132,21 +142,22 @@ async function performClick(tabId, selector) {
  * 注入到页面中执行的点击函数
  * 此函数会被序列化后注入目标页面执行，不能引用外部变量
  * @param {string} selector - CSS选择器
+ * @param {Object} msgs - 预翻译的 i18n 文本
  */
-function injectedClickFunction(selector) {
+function injectedClickFunction(selector, msgs) {
   if (!selector) {
-    return { success: false, message: '未提供CSS选择器' };
+    return { success: false, message: msgs.noSelector };
   }
 
   let element = null;
   try {
     element = document.querySelector(selector);
   } catch (e) {
-    return { success: false, message: 'CSS选择器无效' };
+    return { success: false, message: msgs.invalidSelector };
   }
 
   if (!element) {
-    return { success: false, message: '未找到匹配元素' };
+    return { success: false, message: msgs.notFound };
   }
 
   // 滚动到元素位置
@@ -175,9 +186,9 @@ function injectedClickFunction(selector) {
       element.click();
     }
 
-    return { success: true, message: '点击成功' };
+    return { success: true, message: msgs.success };
   } catch (e) {
-    return { success: false, message: '点击失败: ' + e.message };
+    return { success: false, message: msgs.failPrefix + e.message };
   }
 }
 
@@ -264,8 +275,8 @@ function sendNotification(success, fail) {
   chrome.notifications.create({
     type: 'basic',
     iconUrl: iconUrl,
-    title: '签到执行完成',
-    message: `共执行 ${total} 个任务，成功 ${success} 个，失败 ${fail} 个。`,
+    title: i18n('notifTitle'),
+    message: i18n('notifMessage', [String(total), String(success), String(fail)]),
     priority: 2
   }, () => {
     // 忽略通知创建错误
@@ -284,7 +295,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         success: 0,
         fail: 0,
         details: [],
-        error: '执行失败: ' + (err.message || '未知错误')
+        error: i18n('msgExecFailed', [err.message || i18n('msgUnknownError')])
       });
     });
     return true; // 保持消息通道开放，等待异步响应
@@ -297,6 +308,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     // 首次安装，可以初始化一些数据
-    console.log('网页签到助手已安装');
+    console.log('Check-in Assistant installed');
   }
 });
