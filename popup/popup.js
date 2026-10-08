@@ -70,6 +70,12 @@ function applyI18nToHTML() {
   });
 }
 
+// ===== 常量定义 =====
+const STORAGE_KEY = 'checkin_tasks';
+const PAGE_SIZE = 10;
+let currentPage = 1;
+
+// ===== DOM 元素引用 =====
 const btnPick = document.getElementById('btn-pick');
 const langSelect = document.getElementById('lang-select');
 const btnToggleForm = document.getElementById('btn-toggle-form');
