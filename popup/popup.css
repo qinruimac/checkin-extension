@@ -2,13 +2,13 @@
 /* ===== Bootstrap 5 风格主题 ===== */
 
 :root {
-  --bs-primary: #0d6efd;
-  --bs-primary-hover: #0b5ed7;
-  --bs-primary-bg: #cfe2ff;
-  --bs-primary-border: #b6d4fe;
-  --bs-success: #198754;
-  --bs-success-hover: #157347;
-  --bs-success-bg: #d1e7dd;
+  --bs-primary: #2aa395;
+  --bs-primary-hover: #248c80;
+  --bs-primary-bg: #e1faf7;
+  --bs-primary-border: #baf5ee;
+  --bs-success: #2c82db;
+  --bs-success-hover: #2672c0;
+  --bs-success-bg: #dfecf9;
   --bs-danger: #dc3545;
   --bs-danger-hover: #bb2d3b;
   --bs-danger-bg: #f8d7da;
@@ -95,7 +95,7 @@ body {
   vertical-align: middle;
 }
 .btn:active { filter: brightness(0.9); }
-.btn:focus-visible { outline: 0; box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25); }
+.btn:focus-visible { outline: 0; box-shadow: 0 0 0 0.25rem rgba(42,163,149,0.25); }
 .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: var(--bs-radius-sm); width: auto; }
 .btn-icon { font-size: 1rem; line-height: 1; }
 
@@ -150,7 +150,7 @@ body {
 .form-group input::placeholder { color: var(--bs-hint); }
 .form-group input:focus, .form-group select:focus {
   border-color: var(--bs-primary-border);
-  box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.15);
+  box-shadow: 0 0 0 0.2rem rgba(42,163,149,0.15);
 }
 .form-group select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");

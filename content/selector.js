@@ -181,7 +181,7 @@ if (!window.__checkinSelectorInitialized) {
     hintBar.id = '__checkinHintBar';
     hintBar.style.cssText = `
       position: fixed; top: 0; left: 0; right: 0; z-index: 2147483647;
-      background: #0d6efd; color: #fff; padding: 8px 16px;
+      background: #2aa395; color: #fff; padding: 8px 16px;
       font-size: 14px; font-family: sans-serif; text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     `;
@@ -251,7 +251,7 @@ if (!window.__checkinSelectorInitialized) {
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;">
         <button id="__checkinCancel" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#f8f9fa;color:#6c757d;cursor:pointer;">取消</button>
-        <button id="__checkinConfirm" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#0d6efd;color:#fff;cursor:pointer;">确认保存</button>
+        <button id="__checkinConfirm" style="padding:8px 16px;font-size:14px;border:none;border-radius:0.375rem;background:#2aa395;color:#fff;cursor:pointer;">确认保存</button>
       </div>
     `;
 
