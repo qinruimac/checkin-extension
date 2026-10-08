@@ -39,22 +39,34 @@ function customGetMessage(key, substitutions) {
 const i18n = (key, substitutions) => customGetMessage(key, substitutions);
 
 // ===== i18n HTML 占位符替换 =====
+// 首次遍历时保存原始文本，后续语言切换时从原始文本重新替换
+const _i18nTextNodes = [];   // {node, original}
+const _i18nAttrs = [];       // {el, name, original}
+
 function applyI18nToHTML() {
-  const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT);
-  const textNodes = [];
-  let node;
-  while (node = walker.nextNode()) {
-    if (node.textContent.includes('__MSG_')) textNodes.push(node);
-  }
-  textNodes.forEach(n => {
-    n.textContent = n.textContent.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _);
-  });
-  document.querySelectorAll('*').forEach(el => {
-    for (const attr of [...el.attributes]) {
-      if (attr.value.includes('__MSG_')) {
-        el.setAttribute(attr.name, attr.value.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _));
+  // 首次调用：收集含 __MSG_ 的文本节点和属性
+  if (_i18nTextNodes.length === 0) {
+    const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT);
+    let node;
+    while (node = walker.nextNode()) {
+      if (node.textContent.includes('__MSG_')) {
+        _i18nTextNodes.push({ node, original: node.textContent });
       }
     }
+    document.querySelectorAll('*').forEach(el => {
+      for (const attr of [...el.attributes]) {
+        if (attr.value.includes('__MSG_')) {
+          _i18nAttrs.push({ el, name: attr.name, original: attr.value });
+        }
+      }
+    });
+  }
+  // 每次调用：从原始文本替换
+  _i18nTextNodes.forEach(({ node, original }) => {
+    node.textContent = original.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _);
+  });
+  _i18nAttrs.forEach(({ el, name, original }) => {
+    el.setAttribute(name, original.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _));
   });
 }
 
