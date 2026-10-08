@@ -6,6 +6,29 @@
 // ===== i18n 快捷方法 =====
 const i18n = (key, substitutions) => chrome.i18n.getMessage(key, substitutions);
 
+// ===== i18n HTML 占位符替换 =====
+// Edge 可能不自动预处理 HTML 中的 __MSG_key__，手动遍历 DOM 替换
+(function applyI18nToHTML() {
+  // 替换所有文本节点中的 __MSG_key__
+  const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let node;
+  while (node = walker.nextNode()) {
+    if (node.textContent.includes('__MSG_')) textNodes.push(node);
+  }
+  textNodes.forEach(n => {
+    n.textContent = n.textContent.replace(/__MSG_(\w+)__/g, (_, key) => chrome.i18n.getMessage(key) || _);
+  });
+  // 替换所有属性中的 __MSG_key__（placeholder、title 等）
+  document.querySelectorAll('*').forEach(el => {
+    for (const attr of [...el.attributes]) {
+      if (attr.value.includes('__MSG_')) {
+        el.setAttribute(attr.name, attr.value.replace(/__MSG_(\w+)__/g, (_, key) => chrome.i18n.getMessage(key) || _));
+      }
+    }
+  });
+})();
+
 // ===== 常量定义 =====
 const STORAGE_KEY = 'checkin_tasks';
 const PAGE_SIZE = 10;
