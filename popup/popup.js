@@ -5,6 +5,8 @@
 
 // ===== 常量定义 =====
 const STORAGE_KEY = 'checkin_tasks';
+const PAGE_SIZE = 10;
+let currentPage = 1;
 
 // ===== DOM 元素引用 =====
 const btnPick = document.getElementById('btn-pick');
@@ -34,6 +36,10 @@ const resultFail = document.getElementById('result-fail');
 const resultDetails = document.getElementById('result-details');
 const btnCloseResult = document.getElementById('btn-close-result');
 const footerStats = document.getElementById('footer-stats');
+const pagination = document.getElementById('pagination');
+const pageInfo = document.getElementById('page-info');
+const btnPrevPage = document.getElementById('btn-prev-page');
+const btnNextPage = document.getElementById('btn-next-page');
 const toast = document.getElementById('toast');
 
 // ===== 倒计时状态 =====
@@ -102,8 +108,25 @@ async function renderTaskList() {
   }
   emptyState.classList.add('hidden');
 
+  // 分页切片
+  const totalPages = Math.ceil(tasks.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageTasks = tasks.slice(start, start + PAGE_SIZE);
+
+  // 渲染分页控件
+  if (totalPages > 1) {
+    pagination.classList.remove('hidden');
+    pageInfo.textContent = `${currentPage} / ${totalPages}`;
+    btnPrevPage.disabled = currentPage <= 1;
+    btnNextPage.disabled = currentPage >= totalPages;
+  } else {
+    pagination.classList.add('hidden');
+  }
+
   // 渲染任务卡片
-  taskList.innerHTML = tasks.map(task => {
+  taskList.innerHTML = pageTasks.map(task => {
     const fallbackIcon = task.type === 'click' ? '🎯' : '🔗';
     let domain = '';
     try {
@@ -157,6 +180,14 @@ async function renderTaskList() {
   });
 }
 
+/** 分页：上一页 / 下一页 */
+btnPrevPage.addEventListener('click', () => {
+  if (currentPage > 1) { currentPage--; renderTaskList(); }
+});
+btnNextPage.addEventListener('click', () => {
+  currentPage++; renderTaskList();
+});
+
 /** HTML 转义，防止 XSS */
 function escapeHtml(text) {
   const div = document.createElement('div');
@@ -169,6 +200,9 @@ async function deleteTask(id) {
   const tasks = await loadTasks();
   const newTasks = tasks.filter(t => t.id !== id);
   await saveTasks(newTasks);
+  // 如果当前页删空了，往前退一页
+  const totalPages = Math.ceil(newTasks.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
   await renderTaskList();
   showToast('任务已删除');
 }
