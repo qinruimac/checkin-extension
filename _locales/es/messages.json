@@ -3,7 +3,7 @@
     "message": "Asistente de Check-in"
   },
   "extDescription": {
-    "message": "Extension para check-in web. Selecciona elementos para auto-clic, anade tareas y ejecuta todo en lote."
+    "message": "No solo abrir paginas — selecciona el boton de check-in en la pagina y haz clic automatico para completar el check-in. Seleccion de elementos, anadir tareas manualmente, ejecucion en lote. Un clic para todos los check-ins."
   },
   "btnPick": {
     "message": "Seleccionar botón"

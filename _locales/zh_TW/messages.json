@@ -1,84 +1,286 @@
 {
-  "extName": { "message": "簽到助手" },
-  "extDescription": { "message": "便捷的網頁簽到擴充功能，支援選取頁面元素自動點擊簽到、手動新增簽到任務、批次執行所有簽到任務。" },
-
-  "btnPick": { "message": "選取簽到按鈕" },
-  "btnManualAdd": { "message": "手動新增" },
-  "btnExecute": { "message": "執行所有簽到" },
-
-  "formTitle": { "message": "手動新增簽到任務" },
-  "labelTaskName": { "message": "任務名稱" },
-  "placeholderTaskName": { "message": "例如：某網站每日簽到" },
-  "labelTaskUrl": { "message": "頁面 URL" },
-  "labelTaskType": { "message": "任務類型" },
-  "optionClick": { "message": "點擊簽到" },
-  "optionOpen": { "message": "僅開啟網頁" },
-  "labelSelector": { "message": "CSS 選擇器（選填）" },
-  "placeholderSelector": { "message": "留空則僅開啟網頁" },
-  "btnSaveTask": { "message": "儲存任務" },
-  "btnCancel": { "message": "取消" },
-  "btnDeleteTask": { "message": "刪除任務" },
-  "defaultTaskName": { "message": "簽到任務" },
-
-  "sectionTitle": { "message": "簽到任務列表" },
-  "taskCount": { "message": "$count$ 個任務", "placeholders": { "count": { "content": "$1" } } },
-  "emptyText": { "message": "暫無簽到任務" },
-  "emptyHint": { "message": "點擊上方按鈕新增你的第一個簽到任務" },
-
-  "pagePrev": { "message": "‹ 上一頁" },
-  "pageNext": { "message": "下一頁 ›" },
-
-  "countdownText": { "message": "即將開始執行簽到任務..." },
-  "btnCancelExecute": { "message": "取消執行" },
-  "executingText": { "message": "正在執行簽到任務..." },
-  "executingTask": { "message": "正在執行：$name$", "placeholders": { "name": { "content": "$1" } } },
-  "progressInfo": { "message": "進度：$current$ / $total$", "placeholders": { "current": { "content": "$1" }, "total": { "content": "$2" } } },
-  "resultTitle": { "message": "執行完成" },
-  "resultSuccess": { "message": "成功" },
-  "resultFail": { "message": "失敗" },
-  "btnClose": { "message": "關閉" },
-  "resultDetailFormat": { "message": "$name$：$message$", "placeholders": { "name": { "content": "$1" }, "message": { "content": "$2" } } },
-
-  "footerStats": { "message": "共 $total$ 個任務 | 點擊 $click$ | 開啟 $open$", "placeholders": { "total": { "content": "$1" }, "click": { "content": "$2" }, "open": { "content": "$3" } } },
-
-  "toastTaskDeleted": { "message": "任務已刪除" },
-  "toastNoTab": { "message": "無法取得目前分頁" },
-  "toastUnsupportedPage": { "message": "此頁面不支援元素選取" },
-  "toastClickToSelect": { "message": "請在頁面上點擊簽到按鈕" },
-  "toastSelectorFailed": { "message": "無法啟動選擇器，請重新整理頁面後重試" },
-  "toastSelectorStartFailed": { "message": "啟動選擇器失敗" },
-  "toastInputName": { "message": "請輸入任務名稱" },
-  "toastInputUrl": { "message": "請輸入頁面 URL" },
-  "toastInvalidUrl": { "message": "URL 格式不正確" },
-  "toastTaskAdded": { "message": "任務新增成功" },
-  "toastNoTasks": { "message": "沒有可執行的簽到任務" },
-  "toastCancelled": { "message": "已取消執行" },
-  "toastTaskAddedSelector": { "message": "簽到任務已新增" },
-  "toastTaskSaved": { "message": "簽到任務已儲存：$name$", "placeholders": { "name": { "content": "$1" } } },
-
-  "selectorHint": { "message": "請在頁面上點擊簽到按鈕 | 按 ESC 取消" },
-  "selectorDialogTitle": { "message": "✅ 已選取簽到按鈕" },
-  "selectorLabelTag": { "message": "元素標籤" },
-  "selectorLabelSelector": { "message": "CSS 選擇器" },
-  "selectorLabelName": { "message": "任務名稱" },
-  "selectorCancel": { "message": "取消" },
-  "selectorConfirm": { "message": "確認儲存" },
-
-  "msgUrlEmpty": { "message": "URL為空" },
-  "msgTabClosed": { "message": "分頁已關閉" },
-  "msgPageOpened": { "message": "頁面已開啟" },
-  "msgExecError": { "message": "執行異常" },
-  "msgNoResult": { "message": "注入執行無結果" },
-  "msgInjectFailed": { "message": "注入失敗: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-  "msgUnknownError": { "message": "未知錯誤" },
-  "msgNoSelector": { "message": "未提供CSS選擇器" },
-  "msgInvalidSelector": { "message": "CSS選擇器無效" },
-  "msgElementNotFound": { "message": "未找到匹配元素" },
-  "msgWaitTimeout": { "message": "等待逾時，未找到元素" },
-  "msgClickSuccess": { "message": "點擊成功" },
-  "msgClickFailed": { "message": "點擊失敗: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-  "msgExecFailed": { "message": "執行失敗: $detail$", "placeholders": { "detail": { "content": "$1" } } },
-
-  "notifTitle": { "message": "簽到執行完成" },
-  "notifMessage": { "message": "共執行 $total$ 個任務，成功 $success$ 個，失敗 $fail$ 個。", "placeholders": { "total": { "content": "$1" }, "success": { "content": "$2" }, "fail": { "content": "$3" } } }
+  "extName": {
+    "message": "簽到助手"
+  },
+  "extDescription": {
+    "message": "不只是開啟網頁——選取頁面上的簽到按鈕，自動模擬點擊完成簽到。支援元素選取、手動新增、批次執行，一鍵搞定所有簽到任務。"
+  },
+  "btnPick": {
+    "message": "選取簽到按鈕"
+  },
+  "btnManualAdd": {
+    "message": "手動新增"
+  },
+  "btnExecute": {
+    "message": "執行所有簽到"
+  },
+  "formTitle": {
+    "message": "手動新增簽到任務"
+  },
+  "labelTaskName": {
+    "message": "任務名稱"
+  },
+  "placeholderTaskName": {
+    "message": "例如：某網站每日簽到"
+  },
+  "labelTaskUrl": {
+    "message": "頁面 URL"
+  },
+  "labelTaskType": {
+    "message": "任務類型"
+  },
+  "optionClick": {
+    "message": "點擊簽到"
+  },
+  "optionOpen": {
+    "message": "僅開啟網頁"
+  },
+  "labelSelector": {
+    "message": "CSS 選擇器（選填）"
+  },
+  "placeholderSelector": {
+    "message": "留空則僅開啟網頁"
+  },
+  "btnSaveTask": {
+    "message": "儲存任務"
+  },
+  "btnCancel": {
+    "message": "取消"
+  },
+  "btnDeleteTask": {
+    "message": "刪除任務"
+  },
+  "defaultTaskName": {
+    "message": "簽到任務"
+  },
+  "sectionTitle": {
+    "message": "簽到任務列表"
+  },
+  "taskCount": {
+    "message": "$count$ 個任務",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyText": {
+    "message": "暫無簽到任務"
+  },
+  "emptyHint": {
+    "message": "點擊上方按鈕新增你的第一個簽到任務"
+  },
+  "pagePrev": {
+    "message": "‹ 上一頁"
+  },
+  "pageNext": {
+    "message": "下一頁 ›"
+  },
+  "countdownText": {
+    "message": "即將開始執行簽到任務..."
+  },
+  "btnCancelExecute": {
+    "message": "取消執行"
+  },
+  "executingText": {
+    "message": "正在執行簽到任務..."
+  },
+  "executingTask": {
+    "message": "正在執行：$name$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "progressInfo": {
+    "message": "進度：$current$ / $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "resultTitle": {
+    "message": "執行完成"
+  },
+  "resultSuccess": {
+    "message": "成功"
+  },
+  "resultFail": {
+    "message": "失敗"
+  },
+  "btnClose": {
+    "message": "關閉"
+  },
+  "resultDetailFormat": {
+    "message": "$name$：$message$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "message": {
+        "content": "$2"
+      }
+    }
+  },
+  "footerStats": {
+    "message": "共 $total$ 個任務 | 點擊 $click$ | 開啟 $open$",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      },
+      "click": {
+        "content": "$2"
+      },
+      "open": {
+        "content": "$3"
+      }
+    }
+  },
+  "toastTaskDeleted": {
+    "message": "任務已刪除"
+  },
+  "toastNoTab": {
+    "message": "無法取得目前分頁"
+  },
+  "toastUnsupportedPage": {
+    "message": "此頁面不支援元素選取"
+  },
+  "toastClickToSelect": {
+    "message": "請在頁面上點擊簽到按鈕"
+  },
+  "toastSelectorFailed": {
+    "message": "無法啟動選擇器，請重新整理頁面後重試"
+  },
+  "toastSelectorStartFailed": {
+    "message": "啟動選擇器失敗"
+  },
+  "toastInputName": {
+    "message": "請輸入任務名稱"
+  },
+  "toastInputUrl": {
+    "message": "請輸入頁面 URL"
+  },
+  "toastInvalidUrl": {
+    "message": "URL 格式不正確"
+  },
+  "toastTaskAdded": {
+    "message": "任務新增成功"
+  },
+  "toastNoTasks": {
+    "message": "沒有可執行的簽到任務"
+  },
+  "toastCancelled": {
+    "message": "已取消執行"
+  },
+  "toastTaskAddedSelector": {
+    "message": "簽到任務已新增"
+  },
+  "toastTaskSaved": {
+    "message": "簽到任務已儲存：$name$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "selectorHint": {
+    "message": "請在頁面上點擊簽到按鈕 | 按 ESC 取消"
+  },
+  "selectorDialogTitle": {
+    "message": "✅ 已選取簽到按鈕"
+  },
+  "selectorLabelTag": {
+    "message": "元素標籤"
+  },
+  "selectorLabelSelector": {
+    "message": "CSS 選擇器"
+  },
+  "selectorLabelName": {
+    "message": "任務名稱"
+  },
+  "selectorCancel": {
+    "message": "取消"
+  },
+  "selectorConfirm": {
+    "message": "確認儲存"
+  },
+  "msgUrlEmpty": {
+    "message": "URL為空"
+  },
+  "msgTabClosed": {
+    "message": "分頁已關閉"
+  },
+  "msgPageOpened": {
+    "message": "頁面已開啟"
+  },
+  "msgExecError": {
+    "message": "執行異常"
+  },
+  "msgNoResult": {
+    "message": "注入執行無結果"
+  },
+  "msgInjectFailed": {
+    "message": "注入失敗: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgUnknownError": {
+    "message": "未知錯誤"
+  },
+  "msgNoSelector": {
+    "message": "未提供CSS選擇器"
+  },
+  "msgInvalidSelector": {
+    "message": "CSS選擇器無效"
+  },
+  "msgElementNotFound": {
+    "message": "未找到匹配元素"
+  },
+  "msgWaitTimeout": {
+    "message": "等待逾時，未找到元素"
+  },
+  "msgClickSuccess": {
+    "message": "點擊成功"
+  },
+  "msgClickFailed": {
+    "message": "點擊失敗: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgExecFailed": {
+    "message": "執行失敗: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "notifTitle": {
+    "message": "簽到執行完成"
+  },
+  "notifMessage": {
+    "message": "共執行 $total$ 個任務，成功 $success$ 個，失敗 $fail$ 個。",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "fail": {
+        "content": "$3"
+      }
+    }
+  }
 }

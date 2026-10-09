@@ -3,7 +3,7 @@
     "message": "Check-in Assistant"
   },
   "extDescription": {
-    "message": "A handy web check-in extension. Pick elements to auto-click, add tasks, and batch-execute all check-ins."
+    "message": "Not just opening pages — pick the check-in button on the page and auto-click to complete check-in. Supports element picking, manual task adding, and batch execution. One click for all check-ins."
   },
   "btnPick": {
     "message": "Pick Check-in Button"

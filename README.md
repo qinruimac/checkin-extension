@@ -1,6 +1,8 @@
-# 网页签到助手 (edge-checkin-extension)
+# 签到助手 (checkin-extension)
 
-一个基于 Manifest V3 的 Edge 浏览器扩展，用于便捷网页签到。支持选取页面元素自动点击签到、手工添加签到任务、批量执行所有签到任务。支持 10 种语言界面切换。
+不只是打开网页——选取页面上的签到按钮，自动模拟点击完成签到。支持元素选取、手工添加、批量执行，一键搞定所有签到任务。
+
+基于 Manifest V3 开发，同时兼容 **Edge** 和 **Chrome** 浏览器。支持 10 种语言界面切换。
 
 ## 功能特性
 
@@ -43,7 +45,7 @@
 ## 文件结构
 
 ```
-edge-checkin-extension/
+checkin-extension/
 ├── manifest.json              # 扩展配置（Manifest V3）
 ├── _locales/                  # 多语言资源
 │   ├── en/messages.json       # 英语
@@ -75,11 +77,20 @@ edge-checkin-extension/
 
 ## 安装方法
 
-1. 打开 Edge 浏览器，地址栏输入 `edge://extensions/`
-2. 打开右上角的"开发者模式"开关
-3. 点击"加载解压缩的扩展"按钮
-4. 选择本项目的 `edge-checkin-extension` 文件夹
+### 开发者模式加载（Edge / Chrome 通用）
+
+1. 打开浏览器的扩展管理页：
+   - **Edge**：地址栏输入 `edge://extensions/`
+   - **Chrome**：地址栏输入 `chrome://extensions/`
+2. 打开"开发者模式"开关
+3. 点击"加载已解压的扩展"按钮
+4. 选择本项目的 `checkin-extension` 文件夹
 5. 扩展安装完成，工具栏会出现签到助手图标
+
+### 从商店安装
+
+- Edge Add-ons：搜索"签到助手"
+- Chrome Web Store：搜索"签到助手"
 
 ## 使用方法
 
@@ -120,6 +131,7 @@ edge-checkin-extension/
 ## 技术说明
 
 - **Manifest V3**：使用最新的扩展开发规范，不使用已废弃的 API
+- **跨浏览器兼容**：仅使用 `chrome.*` 标准 API，Edge 和 Chrome 均原生支持，无需任何适配代码
 - **chrome.storage.local**：任务列表和语言偏好持久化存储
 - **chrome.scripting.executeScript**：动态注入 content script 执行点击
 - **chrome.notifications**：执行完成后发送桌面通知
