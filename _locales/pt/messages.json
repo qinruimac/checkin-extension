@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "Assistente de Check-in Web"
+    "message": "Assistente de Check-in"
   },
   "extDescription": {
     "message": "Extensao para check-in web. Seleciona elementos para auto-clique, adiciona tarefas e executa em lote."

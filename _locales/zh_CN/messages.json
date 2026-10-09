@@ -1,5 +1,5 @@
 {
-  "extName": { "message": "网页签到助手" },
+  "extName": { "message": "签到助手" },
   "extDescription": { "message": "便捷的网页签到扩展，支持选取页面元素自动点击签到、手工添加签到任务、批量执行所有签到任务。" },
 
   "btnPick": { "message": "选取签到按钮" },

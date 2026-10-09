@@ -1,5 +1,5 @@
 {
-  "extName": { "message": "網頁簽到助手" },
+  "extName": { "message": "簽到助手" },
   "extDescription": { "message": "便捷的網頁簽到擴充功能，支援選取頁面元素自動點擊簽到、手動新增簽到任務、批次執行所有簽到任務。" },
 
   "btnPick": { "message": "選取簽到按鈕" },
