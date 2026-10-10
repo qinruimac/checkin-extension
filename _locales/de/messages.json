@@ -3,7 +3,7 @@
     "message": "Check-in Assistent"
   },
   "extDescription": {
-    "message": "Nicht nur Seiten oeffnen — waehlen Sie den Check-in-Button auf der Seite und klicken Sie automatisch, um den Check-in abzuschliessen. Elementauswahl, manuelle Aufgaben hinzufuegen, Stapelausfuehrung. Ein Klick fuer alle Check-ins."
+    "message": "Waehlen Sie den Check-in-Button und klicken Sie automatisch. Elementauswahl, manuelle Aufgaben, Stapelausfuehrung. Ein Klick fuer alle."
   },
   "btnPick": {
     "message": "Button auswählen"
