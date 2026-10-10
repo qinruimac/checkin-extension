@@ -3,7 +3,7 @@
     "message": "Check-in Assistant"
   },
   "extDescription": {
-    "message": "Pick a check-in button on the page and auto-click to sign in. Supports element picking, manual tasks, and batch execution. One click for all."
+    "message": "Pick a check-in button on the page and auto-click to sign in. Supports element picking, manual tasks, and batch execution."
   },
   "btnPick": {
     "message": "Pick Check-in Button"

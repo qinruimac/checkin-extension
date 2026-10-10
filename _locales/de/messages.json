@@ -3,7 +3,7 @@
     "message": "Check-in Assistent"
   },
   "extDescription": {
-    "message": "Waehlen Sie den Check-in-Button und klicken Sie automatisch. Elementauswahl, manuelle Aufgaben, Stapelausfuehrung. Ein Klick fuer alle."
+    "message": "Check-in-Button auswaehlen und automatisch klicken. Elementauswahl, manuelle Aufgaben, Stapelausfuehrung."
   },
   "btnPick": {
     "message": "Button auswählen"

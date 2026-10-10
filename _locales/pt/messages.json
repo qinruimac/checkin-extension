@@ -3,7 +3,7 @@
     "message": "Assistente de Check-in"
   },
   "extDescription": {
-    "message": "Selecione o botao de check-in e clique automaticamente. Selecao de elementos, adicionar tarefas manualmente, execucao em lote. Um clique para todos."
+    "message": "Selecione o botao de check-in e clique automatico. Selecao de elementos, adicionar tarefas, execucao em lote."
   },
   "btnPick": {
     "message": "Selecionar botão"
