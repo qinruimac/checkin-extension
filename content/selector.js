@@ -39,6 +39,7 @@ if (!window.__checkinSelectorInitialized) {
   let selectorMode = false;
   let highlightedElement = null;
   let originalOutline = null;
+  let hintBarAtTop = true;
 
   // ===== CSS 选择器生成 =====
 
@@ -105,6 +106,7 @@ if (!window.__checkinSelectorInitialized) {
     document.addEventListener('mouseout', onMouseOut, true);
     document.addEventListener('click', onClick, true);
     document.addEventListener('keydown', onKeyDown, true);
+    document.addEventListener('mousemove', onMouseMove, true);
 
     // 显示提示条
     showHintBar();
@@ -119,6 +121,7 @@ if (!window.__checkinSelectorInitialized) {
     document.removeEventListener('mouseout', onMouseOut, true);
     document.removeEventListener('click', onClick, true);
     document.removeEventListener('keydown', onKeyDown, true);
+    document.removeEventListener('mousemove', onMouseMove, true);
 
     // 移除高亮
     if (highlightedElement) {
@@ -189,6 +192,35 @@ if (!window.__checkinSelectorInitialized) {
     }
   }
 
+  /** 鼠标移动时自动躲避提示条 */
+  function onMouseMove(e) {
+    if (!selectorMode) return;
+    dodgeHintBar(e.clientY);
+  }
+
+  /** 提示条自动躲避：鼠标靠近时移到对面 */
+  function dodgeHintBar(clientY) {
+    if (!hintBar) return;
+    const threshold = 60;
+    const nearTop = clientY < threshold;
+    const nearBottom = clientY > window.innerHeight - threshold;
+
+    // 页面太短时两端都近，不移动避免抖动
+    if (nearTop && nearBottom) return;
+
+    if (nearTop && hintBarAtTop) {
+      hintBarAtTop = false;
+      hintBar.style.top = '';
+      hintBar.style.bottom = '0';
+      hintBar.style.boxShadow = '0 -2px 8px rgba(0,0,0,0.2)';
+    } else if (nearBottom && !hintBarAtTop) {
+      hintBarAtTop = true;
+      hintBar.style.top = '0';
+      hintBar.style.bottom = '';
+      hintBar.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+    }
+  }
+
   /** 判断是否是签到扩展自身的UI元素 */
   function isCheckinElement(el) {
     if (!el) return false;
@@ -209,7 +241,9 @@ if (!window.__checkinSelectorInitialized) {
       background: #2aa395; color: #fff; padding: 8px 16px;
       font-size: 14px; font-family: sans-serif; text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      pointer-events: none; transition: top 0.25s ease, bottom 0.25s ease, box-shadow 0.25s ease;
     `;
+    hintBarAtTop = true;
     hintBar.innerHTML = '&#127887; ' + i18n('selectorHint').replace('ESC', '<strong>ESC</strong>');
     document.body.appendChild(hintBar);
   }
