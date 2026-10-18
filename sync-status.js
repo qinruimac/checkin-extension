@@ -44,31 +44,32 @@
         chrome.identity.getProfileUserInfo(function (info) {
           if (chrome.runtime.lastError) {
             console.log('[SyncStatus] no-args lastError:', chrome.runtime.lastError.message);
-            // 方式2：带 accountStatus: 'ANY'（Chrome 83+，可能拿到更多账号）
-            try {
-              console.log('[SyncStatus] trying getProfileUserInfo({accountStatus:ANY})');
-              chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info2) {
-                if (chrome.runtime.lastError) {
-                  console.log('[SyncStatus] ANY lastError:', chrome.runtime.lastError.message);
-                  resolve(null); return;
-                }
-                check(info2);
-              });
-            } catch (e2) { console.log('[SyncStatus] ANY threw:', e2.message); resolve(null); }
+            tryANY();
+            return;
+          }
+          // 无报错但返回空？Edge 登录微软账户可能如此，继续试 accountStatus:'ANY'
+          if (info && !info.email && !info.id) {
+            console.log('[SyncStatus] no-args returned empty, trying accountStatus:ANY');
+            tryANY();
             return;
           }
           check(info);
         });
       } catch (e) {
         console.log('[SyncStatus] no-args threw:', e.message);
+        tryANY();
+      }
+
+      // 方式2：带 accountStatus: 'ANY'（Chrome 83+，同步未开时也能拿到账号）
+      function tryANY() {
         try {
-          console.log('[SyncStatus] trying getProfileUserInfo({accountStatus:ANY}) as fallback');
-          chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info) {
+          console.log('[SyncStatus] trying getProfileUserInfo({accountStatus:ANY})');
+          chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info2) {
             if (chrome.runtime.lastError) {
               console.log('[SyncStatus] ANY lastError:', chrome.runtime.lastError.message);
               resolve(null); return;
             }
-            check(info);
+            check(info2);
           });
         } catch (e2) { console.log('[SyncStatus] ANY threw:', e2.message); resolve(null); }
       }
