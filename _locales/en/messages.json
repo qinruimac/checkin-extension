@@ -290,10 +290,10 @@
     "message": "Local data detected. Will migrate to sync storage automatically."
   },
   "exportBtn": {
-    "message": "Export tasks"
+    "message": "Export"
   },
   "importBtn": {
-    "message": "Import tasks"
+    "message": "Import"
   },
   "exportDone": {
     "message": "Exported $count$ tasks",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "No tasks"
   },
-  "syncPanelDesc": {
-    "message": "Export or import task list"
+  "syncOr": {
+    "message": "or"
+  },
+  "syncTaskList": {
+    "message": "tasks"
   }
 }

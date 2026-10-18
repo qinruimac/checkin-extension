@@ -524,10 +524,13 @@ body {
   border-top: 1px solid var(--line);
   margin: 8px 0;
 }
-.sync-panel-desc {
+.sync-panel-sep {
   font-size: 12px;
   color: var(--ink-faint);
-  margin-bottom: 8px;
+}
+.sync-panel-tail {
+  font-size: 12px;
+  color: var(--ink-faint);
 }
 .sync-panel-actions {
   display: flex;

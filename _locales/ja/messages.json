@@ -290,10 +290,10 @@
     "message": "ローカルデータを検出しました。同期ストレージに自動移行します。"
   },
   "exportBtn": {
-    "message": "タスクをエクスポート"
+    "message": "エクスポート"
   },
   "importBtn": {
-    "message": "タスクをインポート"
+    "message": "インポート"
   },
   "exportDone": {
     "message": "$count$ 個のタスクをエクスポートしました",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "タスクなし"
   },
-  "syncPanelDesc": {
-    "message": "タスクリストのエクスポートまたはインポート"
+  "syncOr": {
+    "message": "または"
+  },
+  "syncTaskList": {
+    "message": "タスク"
   }
 }

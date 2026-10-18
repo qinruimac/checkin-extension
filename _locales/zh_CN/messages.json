@@ -290,10 +290,10 @@
     "message": "检测到本地旧数据，将自动迁移到同步存储"
   },
   "exportBtn": {
-    "message": "导出任务列表"
+    "message": "导出"
   },
   "importBtn": {
-    "message": "导入任务列表"
+    "message": "导入"
   },
   "exportDone": {
     "message": "已导出 $count$ 个任务",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "暂无任务"
   },
-  "syncPanelDesc": {
-    "message": "导出或导入任务列表"
+  "syncOr": {
+    "message": "或"
+  },
+  "syncTaskList": {
+    "message": "任务列表"
   }
 }

@@ -290,10 +290,10 @@
     "message": "Lokale Daten erkannt. Werden automatisch zum Sync-Speicher migriert."
   },
   "exportBtn": {
-    "message": "Aufgaben exportieren"
+    "message": "Exportieren"
   },
   "importBtn": {
-    "message": "Aufgaben importieren"
+    "message": "Importieren"
   },
   "exportDone": {
     "message": "$count$ Aufgaben exportiert",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "Keine Aufgaben"
   },
-  "syncPanelDesc": {
-    "message": "Aufgabenliste exportieren oder importieren"
+  "syncOr": {
+    "message": "oder"
+  },
+  "syncTaskList": {
+    "message": "Aufgaben"
   }
 }

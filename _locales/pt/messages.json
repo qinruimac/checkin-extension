@@ -290,10 +290,10 @@
     "message": "Dados locais detectados. Serão migrados automaticamente para o armazenamento sincronizado."
   },
   "exportBtn": {
-    "message": "Exportar tarefas"
+    "message": "Exportar"
   },
   "importBtn": {
-    "message": "Importar tarefas"
+    "message": "Importar"
   },
   "exportDone": {
     "message": "$count$ tarefas exportadas",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "Sem tarefas"
   },
-  "syncPanelDesc": {
-    "message": "Exportar ou importar a lista de tarefas"
+  "syncOr": {
+    "message": "ou"
+  },
+  "syncTaskList": {
+    "message": "tarefas"
   }
 }

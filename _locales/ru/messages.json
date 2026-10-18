@@ -290,10 +290,10 @@
     "message": "Обнаружены локальные данные. Будут автоматически перенесены в синхронизированное хранилище."
   },
   "exportBtn": {
-    "message": "Экспорт задач"
+    "message": "Экспорт"
   },
   "importBtn": {
-    "message": "Импорт задач"
+    "message": "Импорт"
   },
   "exportDone": {
     "message": "Экспортировано задач: $count$",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "Нет задач"
   },
-  "syncPanelDesc": {
-    "message": "Экспорт или импорт списка задач"
+  "syncOr": {
+    "message": "или"
+  },
+  "syncTaskList": {
+    "message": "задач"
   }
 }

@@ -290,10 +290,10 @@
     "message": "로컬 데이터가 감지되었습니다. 동기화 저장소로 자동 마이그레이션됩니다."
   },
   "exportBtn": {
-    "message": "작업 내보내기"
+    "message": "내보내기"
   },
   "importBtn": {
-    "message": "작업 가져오기"
+    "message": "가져오기"
   },
   "exportDone": {
     "message": "$count$개 작업 내보냄",
@@ -338,7 +338,10 @@
   "syncLabelEmpty": {
     "message": "작업 없음"
   },
-  "syncPanelDesc": {
-    "message": "작업 목록 내보내기 또는 가져오기"
+  "syncOr": {
+    "message": "또는"
+  },
+  "syncTaskList": {
+    "message": "작업"
   }
 }
