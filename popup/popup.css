@@ -459,38 +459,45 @@ body {
 .lang-select:hover { background-color: rgba(255,255,255,0.28); }
 .lang-select option { color: #333; background: #fff; }
 
-/* ===== 同步状态角落图标（低干扰） ===== */
-.sync-corner {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 100;
-  width: 14px;
-  height: 14px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
+/* ===== 同步状态内联指示器（版本号后面） ===== */
+.sync-inline {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: none;
+  border-radius: var(--r-pill);
+  background-color: rgba(255,255,255,0.12);
+  cursor: pointer;
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  transition: background-color 0.2s;
+  outline: none;
 }
+.sync-inline:hover { background-color: rgba(255,255,255,0.22); }
 .sync-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   display: inline-block;
+  flex-shrink: 0;
   transition: background-color 0.3s var(--ease);
+}
+.sync-inline-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
 }
 /* 三态中性色（不报警） */
 .sync-dot-synced   { background-color: var(--accent); }        /* 青绿：已同步 */
 .sync-dot-pending  { background-color: var(--ink-faint); }     /* 灰：待同步 */
-.sync-dot-off      { background-color: var(--line-strong); }   /* 浅灰：未登录 */
+.sync-dot-off      { background-color: var(--line-strong); }   /* 浅灰：暂无 */
 
 /* ===== 同步面板（点击展开） ===== */
 .sync-panel {
   position: fixed;
-  top: 28px;
+  top: 48px;
   right: 10px;
   z-index: 101;
   width: 220px;

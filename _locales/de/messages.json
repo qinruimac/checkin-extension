@@ -328,5 +328,14 @@
   },
   "syncTooltipEmpty": {
     "message": "Keine Aufgaben"
+  },
+  "syncLabelSynced": {
+    "message": "Synchronisiert"
+  },
+  "syncLabelPending": {
+    "message": "Ausstehend"
+  },
+  "syncLabelEmpty": {
+    "message": "Keine Aufgaben"
   }
 }

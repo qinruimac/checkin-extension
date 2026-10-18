@@ -328,5 +328,14 @@
   },
   "syncTooltipEmpty": {
     "message": "Sin tareas"
+  },
+  "syncLabelSynced": {
+    "message": "Sincronizado"
+  },
+  "syncLabelPending": {
+    "message": "Pendiente"
+  },
+  "syncLabelEmpty": {
+    "message": "Sin tareas"
   }
 }

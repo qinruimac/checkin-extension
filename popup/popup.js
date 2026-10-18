@@ -332,14 +332,14 @@ async function updateSyncStatus() {
   if (typeof SyncStatus === 'undefined') return;
   const { state } = await SyncStatus.getState();
   syncDot.classList.remove('sync-dot-synced', 'sync-dot-pending', 'sync-dot-off');
-  let tooltipKey, dotClass;
-  if (state === 'synced') { tooltipKey = 'syncTooltipSynced'; dotClass = 'sync-dot-synced'; }
-  else if (state === 'pending') { tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
-  else { tooltipKey = 'syncTooltipEmpty'; dotClass = 'sync-dot-off'; }
+  let labelKey, tooltipKey, dotClass;
+  if (state === 'synced') { labelKey = 'syncLabelSynced'; tooltipKey = 'syncTooltipSynced'; dotClass = 'sync-dot-synced'; }
+  else if (state === 'pending') { labelKey = 'syncLabelPending'; tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
+  else { labelKey = 'syncLabelEmpty'; tooltipKey = 'syncTooltipEmpty'; dotClass = 'sync-dot-off'; }
   syncDot.classList.add(dotClass);
   const tip = i18n(tooltipKey);
   syncCorner.title = tip;
-  syncStatusText.textContent = tip;
+  syncStatusText.textContent = i18n(labelKey);
 }
 
 // ===== 导出 / 导入 =====

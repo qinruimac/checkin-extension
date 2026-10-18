@@ -328,5 +328,14 @@
   },
   "syncTooltipEmpty": {
     "message": "작업이 없습니다"
+  },
+  "syncLabelSynced": {
+    "message": "동기화됨"
+  },
+  "syncLabelPending": {
+    "message": "마이그레이션 대기"
+  },
+  "syncLabelEmpty": {
+    "message": "작업 없음"
   }
 }

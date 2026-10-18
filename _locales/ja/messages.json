@@ -328,5 +328,14 @@
   },
   "syncTooltipEmpty": {
     "message": "タスクがありません"
+  },
+  "syncLabelSynced": {
+    "message": "同期済"
+  },
+  "syncLabelPending": {
+    "message": "移行待"
+  },
+  "syncLabelEmpty": {
+    "message": "タスクなし"
   }
 }

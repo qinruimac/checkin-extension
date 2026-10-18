@@ -28,18 +28,19 @@
         <option value="pt">Português</option>
       </select>
       <span class="header-version">v1.1.0</span>
+      <button id="sync-corner" class="sync-inline" title="__MSG_syncTooltipEmpty__">
+        <span id="sync-dot" class="sync-dot sync-dot-off"></span>
+        <span id="sync-status-text" class="sync-inline-text">__MSG_syncTooltipEmpty__</span>
+      </button>
     </div>
   </header>
 
-  <!-- 同步状态角落图标（低干扰，三态中性色） -->
-  <button id="sync-corner" class="sync-corner" title="__MSG_syncTooltipEmpty__">
-    <span id="sync-dot" class="sync-dot sync-dot-off"></span>
-  </button>
+  <!-- 同步状态内联指示器（版本号后面） -->
 
   <!-- 同步面板（点击角落图标展开） -->
   <div id="sync-panel" class="sync-panel hidden">
     <div class="sync-panel-header">
-      <span id="sync-status-text" class="sync-status-text">__MSG_syncTooltipEmpty__</span>
+      <span class="sync-panel-title">导入 / 导出</span>
       <button id="sync-panel-close" class="sync-panel-close">✕</button>
     </div>
     <div class="sync-panel-actions">

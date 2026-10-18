@@ -328,5 +328,14 @@
   },
   "syncTooltipEmpty": {
     "message": "Нет задач"
+  },
+  "syncLabelSynced": {
+    "message": "Синхр."
+  },
+  "syncLabelPending": {
+    "message": "Ожидает"
+  },
+  "syncLabelEmpty": {
+    "message": "Нет задач"
   }
 }
