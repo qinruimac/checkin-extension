@@ -25,12 +25,38 @@
         resolve(null);
         return;
       }
+      // 判定已登录的条件：email 或 id 任一非空
+      function check(info) {
+        if (info && (info.email || info.id)) {
+          resolve(info.email || info.id); // 有 id 也算登录，email 可能为空
+        } else {
+          resolve(null);
+        }
+      }
+      // 方式1：无参数调用（最兼容，Edge/Chrome 均支持）
       try {
-        chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info) {
-          if (chrome.runtime.lastError) { resolve(null); return; }
-          resolve((info && info.email) || null);
+        chrome.identity.getProfileUserInfo(function (info) {
+          if (chrome.runtime.lastError) {
+            // 方式2：带 accountStatus: 'ANY'（Chrome 83+，可能拿到更多账号）
+            try {
+              chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info2) {
+                if (chrome.runtime.lastError) { resolve(null); return; }
+                check(info2);
+              });
+            } catch (e2) { resolve(null); }
+            return;
+          }
+          check(info);
         });
-      } catch (e) { resolve(null); }
+      } catch (e) {
+        // 无参数调用失败，试带参数的
+        try {
+          chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info) {
+            if (chrome.runtime.lastError) { resolve(null); return; }
+            check(info);
+          });
+        } catch (e2) { resolve(null); }
+      }
     });
   }
 
