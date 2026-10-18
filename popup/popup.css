@@ -534,7 +534,14 @@ body {
 }
 .sync-panel-actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 6px;
   padding: 10px 12px;
+  font-size: 12px;
+  color: var(--ink-faint);
 }
-.sync-panel-actions .btn { flex: 1; }
+.sync-panel-actions .btn {
+  flex: none;
+  padding: 2px 10px;
+  font-size: 12px;
+}
