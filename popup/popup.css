@@ -55,6 +55,7 @@
 
 body {
   width: 400px;
+  overflow: hidden;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Microsoft YaHei", sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -485,27 +486,21 @@ body {
   top: 48px;
   right: 10px;
   z-index: 101;
-  width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
   background-color: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r);
   box-shadow: var(--shadow-md);
+  font-size: 12px;
+  color: var(--ink-faint);
   animation: syncPanelIn 0.18s var(--ease);
 }
 @keyframes syncPanelIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-.sync-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-}
-.sync-status-text {
-  font-size: 12px;
-  color: var(--ink-soft);
-  flex: 1;
 }
 .sync-panel-close {
   border: none;
@@ -514,6 +509,7 @@ body {
   cursor: pointer;
   font-size: 13px;
   padding: 2px 4px;
+  margin-right: 2px;
 }
 .sync-panel-close:hover { color: var(--ink); }
 .sync-panel-sep {
@@ -524,16 +520,4 @@ body {
   font-size: 12px;
   color: var(--ink-faint);
 }
-.sync-panel-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 12px;
-  font-size: 12px;
-  color: var(--ink-faint);
-}
-.sync-panel-actions .btn {
-  flex: none;
-  padding: 2px 10px;
-  font-size: 12px;
-}
+
