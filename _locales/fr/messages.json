@@ -290,10 +290,10 @@
     "message": "Données locales détectées. Migration vers le stockage synchronisé automatique."
   },
   "exportBtn": {
-    "message": "Exporter"
+    "message": "Exporter les tâches"
   },
   "importBtn": {
-    "message": "Importer"
+    "message": "Importer les tâches"
   },
   "exportDone": {
     "message": "$count$ tâches exportées",

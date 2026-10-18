@@ -290,10 +290,10 @@
     "message": "ローカルデータを検出しました。同期ストレージに自動移行します。"
   },
   "exportBtn": {
-    "message": "エクスポート"
+    "message": "タスクをエクスポート"
   },
   "importBtn": {
-    "message": "インポート"
+    "message": "タスクをインポート"
   },
   "exportDone": {
     "message": "$count$ 個のタスクをエクスポートしました",

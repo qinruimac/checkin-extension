@@ -290,10 +290,10 @@
     "message": "Lokale Daten erkannt. Werden automatisch zum Sync-Speicher migriert."
   },
   "exportBtn": {
-    "message": "Exportieren"
+    "message": "Aufgaben exportieren"
   },
   "importBtn": {
-    "message": "Importieren"
+    "message": "Aufgaben importieren"
   },
   "exportDone": {
     "message": "$count$ Aufgaben exportiert",

@@ -290,10 +290,10 @@
     "message": "偵測到本地舊資料，將自動遷移到同步儲存空間"
   },
   "exportBtn": {
-    "message": "匯出"
+    "message": "匯出任務列表"
   },
   "importBtn": {
-    "message": "匯入"
+    "message": "匯入任務列表"
   },
   "exportDone": {
     "message": "已匯出 $count$ 個任務",

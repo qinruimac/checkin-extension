@@ -290,10 +290,10 @@
     "message": "Datos locales detectados. Se migrarán automáticamente al almacenamiento sincronizado."
   },
   "exportBtn": {
-    "message": "Exportar"
+    "message": "Exportar tareas"
   },
   "importBtn": {
-    "message": "Importar"
+    "message": "Importar tareas"
   },
   "exportDone": {
     "message": "Exportadas $count$ tareas",

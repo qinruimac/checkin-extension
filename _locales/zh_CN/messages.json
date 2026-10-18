@@ -290,10 +290,10 @@
     "message": "检测到本地旧数据，将自动迁移到同步存储"
   },
   "exportBtn": {
-    "message": "导出"
+    "message": "导出任务列表"
   },
   "importBtn": {
-    "message": "导入"
+    "message": "导入任务列表"
   },
   "exportDone": {
     "message": "已导出 $count$ 个任务",
