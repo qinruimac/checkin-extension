@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Tarefas salvas no armazenamento sincronizado. Entre com a mesma conta em outro dispositivo para sincronizar."
+    "message": "As tarefas são armazenadas na conta atual do navegador"
   },
   "syncTooltipPending": {
     "message": "Dados locais detectados. Serão migrados automaticamente para o armazenamento sincronizado."

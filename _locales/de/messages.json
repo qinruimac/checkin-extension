@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Aufgaben im Sync-Speicher gespeichert. Mit demselben Browser-Konto auf einem anderen Gerät anmelden, um zu synchronisieren."
+    "message": "Aufgaben sind unter dem aktuellen Browser-Konto gespeichert"
   },
   "syncTooltipPending": {
     "message": "Lokale Daten erkannt. Werden automatisch zum Sync-Speicher migriert."

@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Tasks saved to sync storage. Sign in with the same browser account on another device to sync."
+    "message": "Tasks are stored under the current browser account"
   },
   "syncTooltipPending": {
     "message": "Local data detected. Will migrate to sync storage automatically."

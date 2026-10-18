@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Tâches enregistrées dans le stockage synchronisé. Connectez-vous avec le même compte sur un autre appareil pour synchroniser."
+    "message": "Les tâches sont stockées sous le compte de navigateur actuel"
   },
   "syncTooltipPending": {
     "message": "Données locales détectées. Migration vers le stockage synchronisé automatique."

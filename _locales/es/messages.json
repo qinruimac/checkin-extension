@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Tareas guardadas en almacenamiento sincronizado. Inicia sesión con la misma cuenta en otro dispositivo para sincronizar."
+    "message": "Las tareas se guardan en la cuenta actual del navegador"
   },
   "syncTooltipPending": {
     "message": "Datos locales detectados. Se migrarán automáticamente al almacenamiento sincronizado."

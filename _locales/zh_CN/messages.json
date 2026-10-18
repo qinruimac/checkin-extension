@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "任务已保存到同步存储，换设备登录同一浏览器账号即可同步"
+    "message": "任务已存在当前浏览器账号下"
   },
   "syncTooltipPending": {
     "message": "检测到本地旧数据，将自动迁移到同步存储"

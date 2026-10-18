@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "任務已儲存到同步儲存空間，換裝置登入同一瀏覽器帳號即可同步"
+    "message": "任務已存在當前瀏覽器帳號下"
   },
   "syncTooltipPending": {
     "message": "偵測到本地舊資料，將自動遷移到同步儲存空間"

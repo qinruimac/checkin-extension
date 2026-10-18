@@ -337,9 +337,7 @@ async function updateSyncStatus() {
   else if (state === 'pending') { labelKey = 'syncLabelPending'; tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
   else { labelKey = 'syncLabelEmpty'; tooltipKey = 'syncTooltipEmpty'; dotClass = 'sync-dot-off'; }
   syncDot.classList.add(dotClass);
-  const tip = i18n(tooltipKey);
-  syncCorner.title = tip;
-  syncStatusText.textContent = i18n(labelKey);
+  syncCorner.title = i18n(tooltipKey);
 }
 
 // ===== 导出 / 导入 =====
