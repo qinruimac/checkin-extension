@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "ブラウザアカウントで同期済み"
+    "message": "タスクは同期ストレージに保存されました。同じブラウザアカウントで別のデバイスにログインすると同期されます。"
   },
   "syncTooltipPending": {
-    "message": "ログイン済み、同期待ち"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "ローカルのみ（未ログイン）"
+    "message": "ローカルデータを検出しました。同期ストレージに自動移行します。"
   },
   "exportBtn": {
     "message": "エクスポート"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "容量制限を超えています、タスクを減らしてください"
+  },
+  "syncTooltipEmpty": {
+    "message": "タスクがありません"
   }
 }

@@ -334,8 +334,8 @@ async function updateSyncStatus() {
   syncDot.classList.remove('sync-dot-synced', 'sync-dot-pending', 'sync-dot-off');
   let tooltipKey, dotClass;
   if (state === 'synced') { tooltipKey = 'syncTooltipSynced'; dotClass = 'sync-dot-synced'; }
-  else if (state === 'logged_in_pending') { tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
-  else { tooltipKey = 'syncTooltipNotLoggedIn'; dotClass = 'sync-dot-off'; }
+  else if (state === 'pending') { tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
+  else { tooltipKey = 'syncTooltipEmpty'; dotClass = 'sync-dot-off'; }
   syncDot.classList.add(dotClass);
   const tip = i18n(tooltipKey);
   syncCorner.title = tip;

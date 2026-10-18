@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "브라우저 계정으로 동기화됨"
+    "message": "작업이 동기화 저장소에 저장되었습니다. 다른 기기에서 같은 브라우저 계정으로 로그인하면 동기화됩니다."
   },
   "syncTooltipPending": {
-    "message": "로그인됨, 동기화 대기 중"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "로컬만 (로그인 안 됨)"
+    "message": "로컬 데이터가 감지되었습니다. 동기화 저장소로 자동 마이그레이션됩니다."
   },
   "exportBtn": {
     "message": "내보내기"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "저장 한도 초과, 작업을 줄여주세요"
+  },
+  "syncTooltipEmpty": {
+    "message": "작업이 없습니다"
   }
 }

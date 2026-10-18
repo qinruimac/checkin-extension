@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Sincronizado via conta do navegador"
+    "message": "Tarefas salvas no armazenamento sincronizado. Entre com a mesma conta em outro dispositivo para sincronizar."
   },
   "syncTooltipPending": {
-    "message": "Sessão iniciada, aguardando sincronização"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "Apenas local (sem sessão iniciada)"
+    "message": "Dados locais detectados. Serão migrados automaticamente para o armazenamento sincronizado."
   },
   "exportBtn": {
     "message": "Exportar"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "Cota de armazenamento excedida, reduza tarefas"
+  },
+  "syncTooltipEmpty": {
+    "message": "Sem tarefas"
   }
 }

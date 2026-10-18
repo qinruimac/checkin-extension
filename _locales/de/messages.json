@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Über Browserkonto synchronisiert"
+    "message": "Aufgaben im Sync-Speicher gespeichert. Mit demselben Browser-Konto auf einem anderen Gerät anmelden, um zu synchronisieren."
   },
   "syncTooltipPending": {
-    "message": "Angemeldet, warte auf Synchronisierung"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "Nur lokal (nicht angemeldet)"
+    "message": "Lokale Daten erkannt. Werden automatisch zum Sync-Speicher migriert."
   },
   "exportBtn": {
     "message": "Exportieren"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "Speicherkontingent überschritten, Aufgaben reduzieren"
+  },
+  "syncTooltipEmpty": {
+    "message": "Keine Aufgaben"
   }
 }

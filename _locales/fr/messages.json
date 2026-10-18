@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Synchronisé via le compte du navigateur"
+    "message": "Tâches enregistrées dans le stockage synchronisé. Connectez-vous avec le même compte sur un autre appareil pour synchroniser."
   },
   "syncTooltipPending": {
-    "message": "Connecté, en attente de synchronisation"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "Local uniquement (non connecté)"
+    "message": "Données locales détectées. Migration vers le stockage synchronisé automatique."
   },
   "exportBtn": {
     "message": "Exporter"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "Quota de stockage dépassé, réduisez les tâches"
+  },
+  "syncTooltipEmpty": {
+    "message": "Aucune tâche"
   }
 }

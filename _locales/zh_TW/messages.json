@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "已透過瀏覽器帳號同步"
+    "message": "任務已儲存到同步儲存空間，換裝置登入同一瀏覽器帳號即可同步"
   },
   "syncTooltipPending": {
-    "message": "已登入，等待同步"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "僅本地（未登入瀏覽器）"
+    "message": "偵測到本地舊資料，將自動遷移到同步儲存空間"
   },
   "exportBtn": {
     "message": "匯出"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "儲存配額不足，請精簡任務"
+  },
+  "syncTooltipEmpty": {
+    "message": "暫無任務"
   }
 }

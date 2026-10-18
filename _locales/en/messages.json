@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Synced via browser account"
+    "message": "Tasks saved to sync storage. Sign in with the same browser account on another device to sync."
   },
   "syncTooltipPending": {
-    "message": "Logged in, waiting for sync"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "Local only (not logged in)"
+    "message": "Local data detected. Will migrate to sync storage automatically."
   },
   "exportBtn": {
     "message": "Export"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "Storage quota exceeded, please reduce tasks"
+  },
+  "syncTooltipEmpty": {
+    "message": "No tasks yet"
   }
 }

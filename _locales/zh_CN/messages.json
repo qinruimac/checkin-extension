@@ -284,13 +284,10 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "已通过浏览器账号同步"
+    "message": "任务已保存到同步存储，换设备登录同一浏览器账号即可同步"
   },
   "syncTooltipPending": {
-    "message": "已登录，等待同步"
-  },
-  "syncTooltipNotLoggedIn": {
-    "message": "仅本地（未登录浏览器）"
+    "message": "检测到本地旧数据，将自动迁移到同步存储"
   },
   "exportBtn": {
     "message": "导出"
@@ -328,5 +325,8 @@
   },
   "quotaExceeded": {
     "message": "存储配额不足，请精简任务"
+  },
+  "syncTooltipEmpty": {
+    "message": "暂无任务"
   }
 }
