@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "Synchronisé via le compte du navigateur"
+  },
+  "syncTooltipPending": {
+    "message": "Connecté, en attente de synchronisation"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "Local uniquement (non connecté)"
+  },
+  "exportBtn": {
+    "message": "Exporter"
+  },
+  "importBtn": {
+    "message": "Importer"
+  },
+  "exportDone": {
+    "message": "$count$ tâches exportées",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "Aucune tâche dans le fichier"
+  },
+  "importOverQuota": {
+    "message": "L'import dépasse le quota de stockage"
+  },
+  "importFailed": {
+    "message": "Échec de l'import, vérifiez le format du fichier"
+  },
+  "importResult": {
+    "message": "Importé : $added$ nouvelles, $updated$ mises à jour",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "Quota de stockage dépassé, réduisez les tâches"
   }
 }

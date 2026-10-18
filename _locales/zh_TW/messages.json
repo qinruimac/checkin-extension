@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "已透過瀏覽器帳號同步"
+  },
+  "syncTooltipPending": {
+    "message": "已登入，等待同步"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "僅本地（未登入瀏覽器）"
+  },
+  "exportBtn": {
+    "message": "匯出"
+  },
+  "importBtn": {
+    "message": "匯入"
+  },
+  "exportDone": {
+    "message": "已匯出 $count$ 個任務",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "檔案中沒有任務"
+  },
+  "importOverQuota": {
+    "message": "匯入超過儲存配額，請精簡任務"
+  },
+  "importFailed": {
+    "message": "匯入失敗，請檢查檔案格式"
+  },
+  "importResult": {
+    "message": "已匯入：新增 $added$，更新 $updated$",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "儲存配額不足，請精簡任務"
   }
 }

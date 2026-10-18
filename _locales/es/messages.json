@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "Sincronizado vía cuenta del navegador"
+  },
+  "syncTooltipPending": {
+    "message": "Sesión iniciada, esperando sincronización"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "Solo local (sin iniciar sesión)"
+  },
+  "exportBtn": {
+    "message": "Exportar"
+  },
+  "importBtn": {
+    "message": "Importar"
+  },
+  "exportDone": {
+    "message": "Exportadas $count$ tareas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "No hay tareas en el archivo"
+  },
+  "importOverQuota": {
+    "message": "La importación supera la cuota de almacenamiento"
+  },
+  "importFailed": {
+    "message": "Importación fallida, revise el formato del archivo"
+  },
+  "importResult": {
+    "message": "Importado: $added$ nuevas, $updated$ actualizadas",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "Cuota de almacenamiento superada, reduzca tareas"
   }
 }

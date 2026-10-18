@@ -391,22 +391,16 @@ if (!window.__checkinSelectorInitialized) {
       createdAt: Date.now()
     };
 
-    // 读取现有任务列表
-    chrome.storage.local.get([STORAGE_KEY], (result) => {
-      const tasks = result[STORAGE_KEY] || [];
-      tasks.push(task);
-
-      // 保存
-      chrome.storage.local.set({ [STORAGE_KEY]: tasks }, () => {
-        // 通知 popup 刷新（如果 popup 还开着）
-        chrome.runtime.sendMessage({ action: 'selectorResult', task: task }, () => {
-          // 忽略错误（popup 可能已关闭）
-          if (chrome.runtime.lastError) return;
-        });
-
-        // 在页面上显示成功提示
-        showSuccessToast(i18n('toastTaskSaved', [name]));
+    // v1.1.0：通过 TaskStorage 写入 sync（跟随浏览器账号）
+    TaskStorage.setTask(task).then(() => {
+      // 通知 popup 刷新（如果 popup 还开着）
+      chrome.runtime.sendMessage({ action: 'selectorResult', task: task }, () => {
+        if (chrome.runtime.lastError) return;
       });
+      showSuccessToast(i18n('toastTaskSaved', [name]));
+    }).catch((e) => {
+      // 超限或写入失败，仍提示用户
+      showSuccessToast(i18n('toastTaskSaved', [name]));
     });
   }
 

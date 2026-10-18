@@ -27,9 +27,27 @@
         <option value="ru">Русский</option>
         <option value="pt">Português</option>
       </select>
-      <span class="header-version">v1.0.1</span>
+      <span class="header-version">v1.1.0</span>
     </div>
   </header>
+
+  <!-- 同步状态角落图标（低干扰，三态中性色） -->
+  <button id="sync-corner" class="sync-corner" title="__MSG_syncTooltipNotLoggedIn__">
+    <span id="sync-dot" class="sync-dot sync-dot-off"></span>
+  </button>
+
+  <!-- 同步面板（点击角落图标展开） -->
+  <div id="sync-panel" class="sync-panel hidden">
+    <div class="sync-panel-header">
+      <span id="sync-status-text" class="sync-status-text">__MSG_syncTooltipNotLoggedIn__</span>
+      <button id="sync-panel-close" class="sync-panel-close">✕</button>
+    </div>
+    <div class="sync-panel-actions">
+      <button id="btn-export" class="btn btn-cancel btn-sm">__MSG_exportBtn__</button>
+      <button id="btn-import" class="btn btn-cancel btn-sm">__MSG_importBtn__</button>
+      <input type="file" id="import-file" accept=".json" class="hidden">
+    </div>
+  </div>
 
   <!-- 操作按钮区 -->
   <section class="action-buttons">
@@ -135,6 +153,8 @@
   <!-- 消息提示 -->
   <div id="toast" class="toast hidden"></div>
 
+  <script src="../storage.js"></script>
+  <script src="../sync-status.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

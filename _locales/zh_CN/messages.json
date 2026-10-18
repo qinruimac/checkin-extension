@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "已通过浏览器账号同步"
+  },
+  "syncTooltipPending": {
+    "message": "已登录，等待同步"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "仅本地（未登录浏览器）"
+  },
+  "exportBtn": {
+    "message": "导出"
+  },
+  "importBtn": {
+    "message": "导入"
+  },
+  "exportDone": {
+    "message": "已导出 $count$ 个任务",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "文件中没有任务"
+  },
+  "importOverQuota": {
+    "message": "导入超过存储配额，请精简任务"
+  },
+  "importFailed": {
+    "message": "导入失败，请检查文件格式"
+  },
+  "importResult": {
+    "message": "已导入：新增 $added$，更新 $updated$",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "存储配额不足，请精简任务"
   }
 }

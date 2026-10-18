@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "Synced via browser account"
+  },
+  "syncTooltipPending": {
+    "message": "Logged in, waiting for sync"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "Local only (not logged in)"
+  },
+  "exportBtn": {
+    "message": "Export"
+  },
+  "importBtn": {
+    "message": "Import"
+  },
+  "exportDone": {
+    "message": "Exported $count$ tasks",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "No tasks in file"
+  },
+  "importOverQuota": {
+    "message": "Import exceeds storage quota, please reduce tasks"
+  },
+  "importFailed": {
+    "message": "Import failed, check file format"
+  },
+  "importResult": {
+    "message": "Imported: $added$ new, $updated$ updated",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "Storage quota exceeded, please reduce tasks"
   }
 }

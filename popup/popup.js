@@ -1,23 +1,23 @@
 /**
  * 签到助手 - 弹窗脚本
  * 责责任务列表的加载/渲染/删除、选取签到按钮、手工添加、执行所有签到及倒计时逻辑
+ *
+ * v1.1.0 变更：
+ *  - 存储层切换到 TaskStorage（chrome.storage.sync，跟随浏览器账号）
+ *  - 新增同步状态角落图标（三态中性色）+ 可展开面板
+ *  - 新增导出/导入功能（用户侧手动跨设备搬运 / 备份）
  */
 
 // ===== i18n 系统（支持手动语言切换）=====
 let customMessages = null;
 
 async function loadCustomLanguage(lang) {
-  if (!lang || lang === 'auto') {
-    customMessages = null;
-    return;
-  }
+  if (!lang || lang === 'auto') { customMessages = null; return; }
   try {
     const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
     const response = await fetch(url);
     customMessages = await response.json();
-  } catch (e) {
-    customMessages = null;
-  }
+  } catch (e) { customMessages = null; }
 }
 
 function customGetMessage(key, substitutions) {
@@ -39,12 +39,10 @@ function customGetMessage(key, substitutions) {
 const i18n = (key, substitutions) => customGetMessage(key, substitutions);
 
 // ===== i18n HTML 占位符替换 =====
-// 首次遍历时保存原始文本，后续语言切换时从原始文本重新替换
-const _i18nTextNodes = [];   // {node, original}
-const _i18nAttrs = [];       // {el, name, original}
+const _i18nTextNodes = [];
+const _i18nAttrs = [];
 
 function applyI18nToHTML() {
-  // 首次调用：收集含 __MSG_ 的文本节点和属性
   if (_i18nTextNodes.length === 0) {
     const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT);
     let node;
@@ -61,7 +59,6 @@ function applyI18nToHTML() {
       }
     });
   }
-  // 每次调用：从原始文本替换
   _i18nTextNodes.forEach(({ node, original }) => {
     node.textContent = original.replace(/__MSG_(\w+)__/g, (_, key) => i18n(key) || _);
   });
@@ -71,7 +68,6 @@ function applyI18nToHTML() {
 }
 
 // ===== 常量定义 =====
-const STORAGE_KEY = 'checkin_tasks';
 const PAGE_SIZE = 10;
 let currentPage = 1;
 
@@ -109,66 +105,51 @@ const pageInfo = document.getElementById('page-info');
 const btnPrevPage = document.getElementById('btn-prev-page');
 const btnNextPage = document.getElementById('btn-next-page');
 const toast = document.getElementById('toast');
+const syncCorner = document.getElementById('sync-corner');
+const syncDot = document.getElementById('sync-dot');
+const syncPanel = document.getElementById('sync-panel');
+const syncStatusText = document.getElementById('sync-status-text');
+const syncPanelClose = document.getElementById('sync-panel-close');
+const btnExport = document.getElementById('btn-export');
+const btnImport = document.getElementById('btn-import');
+const importFile = document.getElementById('import-file');
 
 // ===== 倒计时状态 =====
 let countdownTimer = null;
 let countdownCancelled = false;
 
 // ===== 工具函数 =====
-
-/** 显示 Toast 消息提示 */
 function showToast(message, duration = 2000) {
   toast.textContent = message;
   toast.classList.remove('hidden');
-  setTimeout(() => {
-    toast.classList.add('hidden');
-  }, duration);
+  setTimeout(() => { toast.classList.add('hidden'); }, duration);
 }
-
-/** 生成唯一任务ID */
 function generateTaskId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
 }
-
-/** 截断URL用于显示 */
 function truncateUrl(url, maxLength = 40) {
   if (url.length <= maxLength) return url;
   return url.substr(0, maxLength) + '...';
 }
-
-/** 从 chrome.storage.local 读取任务列表 */
-async function loadTasks() {
-  return new Promise((resolve) => {
-    chrome.storage.local.get([STORAGE_KEY], (result) => {
-      resolve(result[STORAGE_KEY] || []);
-    });
-  });
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
-/** 保存任务列表到 chrome.storage.local */
-async function saveTasks(tasks) {
-  return new Promise((resolve) => {
-    chrome.storage.local.set({ [STORAGE_KEY]: tasks }, () => {
-      resolve();
-    });
-  });
+// ===== 存储层（v1.1.0 统一走 TaskStorage / chrome.storage.sync）=====
+async function loadTasks() {
+  return TaskStorage.getTasks();
 }
 
 // ===== 任务列表渲染 =====
-
-/** 渲染任务列表 */
 async function renderTaskList() {
   const tasks = await loadTasks();
-
-  // 更新任务计数
   taskCount.textContent = i18n('taskCount', [String(tasks.length)]);
-
-  // 更新底部统计
   const clickCount = tasks.filter(t => t.type === 'click').length;
   const openCount = tasks.filter(t => t.type === 'open').length;
   footerStats.textContent = i18n('footerStats', [String(tasks.length), String(clickCount), String(openCount)]);
 
-  // 空状态处理
   if (tasks.length === 0) {
     taskList.innerHTML = '';
     emptyState.classList.remove('hidden');
@@ -176,59 +157,43 @@ async function renderTaskList() {
   }
   emptyState.classList.add('hidden');
 
-  // 分页切片
   const totalPages = Math.ceil(tasks.length / PAGE_SIZE);
   if (currentPage > totalPages) currentPage = totalPages;
   if (currentPage < 1) currentPage = 1;
   const start = (currentPage - 1) * PAGE_SIZE;
   const pageTasks = tasks.slice(start, start + PAGE_SIZE);
 
-  // 渲染分页控件
   if (totalPages > 1) {
     pagination.classList.remove('hidden');
     pageInfo.textContent = `${currentPage} / ${totalPages}`;
     btnPrevPage.disabled = currentPage <= 1;
     btnNextPage.disabled = currentPage >= totalPages;
-  } else {
-    pagination.classList.add('hidden');
-  }
+  } else { pagination.classList.add('hidden'); }
 
-  // 渲染任务卡片
   const deleteTitle = i18n('btnDeleteTask');
   taskList.innerHTML = pageTasks.map(task => {
     const fallbackIcon = task.type === 'click' ? '🎯' : '🔗';
     let domain = '';
-    try {
-      domain = new URL(task.url).hostname;
-    } catch (e) {
-      domain = '';
-    }
-    // 三级回退：网站自身 favicon → DuckDuckGo → emoji
-    // 注意：MV3 CSP 禁止内联 onerror，改用 addEventListener 绑定
+    try { domain = new URL(task.url).hostname; } catch (e) { domain = ''; }
     const iconHtml = domain
-      ? `<img src="https://${domain}/favicon.ico" class="task-favicon" alt="${escapeHtml(task.name)}"
-           data-domain="${domain}">
+      ? `<img src="https://${domain}/favicon.ico" class="task-favicon" alt="${escapeHtml(task.name)}" data-domain="${domain}">
          <span class="task-icon" style="display:none">${fallbackIcon}</span>`
       : `<span class="task-icon">${fallbackIcon}</span>`;
-    return `
-      <div class="task-card" data-id="${task.id}">
+    return `<div class="task-card" data-id="${task.id}">
         <span class="task-icon">${iconHtml}</span>
         <div class="task-info">
           <div class="task-name">${escapeHtml(task.name)}</div>
           <div class="task-url" title="${escapeHtml(task.url)}">${escapeHtml(truncateUrl(task.url))}</div>
         </div>
         <button class="task-delete" data-id="${task.id}" title="${deleteTitle}">✕</button>
-      </div>
-    `;
+      </div>`;
   }).join('');
 
-  // 绑定 favicon 三级回退（避免内联 onerror 违反 MV3 CSP）
   taskList.querySelectorAll('.task-favicon').forEach(img => {
     const domain = img.dataset.domain;
     img.addEventListener('error', function onErr() {
       if (img.dataset.fallback === 'done') return;
       img.dataset.fallback = 'done';
-      // 切到 DuckDuckGo
       img.removeEventListener('error', onErr);
       img.addEventListener('error', function finalErr() {
         img.style.display = 'none';
@@ -239,268 +204,182 @@ async function renderTaskList() {
     });
   });
 
-  // 绑定删除按钮事件
   document.querySelectorAll('.task-delete').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.stopPropagation();
-      const id = btn.getAttribute('data-id');
-      await deleteTask(id);
+      await deleteTask(btn.getAttribute('data-id'));
     });
   });
 }
 
-/** 分页：上一页 / 下一页 */
-btnPrevPage.addEventListener('click', () => {
-  if (currentPage > 1) { currentPage--; renderTaskList(); }
-});
-btnNextPage.addEventListener('click', () => {
-  currentPage++; renderTaskList();
-});
+btnPrevPage.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderTaskList(); } });
+btnNextPage.addEventListener('click', () => { currentPage++; renderTaskList(); });
 
-/** HTML 转义，防止 XSS */
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-/** 删除任务 */
 async function deleteTask(id) {
+  await TaskStorage.deleteTask(id);
   const tasks = await loadTasks();
-  const newTasks = tasks.filter(t => t.id !== id);
-  await saveTasks(newTasks);
-  // 如果当前页删空了，往前退一页
-  const totalPages = Math.ceil(newTasks.length / PAGE_SIZE);
+  const totalPages = Math.ceil(tasks.length / PAGE_SIZE);
   if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
   await renderTaskList();
   showToast(i18n('toastTaskDeleted'));
 }
 
 // ===== 选取签到按钮 =====
-
-/** 启动元素选择器模式 */
 async function startPicker() {
   try {
-    // 获取当前活动标签页
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab) {
-      showToast(i18n('toastNoTab'));
-      return;
-    }
-
-    // 检查是否是特殊页面（chrome://, edge:// 等）
+    if (!tab) { showToast(i18n('toastNoTab')); return; }
     if (tab.url && (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('chrome-extension://'))) {
-      showToast(i18n('toastUnsupportedPage'));
-      return;
+      showToast(i18n('toastUnsupportedPage')); return;
     }
-
-    // 向当前标签页发送启动选择器消息
-    chrome.tabs.sendMessage(tab.id, { action: 'startSelector' }, (response) => {
+    chrome.tabs.sendMessage(tab.id, { action: 'startSelector' }, () => {
       if (chrome.runtime.lastError) {
-        // content script 可能还未注入，尝试手动注入
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['content/selector.js']
-        }).then(() => {
-          // 注入完成后再次发送消息
-          chrome.tabs.sendMessage(tab.id, { action: 'startSelector' });
-          showToast(i18n('toastClickToSelect'));
-        }).catch(() => {
-          showToast(i18n('toastSelectorFailed'));
-        });
-      } else {
-        showToast(i18n('toastClickToSelect'));
-      }
+        chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content/selector.js'] })
+          .then(() => { chrome.tabs.sendMessage(tab.id, { action: 'startSelector' }); showToast(i18n('toastClickToSelect')); })
+          .catch(() => { showToast(i18n('toastSelectorFailed')); });
+      } else { showToast(i18n('toastClickToSelect')); }
     });
-
-    // 关闭弹窗，让用户在页面上操作
     window.close();
-  } catch (err) {
-    showToast(i18n('toastSelectorStartFailed'));
-  }
+  } catch (err) { showToast(i18n('toastSelectorStartFailed')); }
 }
 
 // ===== 手工添加表单 =====
-
-/** 切换手工添加表单显示/隐藏 */
 function toggleManualForm() {
   manualForm.classList.toggle('hidden');
-  if (!manualForm.classList.contains('hidden')) {
-    taskNameInput.focus();
-  }
+  if (!manualForm.classList.contains('hidden')) { taskNameInput.focus(); }
 }
-
-/** 任务类型变化时切换选择器输入框显示 */
 function onTaskTypeChange() {
-  if (taskTypeSelect.value === 'click') {
-    selectorGroup.classList.remove('hidden');
-  } else {
-    selectorGroup.classList.add('hidden');
-    taskSelectorInput.value = '';
-  }
+  if (taskTypeSelect.value === 'click') { selectorGroup.classList.remove('hidden'); }
+  else { selectorGroup.classList.add('hidden'); taskSelectorInput.value = ''; }
 }
-
-/** 保存手工添加的任务 */
 async function saveManualTask() {
   const name = taskNameInput.value.trim();
   const url = taskUrlInput.value.trim();
   const type = taskTypeSelect.value;
   const selector = taskSelectorInput.value.trim();
+  if (!name) { showToast(i18n('toastInputName')); taskNameInput.focus(); return; }
+  if (!url) { showToast(i18n('toastInputUrl')); taskUrlInput.focus(); return; }
+  try { new URL(url); } catch { showToast(i18n('toastInvalidUrl')); taskUrlInput.focus(); return; }
 
-  // 验证输入
-  if (!name) {
-    showToast(i18n('toastInputName'));
-    taskNameInput.focus();
-    return;
-  }
-  if (!url) {
-    showToast(i18n('toastInputUrl'));
-    taskUrlInput.focus();
-    return;
-  }
-
-  // 验证URL格式
+  const task = { id: generateTaskId(), name, url, type, selector: type === 'click' ? selector : '', createdAt: Date.now() };
   try {
-    new URL(url);
-  } catch {
-    showToast(i18n('toastInvalidUrl'));
-    taskUrlInput.focus();
+    await TaskStorage.setTask(task);
+  } catch (e) {
+    showToast(e.message === 'quotaExceeded' ? i18n('quotaExceeded') : e.message, 3000);
     return;
   }
-
-  // 构建任务对象
-  const task = {
-    id: generateTaskId(),
-    name: name,
-    url: url,
-    type: type,
-    selector: type === 'click' ? selector : '',
-    createdAt: Date.now()
-  };
-
-  // 保存到存储
-  const tasks = await loadTasks();
-  tasks.push(task);
-  await saveTasks(tasks);
-
-  // 清空表单并折叠
-  taskNameInput.value = '';
-  taskUrlInput.value = '';
-  taskSelectorInput.value = '';
-  taskTypeSelect.value = 'click';
-  onTaskTypeChange();
-  manualForm.classList.add('hidden');
-
-  // 刷新列表
+  taskNameInput.value = ''; taskUrlInput.value = ''; taskSelectorInput.value = ''; taskTypeSelect.value = 'click';
+  onTaskTypeChange(); manualForm.classList.add('hidden');
   await renderTaskList();
   showToast(i18n('toastTaskAdded'));
 }
 
 // ===== 执行所有签到 =====
-
-/** 开始执行所有签到任务（启动倒计时） */
 async function startExecution() {
   const tasks = await loadTasks();
-  if (tasks.length === 0) {
-    showToast(i18n('toastNoTasks'));
-    return;
-  }
-
-  // 显示倒计时面板
+  if (tasks.length === 0) { showToast(i18n('toastNoTasks')); return; }
   executePanel.classList.remove('hidden');
   countdownPanel.classList.remove('hidden');
   executingPanel.classList.add('hidden');
   resultPanel.classList.add('hidden');
-
-  // 滚动到执行面板
   executePanel.scrollIntoView({ behavior: 'smooth' });
-
-  // 开始10秒倒计时
   countdownCancelled = false;
   let count = 10;
   countdownNumber.textContent = count;
-
   countdownTimer = setInterval(() => {
     count--;
     countdownNumber.textContent = count;
-
-    if (countdownCancelled) {
-      clearInterval(countdownTimer);
-      executePanel.classList.add('hidden');
-      return;
-    }
-
-    if (count <= 0) {
-      clearInterval(countdownTimer);
-      executeCountdown();
-    }
+    if (countdownCancelled) { clearInterval(countdownTimer); executePanel.classList.add('hidden'); return; }
+    if (count <= 0) { clearInterval(countdownTimer); executeCountdown(); }
   }, 1000);
 }
-
-/** 倒计时结束，开始执行任务 */
 async function executeCountdown() {
-  // 切换到执行中面板
   countdownPanel.classList.add('hidden');
   executingPanel.classList.remove('hidden');
   executingText.textContent = i18n('executingText');
   executingProgress.textContent = '';
-
   try {
-    // 发送消息给 background service worker 执行任务
     const response = await chrome.runtime.sendMessage({ action: 'executeTasks' });
     showExecutionResult(response);
   } catch (err) {
     showExecutionResult({ success: 0, fail: 0, details: [], error: i18n('msgExecFailed', [err.message]) });
   }
 }
-
-/** 显示执行结果 */
 function showExecutionResult(result) {
   executingPanel.classList.add('hidden');
   resultPanel.classList.remove('hidden');
-
-  const success = result.success || 0;
-  const fail = result.fail || 0;
-
-  resultSuccess.textContent = success;
-  resultFail.textContent = fail;
-
-  // 渲染详细结果
+  resultSuccess.textContent = result.success || 0;
+  resultFail.textContent = result.fail || 0;
   if (result.details && result.details.length > 0) {
     resultDetails.innerHTML = result.details.map(d => {
       const statusIcon = d.success ? '✅' : '❌';
       const statusClass = d.success ? 'success' : 'fail';
-      const detailText = i18n('resultDetailFormat', [escapeHtml(d.name), escapeHtml(d.message)]);
-      return `<div class="result-detail-item ${statusClass}">${statusIcon} ${detailText}</div>`;
+      return `<div class="result-detail-item ${statusClass}">${statusIcon} ${i18n('resultDetailFormat', [escapeHtml(d.name), escapeHtml(d.message)])}</div>`;
     }).join('');
   } else if (result.error) {
     resultDetails.innerHTML = `<div class="result-detail-item fail">❌ ${escapeHtml(result.error)}</div>`;
-  } else {
-    resultDetails.innerHTML = '';
-  }
+  } else { resultDetails.innerHTML = ''; }
 }
-
-/** 取消执行 */
 function cancelExecution() {
   countdownCancelled = true;
-  if (countdownTimer) {
-    clearInterval(countdownTimer);
-  }
+  if (countdownTimer) { clearInterval(countdownTimer); }
   executePanel.classList.add('hidden');
   showToast(i18n('toastCancelled'));
 }
 
-// ===== 监听来自 content script 的消息 =====
+// ===== 同步状态 UI =====
+async function updateSyncStatus() {
+  if (typeof SyncStatus === 'undefined') return;
+  const { state } = await SyncStatus.getState();
+  syncDot.classList.remove('sync-dot-synced', 'sync-dot-pending', 'sync-dot-off');
+  let tooltipKey, dotClass;
+  if (state === 'synced') { tooltipKey = 'syncTooltipSynced'; dotClass = 'sync-dot-synced'; }
+  else if (state === 'logged_in_pending') { tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
+  else { tooltipKey = 'syncTooltipNotLoggedIn'; dotClass = 'sync-dot-off'; }
+  syncDot.classList.add(dotClass);
+  const tip = i18n(tooltipKey);
+  syncCorner.title = tip;
+  syncStatusText.textContent = tip;
+}
 
-/** 处理选择器返回的任务 */
+// ===== 导出 / 导入 =====
+async function exportTasks() {
+  const tasks = await loadTasks();
+  const data = JSON.stringify({ version: 1, tasks }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `checkin-tasks-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(i18n('exportDone', [String(tasks.length)]));
+}
+async function handleImportFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+    const tasks = Array.isArray(data) ? data : (data.tasks || []);
+    if (!Array.isArray(tasks) || tasks.length === 0) { showToast(i18n('importEmpty')); return; }
+    const result = await TaskStorage.mergeById(tasks);
+    showToast(i18n('importResult', [String(result.added), String(result.updated)]), 3000);
+    await renderTaskList();
+    await updateSyncStatus();
+  } catch (err) {
+    showToast(err.message === 'quotaExceeded' ? i18n('importOverQuota') : i18n('importFailed'), 3000);
+  }
+  importFile.value = '';
+}
+
+// ===== 监听来自 content script 的消息 =====
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'selectorResult') {
-    // 选择器返回了任务信息，刷新列表
     renderTaskList();
     showToast(i18n('toastTaskAddedSelector'));
     sendResponse({ success: true });
   } else if (message.action === 'executeProgress') {
-    // 更新执行进度显示
     executingText.textContent = i18n('executingTask', [message.taskName]);
     executingProgress.textContent = i18n('progressInfo', [String(message.current), String(message.total)]);
   }
@@ -508,51 +387,51 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // ===== 事件绑定 =====
-
 btnPick.addEventListener('click', startPicker);
 btnToggleForm.addEventListener('click', toggleManualForm);
 btnSaveTask.addEventListener('click', saveManualTask);
 btnCancelForm.addEventListener('click', () => {
   manualForm.classList.add('hidden');
-  taskNameInput.value = '';
-  taskUrlInput.value = '';
-  taskSelectorInput.value = '';
+  taskNameInput.value = ''; taskUrlInput.value = ''; taskSelectorInput.value = '';
 });
 taskTypeSelect.addEventListener('change', onTaskTypeChange);
 btnExecute.addEventListener('click', startExecution);
 btnCancelexecute.addEventListener('click', cancelExecution);
-btnCloseResult.addEventListener('click', () => {
-  executePanel.classList.add('hidden');
-  resultPanel.classList.add('hidden');
-});
+btnCloseResult.addEventListener('click', () => { executePanel.classList.add('hidden'); resultPanel.classList.add('hidden'); });
+// 同步面板
+syncCorner.addEventListener('click', () => { syncPanel.classList.toggle('hidden'); });
+syncPanelClose.addEventListener('click', () => { syncPanel.classList.add('hidden'); });
+btnExport.addEventListener('click', exportTasks);
+btnImport.addEventListener('click', () => { importFile.click(); });
+importFile.addEventListener('change', handleImportFile);
 
-// ===== 初始化（异步加载语言后再渲染）=====
+// ===== 初始化 =====
 (async () => {
-  // 读取语言偏好
   try {
     const result = await chrome.storage.local.get(['user_language']);
     const savedLang = result.user_language || 'auto';
     langSelect.value = savedLang;
     await loadCustomLanguage(savedLang);
     applyI18nToHTML();
-  } catch (e) {
-    console.error('i18n init error:', e);
-  }
+  } catch (e) { console.error('i18n init error:', e); }
 
-  // 无论 i18n 是否成功，都要渲染任务列表
   renderTaskList();
   onTaskTypeChange();
+  updateSyncStatus();
 
-  // 语言切换
+  // 监听存储变化，自动刷新列表 + 同步状态
+  if (typeof TaskStorage !== 'undefined') {
+    TaskStorage.onChanged(() => { renderTaskList(); updateSyncStatus(); });
+  }
+
   langSelect.addEventListener('change', async () => {
     try {
       const lang = langSelect.value;
       await chrome.storage.local.set({ user_language: lang });
       await loadCustomLanguage(lang);
       applyI18nToHTML();
-    } catch (e) {
-      console.error('lang switch error:', e);
-    }
+    } catch (e) { console.error('lang switch error:', e); }
     renderTaskList();
+    updateSyncStatus();
   });
 })();

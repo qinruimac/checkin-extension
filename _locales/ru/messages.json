@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "Синхронизировано через аккаунт браузера"
+  },
+  "syncTooltipPending": {
+    "message": "Вход выполнен, ожидание синхронизации"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "Только локально (без входа)"
+  },
+  "exportBtn": {
+    "message": "Экспорт"
+  },
+  "importBtn": {
+    "message": "Импорт"
+  },
+  "exportDone": {
+    "message": "Экспортировано задач: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "В файле нет задач"
+  },
+  "importOverQuota": {
+    "message": "Импорт превышает квоту хранилища"
+  },
+  "importFailed": {
+    "message": "Ошибка импорта, проверьте формат файла"
+  },
+  "importResult": {
+    "message": "Импортировано: $added$ новых, $updated$ обновлено",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "Превышена квота хранилища, уменьшите задачи"
   }
 }

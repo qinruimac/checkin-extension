@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "ブラウザアカウントで同期済み"
+  },
+  "syncTooltipPending": {
+    "message": "ログイン済み、同期待ち"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "ローカルのみ（未ログイン）"
+  },
+  "exportBtn": {
+    "message": "エクスポート"
+  },
+  "importBtn": {
+    "message": "インポート"
+  },
+  "exportDone": {
+    "message": "$count$ 個のタスクをエクスポートしました",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "ファイルにタスクがありません"
+  },
+  "importOverQuota": {
+    "message": "インポートが容量制限を超えています"
+  },
+  "importFailed": {
+    "message": "インポート失敗、ファイル形式を確認してください"
+  },
+  "importResult": {
+    "message": "インポート：新規 $added$、更新 $updated$",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "容量制限を超えています、タスクを減らしてください"
   }
 }

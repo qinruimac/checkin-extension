@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "브라우저 계정으로 동기화됨"
+  },
+  "syncTooltipPending": {
+    "message": "로그인됨, 동기화 대기 중"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "로컬만 (로그인 안 됨)"
+  },
+  "exportBtn": {
+    "message": "내보내기"
+  },
+  "importBtn": {
+    "message": "가져오기"
+  },
+  "exportDone": {
+    "message": "$count$개 작업 내보냄",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "파일에 작업이 없습니다"
+  },
+  "importOverQuota": {
+    "message": "가져오기가 저장 한도를 초과합니다"
+  },
+  "importFailed": {
+    "message": "가져오기 실패, 파일 형식을 확인하세요"
+  },
+  "importResult": {
+    "message": "가져옴: 신규 $added$, 업데이트 $updated$",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "저장 한도 초과, 작업을 줄여주세요"
   }
 }

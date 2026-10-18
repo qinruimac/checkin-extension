@@ -282,5 +282,51 @@
         "content": "$3"
       }
     }
+  },
+  "syncTooltipSynced": {
+    "message": "Über Browserkonto synchronisiert"
+  },
+  "syncTooltipPending": {
+    "message": "Angemeldet, warte auf Synchronisierung"
+  },
+  "syncTooltipNotLoggedIn": {
+    "message": "Nur lokal (nicht angemeldet)"
+  },
+  "exportBtn": {
+    "message": "Exportieren"
+  },
+  "importBtn": {
+    "message": "Importieren"
+  },
+  "exportDone": {
+    "message": "$count$ Aufgaben exportiert",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importEmpty": {
+    "message": "Keine Aufgaben in der Datei"
+  },
+  "importOverQuota": {
+    "message": "Import überschreitet Speicherkontingent"
+  },
+  "importFailed": {
+    "message": "Import fehlgeschlagen, Dateiformat prüfen"
+  },
+  "importResult": {
+    "message": "Importiert: $added$ neu, $updated$ aktualisiert",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      }
+    }
+  },
+  "quotaExceeded": {
+    "message": "Speicherkontingent überschritten, Aufgaben reduzieren"
   }
 }
