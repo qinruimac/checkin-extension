@@ -27,8 +27,8 @@
         <option value="ru">Русский</option>
         <option value="pt">Português</option>
       </select>
-      <span class="header-version">v1.1.0</span>
-      <button id="sync-corner" class="sync-inline" title="__MSG_syncTooltipEmpty__">
+      <button id="sync-corner" class="header-version" title="__MSG_syncTooltipEmpty__">
+        <span>v1.1.0</span>
         <span id="sync-dot" class="sync-dot sync-dot-off"></span>
       </button>
     </div>
@@ -39,7 +39,7 @@
   <!-- 同步面板（点击角落图标展开） -->
   <div id="sync-panel" class="sync-panel hidden">
     <div class="sync-panel-header">
-      <span class="sync-panel-title">导入 / 导出</span>
+      <span id="sync-status-text" class="sync-panel-title">__MSG_syncTooltipEmpty__</span>
       <button id="sync-panel-close" class="sync-panel-close">✕</button>
     </div>
     <div class="sync-panel-actions">

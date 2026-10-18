@@ -79,12 +79,21 @@ body {
 .header-logo { width: 28px; height: 28px; border-radius: var(--r-sm); }
 .header-title { font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
 .header-version {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 11px;
   background-color: rgba(255,255,255,0.18);
   padding: 2px 10px;
+  border: none;
   border-radius: var(--r-pill);
   font-weight: 500;
+  cursor: pointer;
+  color: inherit;
+  transition: background-color 0.2s;
+  outline: none;
 }
+.header-version:hover { background-color: rgba(255,255,255,0.28); }
 
 /* ===== 操作按钮区 ===== */
 .action-buttons {
@@ -459,22 +468,7 @@ body {
 .lang-select:hover { background-color: rgba(255,255,255,0.28); }
 .lang-select option { color: #333; background: #fff; }
 
-/* ===== 同步状态内联指示器（版本号后面） ===== */
-.sync-inline {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border: none;
-  border-radius: var(--r-pill);
-  background-color: rgba(255,255,255,0.12);
-  cursor: pointer;
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  transition: background-color 0.2s;
-  outline: none;
-}
-.sync-inline:hover { background-color: rgba(255,255,255,0.22); }
+/* ===== 同步状态圆点（嵌在版本号 badge 里） ===== */
 .sync-dot {
   width: 7px;
   height: 7px;
@@ -482,12 +476,6 @@ body {
   display: inline-block;
   flex-shrink: 0;
   transition: background-color 0.3s var(--ease);
-}
-.sync-inline-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 120px;
 }
 /* 三态中性色（不报警） */
 .sync-dot-synced   { background-color: var(--accent); }        /* 青绿：已同步 */
