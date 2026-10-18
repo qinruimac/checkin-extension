@@ -3,13 +3,13 @@
  * 负责接收执行任务指令，依次打开标签页并执行签到点击，收集结果并发送通知
  *
  * v1.1.0 变更：
- *  - importScripts 加载 storage.js / sync-status.js
+ *  - importScripts 加载 storage.js
  *  - onInstalled 时自动迁移 local → sync（幂等，不删 local）
  *  - loadTasks 改走 TaskStorage.getTasks()
  */
 
 // MV3 service worker 用 importScripts 加载额外脚本
-try { importScripts(chrome.runtime.getURL('storage.js'), chrome.runtime.getURL('sync-status.js')); } catch (e) { console.error('importScripts failed:', e); }
+try { importScripts(chrome.runtime.getURL('storage.js')); } catch (e) { console.error('importScripts failed:', e); }
 
 // ===== i18n（支持手动语言切换）=====
 let _customMsgs = null;

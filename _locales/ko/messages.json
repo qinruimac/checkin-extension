@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "작업이 브라우저 계정에 연결됨"
-  },
-  "syncTooltipPending": {
-    "message": "로컬 데이터가 감지되었습니다. 동기화 저장소로 자동 마이그레이션됩니다."
-  },
   "exportBtn": {
     "message": "내보내기"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "저장 한도 초과, 작업을 줄여주세요"
   },
-  "syncTooltipEmpty": {
-    "message": "작업이 없습니다"
-  },
-  "syncLabelSynced": {
-    "message": "동기화됨"
-  },
-  "syncLabelPending": {
-    "message": "마이그레이션 대기"
-  },
-  "syncLabelEmpty": {
-    "message": "작업 없음"
-  },
   "syncOr": {
     "message": "또는"
   },
   "syncTaskList": {
     "message": "작업"
+  },
+  "syncPanelTitle": {
+    "message": "작업 가져오기 / 내보내기"
   }
 }

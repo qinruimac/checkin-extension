@@ -79,6 +79,16 @@ body {
 .header-left { display: flex; align-items: center; gap: 10px; }
 .header-logo { width: 28px; height: 28px; border-radius: var(--r-sm); }
 .header-title { font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
+.header-action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--ink-faint);
+  padding: 0 4px;
+  line-height: 1;
+}
+.header-action:hover { color: var(--ink); }
 .header-version {
   display: inline-flex;
   align-items: center;
@@ -469,20 +479,6 @@ body {
 .lang-select:hover { background-color: var(--line); }
 .lang-select option { color: var(--ink); background: var(--surface); }
 
-/* ===== 同步状态圆点（嵌在版本号 badge 里） ===== */
-.sync-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  display: inline-block;
-  flex-shrink: 0;
-  transition: background-color 0.3s var(--ease);
-}
-/* 三态中性色（不报警） */
-.sync-dot-synced   { background-color: var(--accent); }        /* 青绿：已同步 */
-.sync-dot-pending  { background-color: var(--ink-faint); }     /* 灰：待同步 */
-.sync-dot-off      { background-color: var(--line-strong); }   /* 浅灰：暂无 */
-
 /* ===== 同步面板（点击展开） ===== */
 .sync-panel {
   position: fixed;
@@ -520,10 +516,6 @@ body {
   padding: 2px 4px;
 }
 .sync-panel-close:hover { color: var(--ink); }
-.sync-panel-divider {
-  border-top: 1px solid var(--line);
-  margin: 8px 0;
-}
 .sync-panel-sep {
   font-size: 12px;
   color: var(--ink-faint);

@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "Tareas vinculadas a la cuenta del navegador"
-  },
-  "syncTooltipPending": {
-    "message": "Datos locales detectados. Se migrarán automáticamente al almacenamiento sincronizado."
-  },
   "exportBtn": {
     "message": "Exportar"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "Cuota de almacenamiento superada, reduzca tareas"
   },
-  "syncTooltipEmpty": {
-    "message": "Sin tareas"
-  },
-  "syncLabelSynced": {
-    "message": "Sincronizado"
-  },
-  "syncLabelPending": {
-    "message": "Pendiente"
-  },
-  "syncLabelEmpty": {
-    "message": "Sin tareas"
-  },
   "syncOr": {
     "message": "o"
   },
   "syncTaskList": {
     "message": "tareas"
+  },
+  "syncPanelTitle": {
+    "message": "Importar / Exportar tareas"
   }
 }

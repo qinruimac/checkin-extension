@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "Tâches liées au compte navigateur"
-  },
-  "syncTooltipPending": {
-    "message": "Données locales détectées. Migration vers le stockage synchronisé automatique."
-  },
   "exportBtn": {
     "message": "Exporter"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "Quota de stockage dépassé, réduisez les tâches"
   },
-  "syncTooltipEmpty": {
-    "message": "Aucune tâche"
-  },
-  "syncLabelSynced": {
-    "message": "Synchronisé"
-  },
-  "syncLabelPending": {
-    "message": "En attente"
-  },
-  "syncLabelEmpty": {
-    "message": "Aucune tâche"
-  },
   "syncOr": {
     "message": "ou"
   },
   "syncTaskList": {
     "message": "les tâches"
+  },
+  "syncPanelTitle": {
+    "message": "Importer / Exporter des tâches"
   }
 }

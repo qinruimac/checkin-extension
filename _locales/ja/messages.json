@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "タスクはブラウザアカウントに関連付け済み"
-  },
-  "syncTooltipPending": {
-    "message": "ローカルデータを検出しました。同期ストレージに自動移行します。"
-  },
   "exportBtn": {
     "message": "エクスポート"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "容量制限を超えています、タスクを減らしてください"
   },
-  "syncTooltipEmpty": {
-    "message": "タスクがありません"
-  },
-  "syncLabelSynced": {
-    "message": "同期済"
-  },
-  "syncLabelPending": {
-    "message": "移行待"
-  },
-  "syncLabelEmpty": {
-    "message": "タスクなし"
-  },
   "syncOr": {
     "message": "または"
   },
   "syncTaskList": {
     "message": "タスク"
+  },
+  "syncPanelTitle": {
+    "message": "タスクのインポート / エクスポート"
   }
 }

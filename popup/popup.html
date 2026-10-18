@@ -27,22 +27,17 @@
         <option value="ru">Русский</option>
         <option value="pt">Português</option>
       </select>
-      <button id="sync-corner" class="header-version" title="__MSG_syncTooltipEmpty__">
-        <span>v1.1.0</span>
-        <span id="sync-dot" class="sync-dot sync-dot-off"></span>
-      </button>
+      <span class="header-version">v1.1.0</span>
+      <button id="sync-corner" class="header-action" title="__MSG_syncPanelTitle__">⋯</button>
     </div>
   </header>
 
-  <!-- 同步状态内联指示器（版本号后面） -->
-
-  <!-- 同步面板（点击角落图标展开） -->
+  <!-- 导入导出面板 -->
   <div id="sync-panel" class="sync-panel hidden">
     <div class="sync-panel-header">
-      <span id="sync-status-text" class="sync-panel-title">__MSG_syncTooltipEmpty__</span>
+      <span class="sync-panel-title">__MSG_syncPanelTitle__</span>
       <button id="sync-panel-close" class="sync-panel-close">✕</button>
     </div>
-    <div class="sync-panel-divider"></div>
     <div class="sync-panel-actions">
       <button id="btn-export" class="btn btn-cancel btn-sm">__MSG_exportBtn__</button>
       <span class="sync-panel-sep">__MSG_syncOr__</span>
@@ -157,7 +152,6 @@
   <div id="toast" class="toast hidden"></div>
 
   <script src="../storage.js"></script>
-  <script src="../sync-status.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

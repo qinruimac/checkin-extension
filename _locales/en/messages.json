@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "Tasks linked to browser account"
-  },
-  "syncTooltipPending": {
-    "message": "Local data detected. Will migrate to sync storage automatically."
-  },
   "exportBtn": {
     "message": "Export"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "Storage quota exceeded, please reduce tasks"
   },
-  "syncTooltipEmpty": {
-    "message": "No tasks yet"
-  },
-  "syncLabelSynced": {
-    "message": "Synced"
-  },
-  "syncLabelPending": {
-    "message": "Pending"
-  },
-  "syncLabelEmpty": {
-    "message": "No tasks"
-  },
   "syncOr": {
     "message": "or"
   },
   "syncTaskList": {
     "message": "tasks"
+  },
+  "syncPanelTitle": {
+    "message": "Import / Export tasks"
   }
 }

@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "任務已關聯瀏覽器帳戶"
-  },
-  "syncTooltipPending": {
-    "message": "偵測到本地舊資料，將自動遷移到同步儲存空間"
-  },
   "exportBtn": {
     "message": "匯出"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "儲存配額不足，請精簡任務"
   },
-  "syncTooltipEmpty": {
-    "message": "暫無任務"
-  },
-  "syncLabelSynced": {
-    "message": "已同步"
-  },
-  "syncLabelPending": {
-    "message": "待遷移"
-  },
-  "syncLabelEmpty": {
-    "message": "暫無任務"
-  },
   "syncOr": {
     "message": "或"
   },
   "syncTaskList": {
     "message": "任務列表"
+  },
+  "syncPanelTitle": {
+    "message": "匯入 / 匯出任務列表"
   }
 }

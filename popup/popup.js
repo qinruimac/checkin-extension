@@ -106,9 +106,7 @@ const btnPrevPage = document.getElementById('btn-prev-page');
 const btnNextPage = document.getElementById('btn-next-page');
 const toast = document.getElementById('toast');
 const syncCorner = document.getElementById('sync-corner');
-const syncDot = document.getElementById('sync-dot');
 const syncPanel = document.getElementById('sync-panel');
-const syncStatusText = document.getElementById('sync-status-text');
 const syncPanelClose = document.getElementById('sync-panel-close');
 const btnExport = document.getElementById('btn-export');
 const btnImport = document.getElementById('btn-import');
@@ -327,21 +325,6 @@ function cancelExecution() {
   showToast(i18n('toastCancelled'));
 }
 
-// ===== 同步状态 UI =====
-async function updateSyncStatus() {
-  if (typeof SyncStatus === 'undefined') return;
-  const { state } = await SyncStatus.getState();
-  syncDot.classList.remove('sync-dot-synced', 'sync-dot-pending', 'sync-dot-off');
-  let labelKey, tooltipKey, dotClass;
-  if (state === 'synced') { labelKey = 'syncLabelSynced'; tooltipKey = 'syncTooltipSynced'; dotClass = 'sync-dot-synced'; }
-  else if (state === 'pending') { labelKey = 'syncLabelPending'; tooltipKey = 'syncTooltipPending'; dotClass = 'sync-dot-pending'; }
-  else { labelKey = 'syncLabelEmpty'; tooltipKey = 'syncTooltipEmpty'; dotClass = 'sync-dot-off'; }
-  syncDot.classList.add(dotClass);
-  const tip = i18n(tooltipKey);
-  syncCorner.title = tip;
-  if (syncStatusText) syncStatusText.textContent = tip;
-}
-
 // ===== 导出 / 导入 =====
 async function exportTasks() {
   const tasks = await loadTasks();
@@ -366,7 +349,6 @@ async function handleImportFile(e) {
     const result = await TaskStorage.mergeById(tasks);
     showToast(i18n('importResult', [String(result.added), String(result.updated)]), 3000);
     await renderTaskList();
-    await updateSyncStatus();
   } catch (err) {
     showToast(err.message === 'quotaExceeded' ? i18n('importOverQuota') : i18n('importFailed'), 3000);
   }
@@ -417,11 +399,10 @@ importFile.addEventListener('change', handleImportFile);
 
   renderTaskList();
   onTaskTypeChange();
-  updateSyncStatus();
 
   // 监听存储变化，自动刷新列表 + 同步状态
   if (typeof TaskStorage !== 'undefined') {
-    TaskStorage.onChanged(() => { renderTaskList(); updateSyncStatus(); });
+    TaskStorage.onChanged(() => { renderTaskList(); });
   }
 
   langSelect.addEventListener('change', async () => {
@@ -432,6 +413,5 @@ importFile.addEventListener('change', handleImportFile);
       applyI18nToHTML();
     } catch (e) { console.error('lang switch error:', e); }
     renderTaskList();
-    updateSyncStatus();
   });
 })();

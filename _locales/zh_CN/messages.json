@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "任务已关联浏览器账户"
-  },
-  "syncTooltipPending": {
-    "message": "检测到本地旧数据，将自动迁移到同步存储"
-  },
   "exportBtn": {
     "message": "导出"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "存储配额不足，请精简任务"
   },
-  "syncTooltipEmpty": {
-    "message": "暂无任务"
-  },
-  "syncLabelSynced": {
-    "message": "已同步"
-  },
-  "syncLabelPending": {
-    "message": "待迁移"
-  },
-  "syncLabelEmpty": {
-    "message": "暂无任务"
-  },
   "syncOr": {
     "message": "或"
   },
   "syncTaskList": {
     "message": "任务列表"
+  },
+  "syncPanelTitle": {
+    "message": "导入 / 导出任务列表"
   }
 }

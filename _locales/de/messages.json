@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "Aufgaben mit Browser-Konto verknüpft"
-  },
-  "syncTooltipPending": {
-    "message": "Lokale Daten erkannt. Werden automatisch zum Sync-Speicher migriert."
-  },
   "exportBtn": {
     "message": "Exportieren"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "Speicherkontingent überschritten, Aufgaben reduzieren"
   },
-  "syncTooltipEmpty": {
-    "message": "Keine Aufgaben"
-  },
-  "syncLabelSynced": {
-    "message": "Synchronisiert"
-  },
-  "syncLabelPending": {
-    "message": "Ausstehend"
-  },
-  "syncLabelEmpty": {
-    "message": "Keine Aufgaben"
-  },
   "syncOr": {
     "message": "oder"
   },
   "syncTaskList": {
     "message": "Aufgaben"
+  },
+  "syncPanelTitle": {
+    "message": "Aufgaben importieren / exportieren"
   }
 }

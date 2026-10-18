@@ -283,12 +283,6 @@
       }
     }
   },
-  "syncTooltipSynced": {
-    "message": "Задачи привязаны к учётной записи браузера"
-  },
-  "syncTooltipPending": {
-    "message": "Обнаружены локальные данные. Будут автоматически перенесены в синхронизированное хранилище."
-  },
   "exportBtn": {
     "message": "Экспорт"
   },
@@ -326,22 +320,13 @@
   "quotaExceeded": {
     "message": "Превышена квота хранилища, уменьшите задачи"
   },
-  "syncTooltipEmpty": {
-    "message": "Нет задач"
-  },
-  "syncLabelSynced": {
-    "message": "Синхр."
-  },
-  "syncLabelPending": {
-    "message": "Ожидает"
-  },
-  "syncLabelEmpty": {
-    "message": "Нет задач"
-  },
   "syncOr": {
     "message": "или"
   },
   "syncTaskList": {
     "message": "задач"
+  },
+  "syncPanelTitle": {
+    "message": "Импорт / экспорт задач"
   }
 }
