@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "タスクは現在のブラウザアカウントに保存されています"
+    "message": "タスクはブラウザアカウントに関連付け済み"
   },
   "syncTooltipPending": {
     "message": "ローカルデータを検出しました。同期ストレージに自動移行します。"
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "タスクなし"
+  },
+  "syncPanelDesc": {
+    "message": "タスクリストのエクスポートまたはインポート"
   }
 }

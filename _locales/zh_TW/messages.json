@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "任務已存在當前瀏覽器帳號下"
+    "message": "任務已關聯瀏覽器帳戶"
   },
   "syncTooltipPending": {
     "message": "偵測到本地舊資料，將自動遷移到同步儲存空間"
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "暫無任務"
+  },
+  "syncPanelDesc": {
+    "message": "匯出或匯入任務列表"
   }
 }

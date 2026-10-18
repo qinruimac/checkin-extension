@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Les tâches sont stockées sous le compte de navigateur actuel"
+    "message": "Tâches liées au compte navigateur"
   },
   "syncTooltipPending": {
     "message": "Données locales détectées. Migration vers le stockage synchronisé automatique."
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "Aucune tâche"
+  },
+  "syncPanelDesc": {
+    "message": "Exporter ou importer la liste des tâches"
   }
 }

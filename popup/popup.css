@@ -520,6 +520,15 @@ body {
   padding: 2px 4px;
 }
 .sync-panel-close:hover { color: var(--ink); }
+.sync-panel-divider {
+  border-top: 1px solid var(--line);
+  margin: 8px 0;
+}
+.sync-panel-desc {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
 .sync-panel-actions {
   display: flex;
   gap: 8px;

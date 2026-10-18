@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Tasks are stored under the current browser account"
+    "message": "Tasks linked to browser account"
   },
   "syncTooltipPending": {
     "message": "Local data detected. Will migrate to sync storage automatically."
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "No tasks"
+  },
+  "syncPanelDesc": {
+    "message": "Export or import task list"
   }
 }

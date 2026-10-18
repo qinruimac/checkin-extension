@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Aufgaben sind unter dem aktuellen Browser-Konto gespeichert"
+    "message": "Aufgaben mit Browser-Konto verknüpft"
   },
   "syncTooltipPending": {
     "message": "Lokale Daten erkannt. Werden automatisch zum Sync-Speicher migriert."
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "Keine Aufgaben"
+  },
+  "syncPanelDesc": {
+    "message": "Aufgabenliste exportieren oder importieren"
   }
 }

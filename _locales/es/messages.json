@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "Las tareas se guardan en la cuenta actual del navegador"
+    "message": "Tareas vinculadas a la cuenta del navegador"
   },
   "syncTooltipPending": {
     "message": "Datos locales detectados. Se migrarán automáticamente al almacenamiento sincronizado."
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "Sin tareas"
+  },
+  "syncPanelDesc": {
+    "message": "Exportar o importar la lista de tareas"
   }
 }

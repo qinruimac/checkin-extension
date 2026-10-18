@@ -284,7 +284,7 @@
     }
   },
   "syncTooltipSynced": {
-    "message": "작업이 현재 브라우저 계정에 저장되어 있습니다"
+    "message": "작업이 브라우저 계정에 연결됨"
   },
   "syncTooltipPending": {
     "message": "로컬 데이터가 감지되었습니다. 동기화 저장소로 자동 마이그레이션됩니다."
@@ -337,5 +337,8 @@
   },
   "syncLabelEmpty": {
     "message": "작업 없음"
+  },
+  "syncPanelDesc": {
+    "message": "작업 목록 내보내기 또는 가져오기"
   }
 }
