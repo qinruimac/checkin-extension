@@ -21,41 +21,56 @@
    */
   function getLoginEmail() {
     return new Promise(function (resolve) {
+      console.log('[SyncStatus] getLoginEmail start');
       if (!chrome.identity || typeof chrome.identity.getProfileUserInfo !== 'function') {
+        console.log('[SyncStatus] chrome.identity not available:', !!chrome.identity);
         resolve(null);
         return;
       }
       // 判定已登录的条件：email 或 id 任一非空
       function check(info) {
+        console.log('[SyncStatus] getProfileUserInfo result:', JSON.stringify(info));
         if (info && (info.email || info.id)) {
-          resolve(info.email || info.id); // 有 id 也算登录，email 可能为空
+          console.log('[SyncStatus] => logged in, email/id:', info.email || info.id);
+          resolve(info.email || info.id);
         } else {
+          console.log('[SyncStatus] => not logged in (both email and id empty)');
           resolve(null);
         }
       }
       // 方式1：无参数调用（最兼容，Edge/Chrome 均支持）
       try {
+        console.log('[SyncStatus] trying getProfileUserInfo() no args');
         chrome.identity.getProfileUserInfo(function (info) {
           if (chrome.runtime.lastError) {
+            console.log('[SyncStatus] no-args lastError:', chrome.runtime.lastError.message);
             // 方式2：带 accountStatus: 'ANY'（Chrome 83+，可能拿到更多账号）
             try {
+              console.log('[SyncStatus] trying getProfileUserInfo({accountStatus:ANY})');
               chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info2) {
-                if (chrome.runtime.lastError) { resolve(null); return; }
+                if (chrome.runtime.lastError) {
+                  console.log('[SyncStatus] ANY lastError:', chrome.runtime.lastError.message);
+                  resolve(null); return;
+                }
                 check(info2);
               });
-            } catch (e2) { resolve(null); }
+            } catch (e2) { console.log('[SyncStatus] ANY threw:', e2.message); resolve(null); }
             return;
           }
           check(info);
         });
       } catch (e) {
-        // 无参数调用失败，试带参数的
+        console.log('[SyncStatus] no-args threw:', e.message);
         try {
+          console.log('[SyncStatus] trying getProfileUserInfo({accountStatus:ANY}) as fallback');
           chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, function (info) {
-            if (chrome.runtime.lastError) { resolve(null); return; }
+            if (chrome.runtime.lastError) {
+              console.log('[SyncStatus] ANY lastError:', chrome.runtime.lastError.message);
+              resolve(null); return;
+            }
             check(info);
           });
-        } catch (e2) { resolve(null); }
+        } catch (e2) { console.log('[SyncStatus] ANY threw:', e2.message); resolve(null); }
       }
     });
   }
@@ -65,6 +80,7 @@
    */
   function hasSyncData() {
     return new Promise(function (resolve) {
+      console.log('[SyncStatus] hasSyncData checking...');
       chrome.storage.sync.get(null, function (items) {
         if (chrome.runtime.lastError) { resolve(false); return; }
         // 有 task_index 或任意 task_ 前缀 key 即视为有数据
@@ -76,6 +92,7 @@
             }
           }
         }
+        console.log('[SyncStatus] hasSyncData =>', has, 'keys:', Object.keys(items));
         resolve(!!has);
       });
     });
@@ -97,14 +114,19 @@
    */
   async function getState() {
     var email = await getLoginEmail();
+    console.log('[SyncStatus] getState: email =', email);
     if (!email) {
+      console.log('[SyncStatus] getState => not_logged_in');
       return { state: 'not_logged_in', email: null };
     }
     var synced = await hasSyncData();
+    console.log('[SyncStatus] getState: hasSyncData =', synced);
     if (synced) {
       await markObserved();
+      console.log('[SyncStatus] getState => synced');
       return { state: 'synced', email: email };
     }
+    console.log('[SyncStatus] getState => logged_in_pending');
     return { state: 'logged_in_pending', email: email };
   }
 
