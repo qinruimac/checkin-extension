@@ -9,7 +9,7 @@
  */
 
 // MV3 service worker 用 importScripts 加载额外脚本
-try { importScripts('storage.js', 'sync-status.js'); } catch (e) { console.error('importScripts failed:', e); }
+try { importScripts(chrome.runtime.getURL('storage.js'), chrome.runtime.getURL('sync-status.js')); } catch (e) { console.error('importScripts failed:', e); }
 
 // ===== i18n（支持手动语言切换）=====
 let _customMsgs = null;
