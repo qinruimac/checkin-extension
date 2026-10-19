@@ -188,6 +188,15 @@
       }
     }
   },
+  "toastTaskSaveFailed": {
+    "message": "Aufgabe konnte nicht gespeichert werden, bitte erneut versuchen"
+  },
+  "msgElementHidden": {
+    "message": "Element gefunden, aber nicht sichtbar"
+  },
+  "toastNeedRefresh": {
+    "message": "Die Erweiterung wurde gerade installiert oder aktualisiert. Bitte aktualisieren Sie diese Seite und versuchen Sie es erneut."
+  },
   "selectorHint": {
     "message": "Auf Check-in-Button klicken | ESC zum Abbrechen"
   },

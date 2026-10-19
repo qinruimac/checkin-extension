@@ -188,6 +188,15 @@
       }
     }
   },
+  "toastTaskSaveFailed": {
+    "message": "작업 저장에 실패했습니다. 다시 시도해 주세요"
+  },
+  "msgElementHidden": {
+    "message": "요소를 찾았지만 보이지 않습니다"
+  },
+  "toastNeedRefresh": {
+    "message": "확장 프로그램을 방금 설치하거나 업데이트했습니다. 페이지를 새로고침한 후 다시 시도해 주세요"
+  },
   "selectorHint": {
     "message": "페이지에서 체크인 버튼 클릭 | ESC로 취소"
   },

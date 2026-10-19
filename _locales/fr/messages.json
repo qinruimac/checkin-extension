@@ -188,6 +188,15 @@
       }
     }
   },
+  "toastTaskSaveFailed": {
+    "message": "Échec de l'enregistrement de la tâche, veuillez réessayer"
+  },
+  "msgElementHidden": {
+    "message": "Élément trouvé mais non visible"
+  },
+  "toastNeedRefresh": {
+    "message": "L'extension vient d'être installée ou mise à jour. Veuillez actualiser cette page et réessayer."
+  },
   "selectorHint": {
     "message": "Cliquez sur le bouton de check-in | ESC pour annuler"
   },

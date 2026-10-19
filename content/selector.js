@@ -8,37 +8,14 @@
 if (!window.__checkinSelectorInitialized) {
   window.__checkinSelectorInitialized = true;
 
-  const STORAGE_KEY = 'checkin_tasks';
-    // ===== i18n（支持手动语言切换）=====
-  let _customMsgs = null;
-  async function _initI18n() {
-    const { user_language } = await chrome.storage.local.get('user_language');
-    if (user_language && user_language !== 'auto') {
-      try {
-        const r = await fetch(chrome.runtime.getURL(`_locales/${user_language}/messages.json`));
-        _customMsgs = await r.json();
-      } catch (e) { _customMsgs = null; }
-    } else { _customMsgs = null; }
-  }
-  function _getMsg(key, subs) {
-    if (!_customMsgs || !_customMsgs[key]) return chrome.i18n.getMessage(key, subs);
-    const entry = _customMsgs[key];
-    let msg = entry.message || '';
-    if (entry.placeholders && subs) {
-      const arr = Array.isArray(subs) ? subs : [subs];
-      for (const [name, info] of Object.entries(entry.placeholders)) {
-        const idx = parseInt(info.content.replace(/\$/g, '')) - 1;
-        msg = msg.replace(new RegExp(`\\$${name}\\$`, 'g'), arr[idx] || '');
-      }
-    }
-    return msg;
-  }
-  const i18n = (key, subs) => _getMsg(key, subs);
+  // ===== i18n（共享模块 CheckinI18n，见 i18n.js）=====
+  const i18n = (key, subs) => CheckinI18n.getMsg(key, subs);
 
   // 选择模式状态
   let selectorMode = false;
   let highlightedElement = null;
   let originalOutline = null;
+  let originalOutlineOffset = null;
   let hintBarAtTop = true;
 
   // ===== CSS 选择器生成 =====
@@ -90,8 +67,9 @@ if (!window.__checkinSelectorInitialized) {
     return parts.join(' > ');
   }
 
-  /** CSS 转义处理 */
+  /** CSS 转义处理（优先用浏览器原生 CSS.escape，可正确处理数字开头等边界） */
   function cssEscape(str) {
+    if (typeof CSS !== 'undefined' && CSS.escape) return CSS.escape(str);
     return str.replace(/[^a-zA-Z0-9_-]/g, (c) => '\\' + c);
   }
 
@@ -126,8 +104,10 @@ if (!window.__checkinSelectorInitialized) {
     // 移除高亮
     if (highlightedElement) {
       highlightedElement.style.outline = originalOutline || '';
+      highlightedElement.style.outlineOffset = originalOutlineOffset || '';
       highlightedElement = null;
       originalOutline = null;
+      originalOutlineOffset = null;
     }
 
     // 移除提示条
@@ -142,10 +122,12 @@ if (!window.__checkinSelectorInitialized) {
 
     if (highlightedElement && highlightedElement !== e.target) {
       highlightedElement.style.outline = originalOutline || '';
+      highlightedElement.style.outlineOffset = originalOutlineOffset || '';
     }
 
     highlightedElement = e.target;
     originalOutline = e.target.style.outline;
+    originalOutlineOffset = e.target.style.outlineOffset;
     e.target.style.outline = '2px solid red';
     e.target.style.outlineOffset = '-2px';
   }
@@ -157,8 +139,10 @@ if (!window.__checkinSelectorInitialized) {
 
     if (highlightedElement) {
       highlightedElement.style.outline = originalOutline || '';
+      highlightedElement.style.outlineOffset = originalOutlineOffset || '';
       highlightedElement = null;
       originalOutline = null;
+      originalOutlineOffset = null;
     }
   }
 
@@ -399,8 +383,9 @@ if (!window.__checkinSelectorInitialized) {
       });
       showSuccessToast(i18n('toastTaskSaved', [name]));
     }).catch((e) => {
-      // 超限或写入失败，仍提示用户
-      showSuccessToast(i18n('toastTaskSaved', [name]));
+      // 超限或写入失败：按原因提示，不再误报"已保存"
+      const failMsg = e && e.message === 'quotaExceeded' ? i18n('quotaExceeded') : i18n('toastTaskSaveFailed');
+      showSuccessToast(failMsg);
     });
   }
 
@@ -428,7 +413,7 @@ if (!window.__checkinSelectorInitialized) {
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'startSelector') {
-      _initI18n().then(() => enterSelectorMode());
+      CheckinI18n.init().then(() => enterSelectorMode());
       sendResponse({ success: true });
     }
     return true;

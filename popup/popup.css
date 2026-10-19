@@ -55,6 +55,11 @@
 
 body {
   width: 400px;
+  /* 浏览器弹窗高度上限约 600px，超出会整页出现滚动条；
+     用 flex 纵向布局 + 任务区可伸缩来控制总高 */
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Microsoft YaHei", sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -99,12 +104,9 @@ body {
   border: none;
   border-radius: var(--r-pill);
   font-weight: 500;
-  cursor: pointer;
   color: var(--ink-soft);
-  transition: background-color 0.2s;
   outline: none;
 }
-.header-version:hover { background-color: var(--line); }
 
 /* ===== 操作按钮区 ===== */
 .action-buttons {
@@ -246,7 +248,17 @@ body {
 .form-actions { display: flex; gap: 8px; margin-top: 4px; }
 
 /* ===== 任务列表区域 ===== */
-.task-section { padding: 12px 16px; max-height: 280px; overflow-y: auto; }
+/* 弹窗内唯一可伸缩区域：执行面板（倒计时/进度/结果）展开时自动让出高度，
+   避免总高超过弹窗上限而撑出整页滚动条；任务多时在区域内部滚动 */
+.task-section {
+  padding: 12px 16px;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+/* 其余区块高度固定，不参与压缩，防止内容被挤压 */
+.header, .action-buttons, .manual-form, .execute-panel, .footer { flex-shrink: 0; }
 
 .section-header {
   display: flex;

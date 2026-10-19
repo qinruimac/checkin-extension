@@ -37,6 +37,7 @@
         "<all_urls>"
       ],
       "js": [
+        "i18n.js",
         "storage.js",
         "content/selector.js",
         "content/auto-click.js"

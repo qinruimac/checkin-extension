@@ -4,6 +4,34 @@
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/)，版本号遵循 [语义化版本](https://semver.org/)。
 
+## [未发布]
+
+### 修复
+
+- **任务列表较长时执行签到，弹窗被撑长出现整页滚动条**：弹窗改为纵向 flex 布局并设 600px 高度上限，任务列表区成为唯一可伸缩区域——执行面板（倒计时/进度/结果）展开时自动让出高度，任务多时在列表区内部滚动，不再撑出弹窗滚动条；执行开始时同步收出手工添加表单
+- **选取按钮在未刷新页面无响应**：重构启动流程——先与内容脚本握手探测，未注入时补注入 `storage.js` + `selector.js` 并保持弹窗打开直到注入和启动消息完成（此前弹窗过早关闭会中断 pending 的注入，导致页面毫无反应）；注入后仍无响应时明确提示"扩展刚安装或更新，请刷新页面后重试"（新增 `toastNeedRefresh` 文案），不再让用户面对无反馈的静默失败
+- **老页面启动元素选取失败**：兜底注入补齐 `storage.js`（`selector.js` 依赖其中的 `TaskStorage`，漏注入会导致保存失败）
+- **倒计时期间重复点击「执行」导致并发跑两轮**：新增执行中状态位，执行期间禁用「执行」按钮，杜绝重复开页/重复点击
+- **缓存页面每个任务卡 30 秒**：`waitForTabLoaded` 挂载监听前先查询标签页状态，避免 `complete` 事件在监听器挂载前已发出而干等超时
+- 选取保存失败时误提示「已保存」：改为按原因提示（超限 / 保存失败），新增 `toastTaskSaveFailed` 文案
+- 元素可见性判断 `width===0 && height===0` 改为 `||`，滚动后仍不可见则明确报错（新增 `msgElementHidden` 文案）
+- CSS 选择器转义优先使用原生 `CSS.escape`（带兜底），支持数字开头的 id/class
+- 退出元素选择模式时一并还原 `outlineOffset`
+- 任务 id 转义后再拼接 HTML，防御导入数据中可能携带的注入
+
+### 变更
+
+- 标题栏版本号改由 `chrome.runtime.getManifest().version` 动态读取，不再与 manifest 双处维护
+- i18n 手动语言切换逻辑抽取为共享 `i18n.js`（`CheckinI18n`），消除 popup / service worker / 两个 content script 中的四份重复实现
+
+### 移除
+
+- 死代码清理：`auto-click.js` 中从未被写入的 `autoClickConfig` 标志触发机制、`selector.js` 中未使用的 `STORAGE_KEY`
+
+### 文档
+
+- 隐私政策：移除不存在的 `identity` 权限说明，更正项目地址，同步「⋯ 按钮」表述
+
 ## [1.1.0] - 2026-10-19
 
 ### 新增

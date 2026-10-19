@@ -188,6 +188,15 @@
       }
     }
   },
+  "toastTaskSaveFailed": {
+    "message": "任務儲存失敗，請重試"
+  },
+  "msgElementHidden": {
+    "message": "已找到元素但不可見"
+  },
+  "toastNeedRefresh": {
+    "message": "擴充功能剛安裝或更新，請重新載入頁面後再次選取"
+  },
   "selectorHint": {
     "message": "請在頁面上點擊簽到按鈕 | 按 ESC 取消"
   },

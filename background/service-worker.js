@@ -9,33 +9,10 @@
  */
 
 // MV3 service worker 用 importScripts 加载额外脚本
-try { importScripts(chrome.runtime.getURL('storage.js')); } catch (e) { console.error('importScripts failed:', e); }
+try { importScripts(chrome.runtime.getURL('i18n.js'), chrome.runtime.getURL('storage.js')); } catch (e) { console.error('importScripts failed:', e); }
 
-// ===== i18n（支持手动语言切换）=====
-let _customMsgs = null;
-async function _initI18n() {
-  const { user_language } = await chrome.storage.local.get('user_language');
-  if (user_language && user_language !== 'auto') {
-    try {
-      const r = await fetch(chrome.runtime.getURL(`_locales/${user_language}/messages.json`));
-      _customMsgs = await r.json();
-    } catch (e) { _customMsgs = null; }
-  } else { _customMsgs = null; }
-}
-function _getMsg(key, subs) {
-  if (!_customMsgs || !_customMsgs[key]) return chrome.i18n.getMessage(key, subs);
-  const entry = _customMsgs[key];
-  let msg = entry.message || '';
-  if (entry.placeholders && subs) {
-    const arr = Array.isArray(subs) ? subs : [subs];
-    for (const [name, info] of Object.entries(entry.placeholders)) {
-      const idx = parseInt(info.content.replace(/\$/g, '')) - 1;
-      msg = msg.replace(new RegExp(`\\$${name}\\$`, 'g'), arr[idx] || '');
-    }
-  }
-  return msg;
-}
-const i18n = (key, subs) => _getMsg(key, subs);
+// ===== i18n（共享模块 CheckinI18n，见 i18n.js）=====
+const i18n = (key, subs) => CheckinI18n.getMsg(key, subs);
 
 // ===== 工具函数 =====
 async function loadTasks() {
@@ -44,7 +21,13 @@ async function loadTasks() {
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 // ===== 等待标签页加载 =====
-function waitForTabLoaded(tabId, timeout = 30000) {
+async function waitForTabLoaded(tabId, timeout = 30000) {
+  // 先查当前状态：若 complete 事件在监听器挂载前就已发出（如缓存页面直接秒开），
+  // 挂监听后会一直等不到，只能干等 timeout。因此挂监听前先确认一次。
+  try {
+    const t = await chrome.tabs.get(tabId);
+    if (t.status === 'complete') { await sleep(800); return; }
+  } catch (e) { return; }  // 标签页已关闭
   return new Promise((resolve) => {
     let resolved = false;
     function onUpdated(id, info) {
@@ -156,7 +139,7 @@ function sendNotification(success, fail) {
 // ===== 消息监听 =====
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'executeTasks') {
-    _initI18n().then(() => executeAllTasks()).then(result => sendResponse(result))
+    CheckinI18n.init().then(() => executeAllTasks()).then(result => sendResponse(result))
       .catch(err => sendResponse({ success: 0, fail: 0, details: [], error: i18n('msgExecFailed', [err.message || i18n('msgUnknownError')]) }));
     return true;
   }

@@ -44,7 +44,6 @@
 | `tabs` | 在执行签到任务时打开目标网页 |
 | `scripting` | 向目标网页注入内容脚本，实现自动点击签到按钮 |
 | `storage` | 保存您的签到任务列表和语言偏好设置（使用 chrome.storage.sync，可跟随浏览器账号同步） |
-| `identity` | 检测浏览器账号登录状态，用于显示同步状态指示器（仅读取登录邮箱，不进行任何认证操作） |
 | `notifications` | 签到执行完成后向您发送桌面通知 |
 | `<all_urls>` | 允许在任意网页上运行内容脚本（选取元素、自动点击），本扩展不会主动访问网页，仅在您执行签到任务时打开您指定的 URL |
 | `web_accessible_resources` | 声明 `_locales/` 目录可被内容脚本访问，用于加载多语言界面文本 |
@@ -69,7 +68,7 @@
 - **查看数据**：在扩展弹窗中可查看所有已添加的签到任务。
 - **删除数据**：可随时删除单个任务，或卸载扩展清除全部数据。
 - **数据控制**：所有数据完全由您掌控。
-- **导出/导入**：点击弹窗右上角同步状态图标可展开面板，支持将任务列表导出为 JSON 文件（备份或手动跨设备搬运），以及从 JSON 文件导入。
+- **导出/导入**：点击弹窗右上角 ⋯ 按钮可展开面板，支持将任务列表导出为 JSON 文件（备份或手动跨设备搬运），以及从 JSON 文件导入。
 
 ## 7. 儿童隐私
 
@@ -83,7 +82,7 @@
 
 如果您对本隐私政策有任何疑问，请通过以下方式联系：
 
-- GitCode 项目地址：[https://gitcode.com/qin_rui/edge-checkin-extension](https://gitcode.com/qin_rui/edge-checkin-extension)
+- GitCode 项目地址：[https://gitcode.com/qin_rui/checkin-extension](https://gitcode.com/qin_rui/checkin-extension)
 - 在项目页面提交 Issue 反馈
 
 ---

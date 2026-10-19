@@ -188,6 +188,15 @@
       }
     }
   },
+  "toastTaskSaveFailed": {
+    "message": "タスクの保存に失敗しました。もう一度お試しください"
+  },
+  "msgElementHidden": {
+    "message": "要素は見つかりましたが表示されていません"
+  },
+  "toastNeedRefresh": {
+    "message": "拡張機能をインストール/更新したため、ページを再読み込みしてから再度お試しください"
+  },
   "selectorHint": {
     "message": "ページ上のチェックインボタンをクリック | ESC でキャンセル"
   },

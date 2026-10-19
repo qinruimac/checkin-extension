@@ -8,35 +8,12 @@
  *  - 新增导出/导入功能（用户侧手动跨设备搬运 / 备份）
  */
 
-// ===== i18n 系统（支持手动语言切换）=====
-let customMessages = null;
-
+// ===== i18n 系统（共享模块 CheckinI18n，见 i18n.js）=====
 async function loadCustomLanguage(lang) {
-  if (!lang || lang === 'auto') { customMessages = null; return; }
-  try {
-    const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
-    const response = await fetch(url);
-    customMessages = await response.json();
-  } catch (e) { customMessages = null; }
+  await CheckinI18n.init(lang);
 }
 
-function customGetMessage(key, substitutions) {
-  if (!customMessages || !customMessages[key]) {
-    return chrome.i18n.getMessage(key, substitutions);
-  }
-  const entry = customMessages[key];
-  let msg = entry.message || '';
-  if (entry.placeholders && substitutions) {
-    const subs = Array.isArray(substitutions) ? substitutions : [substitutions];
-    for (const [name, info] of Object.entries(entry.placeholders)) {
-      const idx = parseInt(info.content.replace(/\$/g, '')) - 1;
-      msg = msg.replace(new RegExp(`\\$${name}\\$`, 'g'), subs[idx] || '');
-    }
-  }
-  return msg;
-}
-
-const i18n = (key, substitutions) => customGetMessage(key, substitutions);
+const i18n = (key, substitutions) => CheckinI18n.getMsg(key, substitutions);
 
 // ===== i18n HTML 占位符替换 =====
 const _i18nTextNodes = [];
@@ -115,6 +92,7 @@ const importFile = document.getElementById('import-file');
 // ===== 倒计时状态 =====
 let countdownTimer = null;
 let countdownCancelled = false;
+let isExecuting = false;  // 执行中标志：防止倒计时期间重复点击导致并发执行
 
 // ===== 工具函数 =====
 function showToast(message, duration = 2000) {
@@ -177,13 +155,13 @@ async function renderTaskList() {
       ? `<img src="https://${domain}/favicon.ico" class="task-favicon" alt="${escapeHtml(task.name)}" data-domain="${domain}">
          <span class="task-icon" style="display:none">${fallbackIcon}</span>`
       : `<span class="task-icon">${fallbackIcon}</span>`;
-    return `<div class="task-card" data-id="${task.id}">
+    return `<div class="task-card" data-id="${escapeHtml(String(task.id))}">
         <span class="task-icon">${iconHtml}</span>
         <div class="task-info">
           <div class="task-name">${escapeHtml(task.name)}</div>
           <div class="task-url" title="${escapeHtml(task.url)}">${escapeHtml(truncateUrl(task.url))}</div>
         </div>
-        <button class="task-delete" data-id="${task.id}" title="${deleteTitle}">✕</button>
+        <button class="task-delete" data-id="${escapeHtml(String(task.id))}" title="${deleteTitle}">✕</button>
       </div>`;
   }).join('');
 
@@ -223,6 +201,16 @@ async function deleteTask(id) {
 }
 
 // ===== 选取签到按钮 =====
+/** 向标签页发送 startSelector 并等待内容脚本确认（握手探测内容脚本是否在页面里） */
+function startSelectorOnTab(tabId) {
+  return new Promise((resolve) => {
+    chrome.tabs.sendMessage(tabId, { action: 'startSelector' }, (resp) => {
+      if (chrome.runtime.lastError || !resp || !resp.success) { resolve(false); return; }
+      resolve(true);
+    });
+  });
+}
+
 async function startPicker() {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -230,14 +218,30 @@ async function startPicker() {
     if (tab.url && (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('chrome-extension://'))) {
       showToast(i18n('toastUnsupportedPage')); return;
     }
-    chrome.tabs.sendMessage(tab.id, { action: 'startSelector' }, () => {
-      if (chrome.runtime.lastError) {
-        chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content/selector.js'] })
-          .then(() => { chrome.tabs.sendMessage(tab.id, { action: 'startSelector' }); showToast(i18n('toastClickToSelect')); })
-          .catch(() => { showToast(i18n('toastSelectorFailed')); });
-      } else { showToast(i18n('toastClickToSelect')); }
-    });
-    window.close();
+    // 1) 先直接通信：内容脚本已在页面中（绝大多数情况）
+    let ok = await startSelectorOnTab(tab.id);
+    if (!ok) {
+      // 2) 内容脚本不在页面里——扩展安装/更新前就已打开的页面，manifest 不会自动注入。
+      //    补注入 storage.js + selector.js（selector.js 依赖前者里的 TaskStorage）。
+      //    注意：注入期间弹窗必须保持打开，提前 window.close() 会中断 pending 的
+      //    注入和后续消息，表现为"点了选取页面毫无反应"。
+      try {
+        await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['storage.js', 'content/selector.js'] });
+        ok = await startSelectorOnTab(tab.id);
+      } catch (e) {
+        // 注入被拒绝（受限页面等）
+        showToast(i18n('toastSelectorFailed'));
+        return;
+      }
+    }
+    if (!ok) {
+      // 3) 注入后仍无响应：典型原因是扩展刚安装/更新，明确提示刷新页面。
+      //    不关闭弹窗，保证提示可见。
+      showToast(i18n('toastNeedRefresh'), 5000);
+      return;
+    }
+    showToast(i18n('toastClickToSelect'));
+    setTimeout(() => window.close(), 400);  // 等 toast 渲染出来再关，避免提示来不及显示
   } catch (err) { showToast(i18n('toastSelectorStartFailed')); }
 }
 
@@ -274,8 +278,12 @@ async function saveManualTask() {
 
 // ===== 执行所有签到 =====
 async function startExecution() {
+  if (isExecuting) return;  // 已在倒计时/执行中，忽略重复点击（否则会并发跑多轮，重复开页/重复点击）
   const tasks = await loadTasks();
   if (tasks.length === 0) { showToast(i18n('toastNoTasks')); return; }
+  isExecuting = true;
+  btnExecute.disabled = true;
+  manualForm.classList.add('hidden');  // 执行时收出手工表单，避免与执行面板叠加撑高弹窗
   executePanel.classList.remove('hidden');
   countdownPanel.classList.remove('hidden');
   executingPanel.classList.add('hidden');
@@ -301,6 +309,8 @@ async function executeCountdown() {
     showExecutionResult(response);
   } catch (err) {
     showExecutionResult({ success: 0, fail: 0, details: [], error: i18n('msgExecFailed', [err.message]) });
+  } finally {
+    finishExecution();
   }
 }
 function showExecutionResult(result) {
@@ -323,6 +333,11 @@ function cancelExecution() {
   if (countdownTimer) { clearInterval(countdownTimer); }
   executePanel.classList.add('hidden');
   showToast(i18n('toastCancelled'));
+  finishExecution();
+}
+function finishExecution() {
+  isExecuting = false;
+  btnExecute.disabled = false;
 }
 
 // ===== 导出 / 导入 =====
@@ -379,7 +394,7 @@ btnCancelForm.addEventListener('click', () => {
 taskTypeSelect.addEventListener('change', onTaskTypeChange);
 btnExecute.addEventListener('click', startExecution);
 btnCancelexecute.addEventListener('click', cancelExecution);
-btnCloseResult.addEventListener('click', () => { executePanel.classList.add('hidden'); resultPanel.classList.add('hidden'); });
+btnCloseResult.addEventListener('click', () => { executePanel.classList.add('hidden'); resultPanel.classList.add('hidden'); finishExecution(); });
 // 同步面板
 syncCorner.addEventListener('click', () => { syncPanel.classList.toggle('hidden'); });
 syncPanelClose.addEventListener('click', () => { syncPanel.classList.add('hidden'); });
@@ -399,6 +414,10 @@ importFile.addEventListener('change', handleImportFile);
 
   renderTaskList();
   onTaskTypeChange();
+
+  // 版本号从 manifest 动态读取，避免与 manifest.json 双处维护漂移
+  const headerVersion = document.getElementById('header-version');
+  if (headerVersion) headerVersion.textContent = 'v' + chrome.runtime.getManifest().version;
 
   // 监听存储变化，自动刷新列表 + 同步状态
   if (typeof TaskStorage !== 'undefined') {

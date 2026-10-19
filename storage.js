@@ -108,7 +108,7 @@
     var ids = await getIndex();
     ids = ids.filter(function (x) { return x !== id; });
     await syncRemove([PREFIX + id]);
-    await syncSet({ task_index: ids });
+    await syncSet({ [INDEX_KEY]: ids });
   }
 
   /**

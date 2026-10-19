@@ -188,6 +188,15 @@
       }
     }
   },
+  "toastTaskSaveFailed": {
+    "message": "Failed to save task, please try again"
+  },
+  "msgElementHidden": {
+    "message": "Element found but not visible"
+  },
+  "toastNeedRefresh": {
+    "message": "The extension was just installed or updated. Please refresh this page and try picking again."
+  },
   "selectorHint": {
     "message": "Click the check-in button on the page | Press ESC to cancel"
   },

@@ -1,39 +1,14 @@
 /**
  * 签到助手 - 自动点击执行
  * 接收 autoClick 消息后，在页面上找到指定元素并模拟点击
- * 同时支持通过 storage 标志触发（页面加载时自动检查）
  */
 
 // 防止重复初始化
 if (!window.__checkinAutoClickInitialized) {
   window.__checkinAutoClickInitialized = true;
 
-  const AUTO_CLICK_FLAG = 'autoClickConfig';
-    // ===== i18n（支持手动语言切换）=====
-  let _customMsgs = null;
-  async function _initI18n() {
-    const { user_language } = await chrome.storage.local.get('user_language');
-    if (user_language && user_language !== 'auto') {
-      try {
-        const r = await fetch(chrome.runtime.getURL(`_locales/${user_language}/messages.json`));
-        _customMsgs = await r.json();
-      } catch (e) { _customMsgs = null; }
-    } else { _customMsgs = null; }
-  }
-  function _getMsg(key, subs) {
-    if (!_customMsgs || !_customMsgs[key]) return chrome.i18n.getMessage(key, subs);
-    const entry = _customMsgs[key];
-    let msg = entry.message || '';
-    if (entry.placeholders && subs) {
-      const arr = Array.isArray(subs) ? subs : [subs];
-      for (const [name, info] of Object.entries(entry.placeholders)) {
-        const idx = parseInt(info.content.replace(/\$/g, '')) - 1;
-        msg = msg.replace(new RegExp(`\\$${name}\\$`, 'g'), arr[idx] || '');
-      }
-    }
-    return msg;
-  }
-  const i18n = (key, subs) => _getMsg(key, subs);
+  // ===== i18n（共享模块 CheckinI18n，见 i18n.js）=====
+  const i18n = (key, subs) => CheckinI18n.getMsg(key, subs);
 
   // ===== 模拟点击 =====
 
@@ -95,10 +70,14 @@ if (!window.__checkinAutoClickInitialized) {
     }
 
     // 检查元素是否可见可点击
-    const rect = element.getBoundingClientRect();
-    if (rect.width === 0 && rect.height === 0) {
-      // 元素不可见，尝试滚动到可见位置后点击
+    let rect = element.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      // 元素不可见，先滚动到可见位置；仍不可见则明确报错，不做无意义点击
       element.scrollIntoView({ behavior: 'instant', block: 'center' });
+      rect = element.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        return { success: false, message: i18n('msgElementHidden') };
+      }
     }
 
     // 执行模拟点击
@@ -179,54 +158,11 @@ if (!window.__checkinAutoClickInitialized) {
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'autoClick') {
       const selector = message.selector;
-      _initI18n().then(() => executeAutoClick(selector)).then(result => {
+      CheckinI18n.init().then(() => executeAutoClick(selector)).then(result => {
         sendResponse(result);
       });
       return true; // 保持消息通道开放，等待异步响应
     }
     return true;
   });
-
-  // ===== Storage 标志触发（页面加载时自动检查） =====
-
-  /**
-   * 页面加载时检查 storage 中是否有自动点击配置
-   * 如果有且匹配当前页面，则执行自动点击
-   */
-  function checkAutoClickFlag() {
-    chrome.storage.local.get([AUTO_CLICK_FLAG], (result) => {
-      const config = result[AUTO_CLICK_FLAG];
-      if (!config) return;
-
-      // 检查URL是否匹配（忽略尾部斜杠差异和查询参数中的细微差异）
-      const currentUrl = window.location.href;
-      const configUrl = config.url;
-
-      // 简单匹配：URL完全一致 或 去除尾部斜杠后一致
-      const normalizeUrl = (url) => url.replace(/\/$/, '');
-      if (normalizeUrl(currentUrl) !== normalizeUrl(configUrl)) {
-        return;
-      }
-
-      // 如果没有 selector，说明只需要打开页面，不需要点击
-      if (!config.selector) {
-        // 清除标志
-        chrome.storage.local.remove([AUTO_CLICK_FLAG]);
-        return;
-      }
-
-      // 执行自动点击
-      _initI18n().then(() => executeAutoClick(config.selector)).then(() => {
-        // 清除标志
-        chrome.storage.local.remove([AUTO_CLICK_FLAG]);
-      });
-    });
-  }
-
-  // 页面加载后检查标志
-  if (document.readyState === 'complete') {
-    checkAutoClickFlag();
-  } else {
-    window.addEventListener('load', checkAutoClickFlag);
-  }
 }
