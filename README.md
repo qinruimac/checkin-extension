@@ -30,12 +30,19 @@
 
 ### 4. 任务列表管理
 - 弹窗主区域显示所有签到任务
-- 每个任务显示：名称、URL（截断）、类型图标（🖱️点击 / 🌐打开）
+- 每个任务显示：网站图标（favicon，加载失败自动回退）、名称、URL（截断）、类型图标（🎯点击 / 🔗打开）
 - 支持删除单个任务
 - 任务列表分页显示（每页 10 条），支持翻页
-- 任务列表持久化存储（chrome.storage.local）
+- 任务列表通过 `chrome.storage.sync` 跟随浏览器账号同步：登录 Edge（微软账号）/ Chrome（谷歌账号）后多设备自动同步；未登录则仅存储在本地
+- 从旧版本（v1.0.x）升级时自动迁移本地数据，无需手动操作
 
-### 5. 多语言支持（i18n）
+### 5. 导入 / 导出（备份与跨设备搬运）
+- 点击弹窗右上角 ⋯ 按钮展开面板
+- **导出**：将全部任务保存为 JSON 文件，用于备份
+- **导入**：选择 JSON 文件按任务 ID 合并导入（同 ID 覆盖，新 ID 新增）
+- 存储接近容量上限时会提示超限，可导出备份后精简任务
+
+### 6. 多语言支持（i18n）
 - 支持 10 种语言：英语、简体中文、繁体中文、日语、韩语、法语、德语、俄语、西班牙语、葡萄牙语
 - 自动检测浏览器语言，也支持手动切换
 - 弹窗右上角有语言下拉菜单，可随时切换界面语言
@@ -47,7 +54,9 @@
 ```
 checkin-extension/
 ├── manifest.json              # 扩展配置（Manifest V3）
-├── _locales/                  # 多语言资源
+├── i18n.js                    # 共享 i18n 模块（CheckinI18n，手动语言切换）
+├── storage.js                 # 统一存储抽象层（TaskStorage：sync 拆 key + 旧数据迁移）
+├── _locales/                  # 多语言资源（10 种语言）
 │   ├── en/messages.json       # 英语
 │   ├── zh_CN/messages.json    # 简体中文
 │   ├── zh_TW/messages.json    # 繁体中文
@@ -61,17 +70,18 @@ checkin-extension/
 ├── popup/
 │   ├── popup.html             # 弹窗页面
 │   ├── popup.css              # 弹窗样式
-│   └── popup.js               # 弹窗逻辑（含 i18n 和语言切换）
+│   └── popup.js               # 弹窗逻辑
 ├── content/
-│   ├── selector.js            # 元素选择器模式（含 i18n）
-│   └── auto-click.js          # 自动点击执行（含 i18n）
+│   ├── selector.js            # 元素选择器模式
+│   └── auto-click.js          # 自动点击执行
 ├── background/
-│   └── service-worker.js      # 后台服务工作者（含 i18n）
+│   └── service-worker.js      # 后台服务工作者（批量执行 + 桌面通知）
 ├── icons/
 │   ├── icon16.png             # 16x16 图标
 │   ├── icon48.png             # 48x48 图标
 │   └── icon128.png            # 128x128 图标
 ├── PRIVACY.md                 # 隐私政策
+├── CHANGELOG.md               # 更新日志
 └── README.md                  # 说明文档
 ```
 
@@ -121,6 +131,13 @@ checkin-extension/
 4. 倒计时结束后自动执行所有任务
 5. 查看执行结果汇总
 
+### 导入 / 导出任务
+
+1. 点击工具栏中的签到助手图标
+2. 点击弹窗右上角 ⋯ 按钮展开面板
+3. 导出：点击"导出"，自动下载 JSON 备份文件
+4. 导入：点击"导入"，选择此前导出的 JSON 文件（按任务 ID 合并）
+
 ### 切换语言
 
 1. 点击工具栏中的签到助手图标
@@ -132,12 +149,12 @@ checkin-extension/
 
 - **Manifest V3**：使用最新的扩展开发规范，不使用已废弃的 API
 - **跨浏览器兼容**：仅使用 `chrome.*` 标准 API，Edge 和 Chrome 均原生支持，无需任何适配代码
-- **chrome.storage.local**：任务列表和语言偏好持久化存储
-- **chrome.scripting.executeScript**：动态注入 content script 执行点击
+- **chrome.storage.sync**：任务列表跟随浏览器账号同步存储。按任务拆 key 以适配单条 8KB 限额，设 90KB 预算阈值，超限提示并引导导出精简；语言偏好等本地设置存 `chrome.storage.local`
+- **chrome.scripting.executeScript**：动态注入 content script 执行点击；内容脚本未注入的页面（如扩展安装/更新前已打开）会自动补齐注入
 - **chrome.notifications**：执行完成后发送桌面通知
 - **CSS 选择器生成算法**：从目标元素向上遍历 DOM 树，优先使用 id，其次使用 class+tag 组合，最后使用 nth-of-type 路径，确保选择器稳定且唯一
 - **模拟点击**：派发完整的鼠标事件序列（mousedown → mouseup → click），同时调用原生 click() 作为兜底
-- **i18n 实现**：使用 Chrome/Edge 原生 `_locales/` 机制 + 自定义语言切换层。popup、content script、service worker 均支持手动语言切换，通过 `chrome.storage.local` 持久化偏好，content script 通过 `web_accessible_resources` 声明访问 `_locales/` 资源
+- **i18n 实现**：Chrome/Edge 原生 `_locales/` 机制 + 共享 `i18n.js`（`CheckinI18n`）实现手动语言切换层。popup、content script、service worker 三处共用同一实现，通过 `chrome.storage.local` 持久化语言偏好，content script 通过 `web_accessible_resources` 声明访问 `_locales/` 资源
 
 ## 权限说明
 
@@ -155,9 +172,10 @@ checkin-extension/
 
 - 部分网站可能有反自动化检测，自动点击可能不生效
 - CSS 选择器基于添加时的页面结构生成，如果网站改版可能需要重新选取
-- 执行任务时标签页在后台打开，不会切换当前标签页
+- 执行任务时标签页在后台打开，不会切换当前标签页；任务完成后标签页保留打开，确认无误后可手动关闭或直接关闭浏览器
+- 扩展安装或更新后，此前已经打开的页面需要刷新后才能使用元素选取功能（执行签到不受影响，未及时刷新时会提示）
 - 建议在添加任务前先手动签到一次，确认签到按钮的位置和选择器
 
 ## 隐私政策
 
-详见 [PRIVACY.md](PRIVACY.md)。所有数据仅存储在本地浏览器中，不上传任何服务器。
+详见 [PRIVACY.md](PRIVACY.md)。任务列表通过浏览器内置的 `chrome.storage.sync` 跟随浏览器账号同步，本扩展不自建后端、不收集任何个人数据；未登录浏览器账号时，数据仅存储在本地浏览器中。
