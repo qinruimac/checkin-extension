@@ -82,7 +82,7 @@
 
 如果您对本隐私政策有任何疑问，请通过以下方式联系：
 
-- GitCode 项目地址：[https://gitcode.com/qin_rui/checkin-extension](https://gitcode.com/qin_rui/checkin-extension)
+- GitHub 项目地址：[https://github.com/qinruimac/checkin-extension](https://github.com/qinruimac/checkin-extension)
 - 在项目页面提交 Issue 反馈
 
 ---

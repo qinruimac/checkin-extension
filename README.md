@@ -179,3 +179,8 @@ checkin-extension/
 ## 隐私政策
 
 详见 [PRIVACY.md](PRIVACY.md)。任务列表通过浏览器内置的 `chrome.storage.sync` 跟随浏览器账号同步，本扩展不自建后端、不收集任何个人数据；未登录浏览器账号时，数据仅存储在本地浏览器中。
+
+## 反馈与贡献
+
+代码完全开源，欢迎提 Issue 和 PR：
+[https://github.com/qinruimac/checkin-extension](https://github.com/qinruimac/checkin-extension)
