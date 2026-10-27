@@ -32,6 +32,12 @@
 
 - 隐私政策：移除不存在的 `identity` 权限说明，更正项目地址，同步「⋯ 按钮」表述
 
+### 开源许可
+
+- 项目采用 **GPL-3.0-or-later** 协议开源，新增 `LICENSE` 文件（GNU GPL v3 官方原文），发行包内一并附带
+- 各源文件头部补充版权声明与 `SPDX-License-Identifier: GPL-3.0-or-later` 标识，便于二次开发时保留署名
+- 项目地址迁移至 GitHub：https://github.com/qinruimac/checkin-extension
+
 ## [1.1.0] - 2026-10-19
 
 ### 新增
