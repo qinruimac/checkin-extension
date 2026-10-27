@@ -187,12 +187,14 @@ checkin-extension/
 
 ## 开源许可
 
-本项目基于 **GPL-3.0-or-later** 协议开源，详见 [LICENSE](LICENSE)。
+Copyright (c) 2026 qin_rui (https://github.com/qinruimac)
+
+本项目基于 **GPL-3.0-or-later** 协议开源，许可证全文见 [LICENSE](LICENSE)（[GNU GPL v3 官方文本](https://www.gnu.org/licenses/gpl-3.0.txt)）。
 
 简单说：你可以在此基础上修改、加工，甚至商用，但必须：
 
-- 保留原作者署名与本项目的版权声明（源码文件头部均已标注）
+- 保留原作者署名与本项目的版权声明（各源码文件头部均已标注 `Copyright (c) 2026 qin_rui` 与 SPDX 标识）
 - 衍生作品同样以 GPL-3.0 协议开源发布
 - 注明修改内容及原项目出处：https://github.com/qinruimac/checkin-extension
 
-若你希望允许衍生作品闭源发布，仅要求保留署名，可改用 Apache-2.0 或 MIT 协议，替换 LICENSE 文件即可。
+若你希望允许衍生作品闭源发布、仅要求保留署名，可改用 Apache-2.0 或 MIT 协议，替换 LICENSE 文件与各源文件头部标识即可。
