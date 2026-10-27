@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 qin_rui (https://github.com/qinruimac)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * 签到助手 - 共享 i18n 模块
  *
  * 设计要点：

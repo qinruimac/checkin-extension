@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 qin_rui (https://github.com/qinruimac)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * 签到助手 - Background Service Worker
  * 负责接收执行任务指令，依次打开标签页并执行签到点击，收集结果并发送通知
  *

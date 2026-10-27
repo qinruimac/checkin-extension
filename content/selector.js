@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 qin_rui (https://github.com/qinruimac)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * 签到助手 - 元素选择器
  * 在页面上进入选择模式，用户鼠标悬浮高亮元素，点击选中后生成 CSS 选择器
  * 选中后显示确认浮层，用户可编辑任务名称并确认保存

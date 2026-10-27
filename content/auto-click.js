@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 qin_rui (https://github.com/qinruimac)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * 签到助手 - 自动点击执行
  * 接收 autoClick 消息后，在页面上找到指定元素并模拟点击
  */

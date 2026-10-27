@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 qin_rui (https://github.com/qinruimac)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * 签到助手 - 弹窗脚本
  * 责责任务列表的加载/渲染/删除、选取签到按钮、手工添加、执行所有签到及倒计时逻辑
  *
