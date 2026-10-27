@@ -1,5 +1,14 @@
 # 本地代码审查报告，不推送
 CODE_REVIEW.md
 
+# 博客草稿，不推送
+BLOG.md
+
+# 商店提交材料（本地工作文件）
+STORE_UPDATE.md
+
+# 商店打包产物
+*.zip
+
 # WorkBuddy 智能体工作区
 .workbuddy/
