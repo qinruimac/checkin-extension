@@ -261,11 +261,14 @@ body {
 }
 /* 两个选项并排，不再上下各占一行 */
 .schedule-radios-inline { display: flex; gap: 10px; flex-wrap: wrap; }
-/* 简洁的单选（不做卡片按钮）：圆点 + 文字，靠 flex 居中对齐 */
+/* 简洁单选：沿用 Bootstrap form-check 的实现（float + 负 margin + margin-top 半差值），
+   这套参数在常规文档流里对齐最稳，比 flex 居中可靠 */
 .schedule-radio {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  position: relative;
+  display: block;
+  min-height: 18px;
+  line-height: 18px;
+  padding-left: 20px;
   font-size: 13px;
   color: var(--ink-soft);
   cursor: pointer;
@@ -275,12 +278,15 @@ body {
 /* 自绘单选圆点：原生 radio 在中文排版下圆点与字形中线始终对不齐，
    改为 appearance:none + radial-gradient 画点，圆心即几何中心，与文字中线严格对齐 */
 .schedule-radio input[type="radio"] {
+  /* 行盒 18px、圆圈 13px → margin-top = (18-13)/2，垂直居中 */
+  float: left;
+  margin-left: -20px;
+  margin-top: 2.5px;
+  vertical-align: top;
   appearance: none;
   -webkit-appearance: none;
-  flex: 0 0 auto;
-  width: 14px;
-  height: 14px;
-  margin: 0;
+  width: 13px;
+  height: 13px;
   padding: 0;
   border: 1.5px solid var(--line-strong);
   border-radius: 50%;
@@ -297,8 +303,6 @@ body {
   outline: 2px solid var(--purple);
   outline-offset: 1px;
 }
-/* 文字行高对齐控件：14px 圆圈 + 文字同盒居中 */
-.schedule-radio span { line-height: 14px; }
 /* 二选一：选中项文字变深加粗 + 圆点实心（自绘），未选中保持灰字 */
 .schedule-radio.is-checked,
 .schedule-radio:has(input:checked) {
