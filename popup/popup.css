@@ -199,11 +199,13 @@ body {
 .btn-schedule {
   flex: 0 0 auto !important;
   width: 44px;
-  padding: 9px 0;
+  padding: 8px 0;
   background-color: var(--surface-alt);
   border-color: var(--line);
   color: var(--ink-faint);
 }
+/* 闹钟图标放大到 20px：默认 15px 在 44px 宽按钮里显得过小 */
+.btn-schedule .btn-icon { font-size: 20px; line-height: 1; }
 .btn-schedule:hover {
   background-color: var(--line);
   border-color: var(--line-strong);
@@ -274,16 +276,33 @@ body {
   transition: all var(--t);
 }
 .schedule-radio:hover { border-color: var(--line-strong); }
+/* 自绘单选圆点：原生 radio 在中文排版下圆点与字形中线始终对不齐，
+   改为 appearance:none + radial-gradient 画点，圆心即几何中心，与文字中线严格对齐 */
 .schedule-radio input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
   flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   margin: 0;
+  padding: 0;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 50%;
+  background-color: var(--surface);
   cursor: pointer;
-  accent-color: var(--accent-hover);
 }
-/* 文字行高与控件高度一致（16px），两盒同高后居中对齐，圆点不再比字高出一截 */
-.schedule-radio span { line-height: 16px; }
+.schedule-radio input[type="radio"]:checked {
+  border-color: var(--accent-hover);
+  background-image: radial-gradient(circle, var(--accent-hover) 0 4px, rgba(0,0,0,0) 4.5px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.schedule-radio input[type="radio"]:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+}
+/* 文字行高对齐控件：14px 圆圈 + 文字同盒居中 */
+.schedule-radio span { line-height: 14px; }
 /* 二选一：选中项整块高亮 + 文字变深，未选中保持灰框，一眼看出选了哪个 */
 .schedule-radio.is-checked,
 .schedule-radio:has(input:checked) {
