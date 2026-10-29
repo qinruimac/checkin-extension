@@ -345,7 +345,7 @@
     "message": "Activer le check-in automatique"
   },
   "scheduleTime": {
-    "message": "Heure chaque jour"
+    "message": "Heure"
   },
   "scheduleTabPolicy": {
     "message": "Onglets après l'auto check-in"

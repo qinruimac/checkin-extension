@@ -345,7 +345,7 @@
     "message": "Activar check-in automático"
   },
   "scheduleTime": {
-    "message": "Hora cada día"
+    "message": "Hora"
   },
   "scheduleTabPolicy": {
     "message": "Pestañas tras el check-in auto"

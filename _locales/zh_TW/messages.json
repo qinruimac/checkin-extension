@@ -345,7 +345,7 @@
     "message": "啟用自動簽到"
   },
   "scheduleTime": {
-    "message": "每天執行時間"
+    "message": "時間"
   },
   "scheduleTabPolicy": {
     "message": "自動簽到後，標籤頁"

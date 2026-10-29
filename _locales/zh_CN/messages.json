@@ -345,7 +345,7 @@
     "message": "启用自动签到"
   },
   "scheduleTime": {
-    "message": "每天执行时间"
+    "message": "时间"
   },
   "scheduleTabPolicy": {
     "message": "自动签到后，标签页"

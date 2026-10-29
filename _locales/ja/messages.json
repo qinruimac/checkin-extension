@@ -345,7 +345,7 @@
     "message": "自動チェックインを有効にする"
   },
   "scheduleTime": {
-    "message": "毎日の実行時刻"
+    "message": "時刻"
   },
   "scheduleTabPolicy": {
     "message": "自動実行後のタブ"

@@ -345,7 +345,7 @@
     "message": "Enable automatic check-in"
   },
   "scheduleTime": {
-    "message": "Time each day"
+    "message": "Time"
   },
   "scheduleTabPolicy": {
     "message": "Tabs after auto check-in"

@@ -345,7 +345,7 @@
     "message": "Включить автоматический чекин"
   },
   "scheduleTime": {
-    "message": "Время каждый день"
+    "message": "Время"
   },
   "scheduleTabPolicy": {
     "message": "Вкладки после автозапуска"

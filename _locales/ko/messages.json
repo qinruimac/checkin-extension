@@ -345,7 +345,7 @@
     "message": "자동 체크인 사용"
   },
   "scheduleTime": {
-    "message": "매일 실행 시간"
+    "message": "시간"
   },
   "scheduleTabPolicy": {
     "message": "자동 실행 후 탭"
