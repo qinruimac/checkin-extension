@@ -337,5 +337,88 @@
   },
   "syncPanelTitle": {
     "message": "Import / Export tasks"
+  },
+  "scheduleTitle": {
+    "message": "Automatic check-in"
+  },
+  "scheduleEnable": {
+    "message": "Enable automatic check-in"
+  },
+  "scheduleTime": {
+    "message": "Time each day"
+  },
+  "scheduleTabPolicy": {
+    "message": "After finishing, tabs"
+  },
+  "scheduleTabClose": {
+    "message": "Close them automatically"
+  },
+  "scheduleTabKeep": {
+    "message": "Keep them open so I can check"
+  },
+  "scheduleNextRun": {
+    "message": "Next run: $when$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scheduleLastRun": {
+    "message": "Last: $time$ · $success$ succeeded, $failed$ failed",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scheduleNever": {
+    "message": "Not run yet"
+  },
+  "scheduleDisabled": {
+    "message": "Disabled"
+  },
+  "scheduleBtnTip": {
+    "message": "Automatic check-in settings"
+  },
+  "scheduleToday": {
+    "message": "today"
+  },
+  "scheduleTomorrow": {
+    "message": "tomorrow"
+  },
+  "scheduleSaved": {
+    "message": "Saved"
+  },
+  "scheduleNotifOk": {
+    "message": "Automatic check-in done"
+  },
+  "scheduleNotifFail": {
+    "message": "Automatic check-in: some failed"
+  },
+  "scheduleResult": {
+    "message": "$success$ succeeded, $failed$ failed",
+    "placeholders": {
+      "success": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "scheduleFailedNames": {
+    "message": "Failed: $names$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
   }
 }

@@ -337,5 +337,88 @@
   },
   "syncPanelTitle": {
     "message": "Импорт / экспорт задач"
+  },
+  "scheduleTitle": {
+    "message": "Автоматический чекин"
+  },
+  "scheduleEnable": {
+    "message": "Включить автоматический чекин"
+  },
+  "scheduleTime": {
+    "message": "Время каждый день"
+  },
+  "scheduleTabPolicy": {
+    "message": "После выполнения вкладки"
+  },
+  "scheduleTabClose": {
+    "message": "Закрывать автоматически"
+  },
+  "scheduleTabKeep": {
+    "message": "Оставить открытыми, чтобы проверить"
+  },
+  "scheduleNextRun": {
+    "message": "Следующий запуск: $when$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scheduleLastRun": {
+    "message": "Последний: $time$ · успешно $success$, не удалось $failed$",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scheduleNever": {
+    "message": "Ещё не выполнялось"
+  },
+  "scheduleDisabled": {
+    "message": "Отключено"
+  },
+  "scheduleBtnTip": {
+    "message": "Настройки автоматического чекина"
+  },
+  "scheduleToday": {
+    "message": "сегодня"
+  },
+  "scheduleTomorrow": {
+    "message": "завтра"
+  },
+  "scheduleSaved": {
+    "message": "Сохранено"
+  },
+  "scheduleNotifOk": {
+    "message": "Автоматический чекин выполнен"
+  },
+  "scheduleNotifFail": {
+    "message": "Автоматический чекин: есть ошибки"
+  },
+  "scheduleResult": {
+    "message": "Успешно $success$, не удалось $failed$",
+    "placeholders": {
+      "success": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "scheduleFailedNames": {
+    "message": "Не удалось: $names$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
   }
 }

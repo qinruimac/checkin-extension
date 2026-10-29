@@ -337,5 +337,88 @@
   },
   "syncPanelTitle": {
     "message": "Aufgaben importieren / exportieren"
+  },
+  "scheduleTitle": {
+    "message": "Automatischer Check-in"
+  },
+  "scheduleEnable": {
+    "message": "Automatischen Check-in aktivieren"
+  },
+  "scheduleTime": {
+    "message": "Uhrzeit jeden Tag"
+  },
+  "scheduleTabPolicy": {
+    "message": "Nach dem Durchlauf, Tabs"
+  },
+  "scheduleTabClose": {
+    "message": "Automatisch schließen"
+  },
+  "scheduleTabKeep": {
+    "message": "Offen lassen, damit ich nachsehen kann"
+  },
+  "scheduleNextRun": {
+    "message": "Nächster Lauf: $when$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scheduleLastRun": {
+    "message": "Zuletzt: $time$ · $success$ erfolgreich, $failed$ fehlgeschlagen",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scheduleNever": {
+    "message": "Noch nicht ausgeführt"
+  },
+  "scheduleDisabled": {
+    "message": "Deaktiviert"
+  },
+  "scheduleBtnTip": {
+    "message": "Einstellungen für automatischen Check-in"
+  },
+  "scheduleToday": {
+    "message": "heute"
+  },
+  "scheduleTomorrow": {
+    "message": "morgen"
+  },
+  "scheduleSaved": {
+    "message": "Gespeichert"
+  },
+  "scheduleNotifOk": {
+    "message": "Automatischer Check-in abgeschlossen"
+  },
+  "scheduleNotifFail": {
+    "message": "Automatischer Check-in: einige fehlgeschlagen"
+  },
+  "scheduleResult": {
+    "message": "$success$ erfolgreich, $failed$ fehlgeschlagen",
+    "placeholders": {
+      "success": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "scheduleFailedNames": {
+    "message": "Fehlgeschlagen: $names$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
   }
 }

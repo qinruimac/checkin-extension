@@ -193,6 +193,65 @@ body {
 .btn-cancel:hover { background-color: var(--line); border-color: var(--line-strong); color: var(--ink); }
 .btn-cancel:disabled { opacity: 0.45; cursor: not-allowed; }
 
+/* ===== 闹钟按钮（定时设置入口） ===== */
+/* 开启时高亮描边，让"自动签到是否活着"一眼可见 */
+.btn-schedule {
+  flex: 0 0 auto !important;
+  width: 44px;
+  padding: 9px 0;
+  background-color: var(--surface-alt);
+  border-color: var(--line);
+  color: var(--ink-faint);
+}
+.btn-schedule:hover {
+  background-color: var(--line);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+.btn-schedule.is-on {
+  background-color: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+.btn-schedule:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ===== 自动签到设置面板 ===== */
+/* 内部限高 + 滚动：为将来加"星期过滤 / 多时段"预留，保证弹窗总高不超 600px */
+.schedule-panel {
+  padding: 14px 16px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--line);
+  animation: slideDown 0.25s var(--ease);
+  max-height: 260px;
+  overflow-y: auto;
+}
+.schedule-row { display: flex; align-items: center; justify-content: space-between; }
+.schedule-row label { margin-bottom: 0; }
+.schedule-row input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+.schedule-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.schedule-radios { display: flex; flex-direction: column; gap: 6px; }
+.schedule-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.schedule-radio input[type="radio"] { width: auto; cursor: pointer; }
+.schedule-info {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.schedule-info-line { font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
 /* ===== 手工添加表单 ===== */
 .manual-form {
   padding: 14px 16px;
@@ -263,7 +322,7 @@ body {
   overflow-y: auto;
 }
 /* 其余区块高度固定，不参与压缩，防止内容被挤压 */
-.header, .action-buttons, .manual-form, .execute-panel, .footer { flex-shrink: 0; }
+.header, .action-buttons, .manual-form, .schedule-panel, .execute-panel, .footer { flex-shrink: 0; }
 
 .section-header {
   display: flex;

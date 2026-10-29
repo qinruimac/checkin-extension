@@ -337,5 +337,88 @@
   },
   "syncPanelTitle": {
     "message": "작업 가져오기 / 내보내기"
+  },
+  "scheduleTitle": {
+    "message": "자동 체크인"
+  },
+  "scheduleEnable": {
+    "message": "자동 체크인 사용"
+  },
+  "scheduleTime": {
+    "message": "매일 실행 시간"
+  },
+  "scheduleTabPolicy": {
+    "message": "실행 후 탭"
+  },
+  "scheduleTabClose": {
+    "message": "끝나면 자동으로 닫기"
+  },
+  "scheduleTabKeep": {
+    "message": "확인할 수 있게 열어 두기"
+  },
+  "scheduleNextRun": {
+    "message": "다음 실행: $when$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scheduleLastRun": {
+    "message": "지난 실행: $time$ · 성공 $success$개, 실패 $failed$개",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scheduleNever": {
+    "message": "아직 실행하지 않음"
+  },
+  "scheduleDisabled": {
+    "message": "사용 안 함"
+  },
+  "scheduleBtnTip": {
+    "message": "자동 체크인 설정"
+  },
+  "scheduleToday": {
+    "message": "오늘"
+  },
+  "scheduleTomorrow": {
+    "message": "내일"
+  },
+  "scheduleSaved": {
+    "message": "저장됨"
+  },
+  "scheduleNotifOk": {
+    "message": "자동 체크인 완료"
+  },
+  "scheduleNotifFail": {
+    "message": "자동 체크인: 일부 실패"
+  },
+  "scheduleResult": {
+    "message": "성공 $success$개, 실패 $failed$개",
+    "placeholders": {
+      "success": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "scheduleFailedNames": {
+    "message": "실패: $names$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
   }
 }

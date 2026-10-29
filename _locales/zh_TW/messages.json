@@ -337,5 +337,88 @@
   },
   "syncPanelTitle": {
     "message": "匯入 / 匯出任務列表"
+  },
+  "scheduleTitle": {
+    "message": "自動簽到"
+  },
+  "scheduleEnable": {
+    "message": "啟用自動簽到"
+  },
+  "scheduleTime": {
+    "message": "每天執行時間"
+  },
+  "scheduleTabPolicy": {
+    "message": "執行後分頁"
+  },
+  "scheduleTabClose": {
+    "message": "跑完自動關閉"
+  },
+  "scheduleTabKeep": {
+    "message": "跑完保留，方便查看"
+  },
+  "scheduleNextRun": {
+    "message": "下次執行：$when$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scheduleLastRun": {
+    "message": "上次：$time$ · 成功 $success$ 個，失敗 $failed$ 個",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scheduleNever": {
+    "message": "暫未執行"
+  },
+  "scheduleDisabled": {
+    "message": "未啟用"
+  },
+  "scheduleBtnTip": {
+    "message": "自動簽到設定"
+  },
+  "scheduleToday": {
+    "message": "今天"
+  },
+  "scheduleTomorrow": {
+    "message": "明天"
+  },
+  "scheduleSaved": {
+    "message": "已儲存"
+  },
+  "scheduleNotifOk": {
+    "message": "自動簽到完成"
+  },
+  "scheduleNotifFail": {
+    "message": "自動簽到有失敗"
+  },
+  "scheduleResult": {
+    "message": "成功 $success$ 個，失敗 $failed$ 個",
+    "placeholders": {
+      "success": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "scheduleFailedNames": {
+    "message": "失敗：$names$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
   }
 }

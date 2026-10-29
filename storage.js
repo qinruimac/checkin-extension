@@ -49,6 +49,14 @@
       chrome.storage.local.get(keys, function (r) { resolve(r || {}); });
     });
   }
+  function localSet(obj) {
+    return new Promise(function (resolve, reject) {
+      chrome.storage.local.set(obj, function () {
+        if (chrome.runtime.lastError) { reject(new Error(chrome.runtime.lastError.message)); }
+        else { resolve(); }
+      });
+    });
+  }
 
   // ===== 索引管理 =====
 
@@ -238,6 +246,106 @@
     return { migrated: newIds.length };
   }
 
+  // ===== 定时自动签到（ScheduleStorage）=====
+  //
+  // 设计要点：
+  //  - 全部存 chrome.storage.local（绑定单台设备），不进 sync
+  //    sync 只管任务列表。若把执行记录放进 sync，会产生"某台跑过另一台跳过"
+  //    的半吊子去重，与"多设备允许重复执行"的决策不一致。
+  //  - lastRunAt 记录时间戳（毫秒），而非仅日期：因为规则是
+  //    "设定时间之后的执行才算当天跑过"，需要按时刻比较。
+
+  var SCHEDULE_CONFIG_KEY = 'schedule_config';
+  var SCHEDULE_STATE_KEY = 'schedule_state';
+  var DEFAULT_SCHEDULE = { enabled: true, time: '08:00', tabPolicy: 'close' };
+
+  function isValidTime(v) { return typeof v === 'string' && /^([01]\d|2[0-3]):([0-5]\d)$/.test(v); }
+
+  function minutesOfDay(date) { return date.getHours() * 60 + date.getMinutes(); }
+
+  function minutesOfTimeStr(timeStr) {
+    var p = String(timeStr).split(':');
+    return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+  }
+
+  function isSameDay(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+
+  async function getScheduleConfig() {
+    var r = await localGet([SCHEDULE_CONFIG_KEY]);
+    var c = r[SCHEDULE_CONFIG_KEY] || {};
+    return {
+      enabled: typeof c.enabled === 'boolean' ? c.enabled : DEFAULT_SCHEDULE.enabled,
+      time: isValidTime(c.time) ? c.time : DEFAULT_SCHEDULE.time,
+      tabPolicy: c.tabPolicy === 'keep' ? 'keep' : 'close'
+    };
+  }
+
+  async function setScheduleConfig(patch) {
+    var cur = await getScheduleConfig();
+    var next = {
+      enabled: typeof patch.enabled === 'boolean' ? patch.enabled : cur.enabled,
+      time: isValidTime(patch.time) ? patch.time : cur.time,
+      tabPolicy: patch.tabPolicy === 'keep' ? 'keep' : (patch.tabPolicy === 'close' ? 'close' : cur.tabPolicy)
+    };
+    await localSet(objOf(SCHEDULE_CONFIG_KEY, next));
+    return next;
+  }
+
+  async function getScheduleState() {
+    var r = await localGet([SCHEDULE_STATE_KEY]);
+    var s = r[SCHEDULE_STATE_KEY] || {};
+    return {
+      lastRunAt: typeof s.lastRunAt === 'number' ? s.lastRunAt : 0,
+      source: typeof s.source === 'string' ? s.source : '',
+      total: typeof s.total === 'number' ? s.total : 0,
+      success: typeof s.success === 'number' ? s.success : 0,
+      failedNames: Array.isArray(s.failedNames) ? s.failedNames : []
+    };
+  }
+
+  async function setScheduleState(patch) {
+    var cur = await getScheduleState();
+    var next = {
+      lastRunAt: typeof patch.lastRunAt === 'number' ? patch.lastRunAt : cur.lastRunAt,
+      source: typeof patch.source === 'string' ? patch.source : cur.source,
+      total: typeof patch.total === 'number' ? patch.total : cur.total,
+      success: typeof patch.success === 'number' ? patch.success : cur.success,
+      failedNames: Array.isArray(patch.failedNames) ? patch.failedNames : cur.failedNames
+    };
+    await localSet(objOf(SCHEDULE_STATE_KEY, next));
+    return next;
+  }
+
+  function objOf(k, v) { var o = {}; o[k] = v; return o; }
+
+  /**
+   * 判断"今天在设定时间之后是否已经执行过"（手动或自动都算）。
+   * 规则要点：手动执行只有在设定时间【之后】发生，才计入当天已执行；
+   * 设定时间之前手动跑过，到点仍会自动执行。
+   * @param {Object} state schedule_state
+   * @param {string} timeStr "HH:MM"
+   */
+  function alreadyRanAfterSchedule(state, timeStr) {
+    if (!state || !state.lastRunAt) return false;
+    var last = new Date(state.lastRunAt);
+    var now = new Date();
+    if (!isSameDay(last, now)) return false;
+    return minutesOfDay(last) >= minutesOfTimeStr(timeStr);
+  }
+
+  /**
+   * 计算下一次触发的时间戳（本地时间下一个 HH:MM）。
+   */
+  function nextRunTimestamp(timeStr) {
+    var now = new Date();
+    var target = new Date(now.getFullYear(), now.getMonth(), now.getDate(),
+      Math.floor(minutesOfTimeStr(timeStr) / 60), minutesOfTimeStr(timeStr) % 60, 0, 0);
+    if (target.getTime() <= now.getTime()) target.setDate(target.getDate() + 1);
+    return target.getTime();
+  }
+
   global.TaskStorage = {
     getTasks: getTasks,
     setTask: setTask,
@@ -248,5 +356,15 @@
     onChanged: onChanged,
     migrateFromLocal: migrateFromLocal,
     BUDGET: BUDGET
+  };
+
+  global.ScheduleStorage = {
+    getScheduleConfig: getScheduleConfig,
+    setScheduleConfig: setScheduleConfig,
+    getScheduleState: getScheduleState,
+    setScheduleState: setScheduleState,
+    alreadyRanAfterSchedule: alreadyRanAfterSchedule,
+    nextRunTimestamp: nextRunTimestamp,
+    DEFAULT_SCHEDULE: DEFAULT_SCHEDULE
   };
 })(typeof self !== 'undefined' ? self : this);

@@ -91,6 +91,12 @@ const syncPanelClose = document.getElementById('sync-panel-close');
 const btnExport = document.getElementById('btn-export');
 const btnImport = document.getElementById('btn-import');
 const importFile = document.getElementById('import-file');
+const btnSchedule = document.getElementById('btn-schedule');
+const schedulePanel = document.getElementById('schedule-panel');
+const scheduleEnabled = document.getElementById('schedule-enabled');
+const scheduleTime = document.getElementById('schedule-time');
+const scheduleNext = document.getElementById('schedule-next');
+const scheduleLast = document.getElementById('schedule-last');
 
 // ===== 倒计时状态 =====
 let countdownTimer = null;
@@ -287,6 +293,8 @@ async function startExecution() {
   isExecuting = true;
   btnExecute.disabled = true;
   manualForm.classList.add('hidden');  // 执行时收出手工表单，避免与执行面板叠加撑高弹窗
+  schedulePanel.classList.add('hidden');  // 同理，定时面板一并收起
+  btnSchedule.disabled = true;
   executePanel.classList.remove('hidden');
   countdownPanel.classList.remove('hidden');
   executingPanel.classList.add('hidden');
@@ -341,6 +349,8 @@ function cancelExecution() {
 function finishExecution() {
   isExecuting = false;
   btnExecute.disabled = false;
+  btnSchedule.disabled = false;
+  updateScheduleInfo();  // 执行刚写入 schedule_state，刷新"上次执行"那一行
 }
 
 // ===== 导出 / 导入 =====
@@ -371,6 +381,63 @@ async function handleImportFile(e) {
     showToast(err.message === 'quotaExceeded' ? i18n('importOverQuota') : i18n('importFailed'), 3000);
   }
   importFile.value = '';
+}
+
+// ===== 自动签到（定时设置）=====
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+/** 把已存的配置填进面板，并同步闹钟按钮的高亮状态 */
+async function loadScheduleUI() {
+  const cfg = await ScheduleStorage.getScheduleConfig();
+  scheduleEnabled.checked = cfg.enabled;
+  scheduleTime.value = cfg.time;
+  document.querySelectorAll('input[name="tab-policy"]').forEach(r => { r.checked = (r.value === cfg.tabPolicy); });
+  btnSchedule.classList.toggle('is-on', cfg.enabled);
+  await updateScheduleInfo();
+}
+
+/** 面板底部的两行只读信息：下次执行时间、上次执行结果 */
+async function updateScheduleInfo() {
+  const cfg = await ScheduleStorage.getScheduleConfig();
+  const st = await ScheduleStorage.getScheduleState();
+
+  if (cfg.enabled) {
+    const d = new Date(ScheduleStorage.nextRunTimestamp(cfg.time));
+    const now = new Date();
+    const isToday = d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+    const day = isToday ? i18n('scheduleToday') : i18n('scheduleTomorrow');
+    scheduleNext.textContent = i18n('scheduleNextRun', [day + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes())]);
+  } else {
+    scheduleNext.textContent = i18n('scheduleDisabled');
+  }
+
+  if (st.lastRunAt) {
+    const d = new Date(st.lastRunAt);
+    scheduleLast.textContent = i18n('scheduleLastRun', [
+      pad2(d.getHours()) + ':' + pad2(d.getMinutes()),
+      String(st.success),
+      String(Math.max(0, st.total - st.success))
+    ]);
+  } else {
+    scheduleLast.textContent = i18n('scheduleNever');
+  }
+}
+
+function toggleSchedulePanel() {
+  schedulePanel.classList.toggle('hidden');
+  if (!schedulePanel.classList.contains('hidden')) {
+    manualForm.classList.add('hidden');  // 与手工添加互斥，避免两块面板叠加撑高弹窗
+    updateScheduleInfo();
+  }
+}
+
+async function saveScheduleConfig(patch) {
+  const cfg = await ScheduleStorage.setScheduleConfig(patch);
+  btnSchedule.classList.toggle('is-on', cfg.enabled);
+  await updateScheduleInfo();
+  // 闹钟由 service worker 进程托管，改完配置必须通知它重建
+  try { await chrome.runtime.sendMessage({ action: 'rebuildAlarm' }); } catch (e) { /* 后台不可用时忽略 */ }
+  showToast(i18n('scheduleSaved'), 1500);
 }
 
 // ===== 监听来自 content script 的消息 =====
@@ -404,6 +471,16 @@ syncPanelClose.addEventListener('click', () => { syncPanel.classList.add('hidden
 btnExport.addEventListener('click', exportTasks);
 btnImport.addEventListener('click', () => { importFile.click(); });
 importFile.addEventListener('change', handleImportFile);
+// 定时面板
+btnSchedule.addEventListener('click', toggleSchedulePanel);
+scheduleEnabled.addEventListener('change', () => saveScheduleConfig({ enabled: scheduleEnabled.checked }));
+scheduleTime.addEventListener('change', () => {
+  if (!/^\d{2}:\d{2}$/.test(scheduleTime.value)) { loadScheduleUI(); return; }
+  saveScheduleConfig({ time: scheduleTime.value });
+});
+document.querySelectorAll('input[name="tab-policy"]').forEach(r => {
+  r.addEventListener('change', () => { if (r.checked) saveScheduleConfig({ tabPolicy: r.value }); });
+});
 
 // ===== 初始化 =====
 (async () => {
@@ -417,6 +494,7 @@ importFile.addEventListener('change', handleImportFile);
 
   renderTaskList();
   onTaskTypeChange();
+  loadScheduleUI();
 
   // 版本号从 manifest 动态读取，避免与 manifest.json 双处维护漂移
   const headerVersion = document.getElementById('header-version');
@@ -435,5 +513,6 @@ importFile.addEventListener('change', handleImportFile);
       applyI18nToHTML();
     } catch (e) { console.error('lang switch error:', e); }
     renderTaskList();
+    updateScheduleInfo();  // 面板底部两行由 JS 生成，切换语言需重刷
   });
 })();

@@ -337,5 +337,88 @@
   },
   "syncPanelTitle": {
     "message": "タスクのインポート / エクスポート"
+  },
+  "scheduleTitle": {
+    "message": "自動チェックイン"
+  },
+  "scheduleEnable": {
+    "message": "自動チェックインを有効にする"
+  },
+  "scheduleTime": {
+    "message": "毎日の実行時刻"
+  },
+  "scheduleTabPolicy": {
+    "message": "実行後のタブ"
+  },
+  "scheduleTabClose": {
+    "message": "終わったら自動で閉じる"
+  },
+  "scheduleTabKeep": {
+    "message": "確認できるよう開いたままにする"
+  },
+  "scheduleNextRun": {
+    "message": "次回実行：$when$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scheduleLastRun": {
+    "message": "前回：$time$ · 成功 $success$ 件、失敗 $failed$ 件",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      },
+      "success": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scheduleNever": {
+    "message": "まだ実行していません"
+  },
+  "scheduleDisabled": {
+    "message": "無効"
+  },
+  "scheduleBtnTip": {
+    "message": "自動チェックインの設定"
+  },
+  "scheduleToday": {
+    "message": "今日"
+  },
+  "scheduleTomorrow": {
+    "message": "明日"
+  },
+  "scheduleSaved": {
+    "message": "保存しました"
+  },
+  "scheduleNotifOk": {
+    "message": "自動チェックイン完了"
+  },
+  "scheduleNotifFail": {
+    "message": "自動チェックイン：一部失敗"
+  },
+  "scheduleResult": {
+    "message": "成功 $success$ 件、失敗 $failed$ 件",
+    "placeholders": {
+      "success": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "scheduleFailedNames": {
+    "message": "失敗：$names$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
   }
 }

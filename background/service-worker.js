@@ -50,15 +50,19 @@ async function waitForTabLoaded(tabId, timeout = 30000) {
 // ===== 执行单个任务 =====
 async function executeSingleTask(task) {
   try {
-    if (!task.url) return { success: false, message: i18n('msgUrlEmpty') };
+    if (!task.url) return { success: false, message: i18n('msgUrlEmpty'), tabId: null };
     const tab = await chrome.tabs.create({ url: task.url, active: false });
     await waitForTabLoaded(tab.id);
     const tabInfo = await chrome.tabs.get(tab.id).catch(() => null);
-    if (!tabInfo) return { success: false, message: i18n('msgTabClosed') };
-    if (task.type === 'click' && task.selector) return await performClick(tab.id, task.selector);
-    return { success: true, message: i18n('msgPageOpened') };
+    if (!tabInfo) return { success: false, message: i18n('msgTabClosed'), tabId: null };
+    if (task.type === 'click' && task.selector) {
+      const r = await performClick(tab.id, task.selector);
+      r.tabId = tab.id;   // 供自动执行后按策略关闭标签页
+      return r;
+    }
+    return { success: true, message: i18n('msgPageOpened'), tabId: tab.id };
   } catch (err) {
-    return { success: false, message: err.message || i18n('msgExecError') };
+    return { success: false, message: err.message || i18n('msgExecError'), tabId: null };
   }
 }
 
@@ -111,21 +115,131 @@ function sendProgress(current, total, taskName) {
 }
 
 // ===== 执行所有任务 =====
-async function executeAllTasks() {
+/**
+ * @param {Object} [opts]
+ * @param {'manual'|'auto'} [opts.source='manual'] 触发来源
+ * @param {'close'|'keep'} [opts.tabPolicy='keep'] 自动执行后的标签页处理
+ */
+async function executeAllTasks(opts) {
+  opts = opts || {};
+  const source = opts.source === 'auto' ? 'auto' : 'manual';
+  const tabPolicy = opts.tabPolicy === 'close' ? 'close' : 'keep';
+
   const tasks = await loadTasks();
   const details = [];
+  const openedTabs = [];
   let successCount = 0, failCount = 0;
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     sendProgress(i + 1, tasks.length, task.name);
     const result = await executeSingleTask(task);
+    openedTabs.push({ id: result.tabId, success: !!result.success });
     details.push({ name: task.name, success: result.success, message: result.message });
     if (result.success) successCount++; else failCount++;
     if (i < tasks.length - 1) await sleep(2000);
   }
-  sendNotification(successCount, failCount);
+
+  // 自动执行 + 策略为关闭：成功的标签页关掉，失败的保留（失败往往要看一眼，多半是登录态过期）
+  if (source === 'auto' && tabPolicy === 'close') {
+    for (const t of openedTabs) {
+      if (t.success && t.id) {
+        try { await chrome.tabs.remove(t.id); } catch (e) { /* 标签页可能已被用户关闭 */ }
+      }
+    }
+  }
+
+  // 记录执行状态：手动与自动都写，供"当天设定时间后是否已执行"判定
+  try {
+    await ScheduleStorage.setScheduleState({
+      lastRunAt: Date.now(),
+      source: source,
+      total: successCount + failCount,
+      success: successCount,
+      failedNames: details.filter(d => !d.success).map(d => d.name)
+    });
+  } catch (e) { console.error('save schedule state failed:', e); }
+
+  if (source === 'auto') sendAutoNotification(successCount, failCount, details);
+  else sendNotification(successCount, failCount);
+
   return { success: successCount, fail: failCount, details };
 }
+
+// ===== 定时自动签到 =====
+const SCHEDULE_ALARM = 'daily_checkin';
+const CATCHUP_DELAY_MS = 75000;  // 启动补跑延迟：60–90 秒之间
+
+function minutesOfTimeStr(t) {
+  const p = String(t).split(':');
+  return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+}
+
+/** 重建闹钟：开关关闭时清除，开启时按配置时间注册 24 小时周期 */
+async function rebuildAlarm() {
+  try {
+    await chrome.alarms.clear(SCHEDULE_ALARM);
+    const cfg = await ScheduleStorage.getScheduleConfig();
+    if (!cfg.enabled) return;
+    chrome.alarms.create(SCHEDULE_ALARM, {
+      when: ScheduleStorage.nextRunTimestamp(cfg.time),
+      periodInMinutes: 1440
+    });
+  } catch (e) { console.error('rebuildAlarm failed:', e); }
+}
+
+/**
+ * 判断是否该执行自动签到（前置检查，任一不满足即静默返回）。
+ * @param {'alarm'|'startup'} source
+ */
+async function maybeRunAuto(source) {
+  try {
+    const cfg = await ScheduleStorage.getScheduleConfig();
+    if (!cfg.enabled) return;
+
+    // 启动补跑：仅在"今天已过设定时间"时才补；没到点交给 alarm
+    if (source === 'startup') {
+      const now = new Date();
+      if (now.getHours() * 60 + now.getMinutes() < minutesOfTimeStr(cfg.time)) return;
+    }
+
+    const tasks = await loadTasks();
+    if (tasks.length === 0) return;
+
+    const state = await ScheduleStorage.getScheduleState();
+    if (ScheduleStorage.alreadyRanAfterSchedule(state, cfg.time)) return;
+
+    await CheckinI18n.init();
+    await executeAllTasks({ source: 'auto', tabPolicy: cfg.tabPolicy });
+  } catch (e) { console.error('auto run failed:', e); }
+}
+
+/** 自动执行的汇总通知：有失败时点名失败任务，避免静默失效 */
+function sendAutoNotification(success, fail, details) {
+  const failedNames = (details || []).filter(d => !d.success).map(d => d.name);
+  const title = fail > 0 ? i18n('scheduleNotifFail') : i18n('scheduleNotifOk');
+  let message = i18n('scheduleResult', [String(success), String(fail)]);
+  if (fail > 0 && failedNames.length > 0) {
+    message = message + ' · ' + i18n('scheduleFailedNames', [failedNames.join('、')]);
+  }
+  chrome.notifications.create({
+    type: 'basic',
+    iconUrl: chrome.runtime.getURL('icons/icon48.png'),
+    title: title,
+    message: message,
+    priority: 2
+  }, () => { if (chrome.runtime.lastError) return; });
+}
+
+// 到点触发
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name !== SCHEDULE_ALARM) return;
+  maybeRunAuto('alarm');
+});
+
+// 浏览器启动补跑：延迟执行，避开开机瞬间会话未恢复 / 网络未就绪导致的全败
+chrome.runtime.onStartup.addListener(() => {
+  setTimeout(() => { maybeRunAuto('startup'); }, CATCHUP_DELAY_MS);
+});
 
 // ===== 桌面通知 =====
 function sendNotification(success, fail) {
@@ -142,8 +256,14 @@ function sendNotification(success, fail) {
 // ===== 消息监听 =====
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'executeTasks') {
-    CheckinI18n.init().then(() => executeAllTasks()).then(result => sendResponse(result))
+    // 手动执行：不受"当天是否已执行"限制，用户随时有权手动跑
+    CheckinI18n.init().then(() => executeAllTasks({ source: 'manual' })).then(result => sendResponse(result))
       .catch(err => sendResponse({ success: 0, fail: 0, details: [], error: i18n('msgExecFailed', [err.message || i18n('msgUnknownError')]) }));
+    return true;
+  }
+  if (message.action === 'rebuildAlarm') {
+    rebuildAlarm().then(() => sendResponse({ success: true }))
+      .catch(err => sendResponse({ success: false, error: err.message }));
     return true;
   }
   return true;
@@ -166,4 +286,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   } catch (e) {
     console.error('Migration failed:', e);
   }
+
+  // 注册/重建定时闹钟。
+  // 注意：此处不立即补跑——刚安装或刚更新就自动开一堆标签页体验很差，
+  // 首次执行交给下一次到点或后续浏览器启动补跑。
+  rebuildAlarm();
 });
