@@ -243,9 +243,10 @@ body {
 }
 
 /* 时间与标签页策略：标签与控件同一行 */
-.schedule-inline { display: flex; align-items: center; justify-content: space-between; }
-.schedule-inline > label { margin-bottom: 0; }
-.schedule-inline input[type="time"] { width: 120px; flex: 0 0 auto; }
+.schedule-inline { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.schedule-inline > label { margin-bottom: 0; white-space: nowrap; }
+/* 必须压过 .form-group input:not(...) 的 width:100%（特异性更高），否则时间框会撑爆弹窗 */
+.schedule-panel .form-group.schedule-inline input[type="time"] { width: 110px; flex: 0 0 auto; }
 
 .schedule-label-inline {
   display: block;
