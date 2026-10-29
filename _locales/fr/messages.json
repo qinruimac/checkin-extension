@@ -348,13 +348,13 @@
     "message": "Heure chaque jour"
   },
   "scheduleTabPolicy": {
-    "message": "Après l’exécution, les onglets"
+    "message": "Onglets après l'auto check-in"
   },
   "scheduleTabClose": {
-    "message": "Les fermer automatiquement"
+    "message": "Fermer"
   },
   "scheduleTabKeep": {
-    "message": "Les garder ouverts pour vérifier"
+    "message": "Garder"
   },
   "scheduleNextRun": {
     "message": "Prochaine exécution : $when$",

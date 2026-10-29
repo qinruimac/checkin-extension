@@ -348,13 +348,13 @@
     "message": "毎日の実行時刻"
   },
   "scheduleTabPolicy": {
-    "message": "実行後のタブ"
+    "message": "自動実行後のタブ"
   },
   "scheduleTabClose": {
-    "message": "終わったら自動で閉じる"
+    "message": "閉じる"
   },
   "scheduleTabKeep": {
-    "message": "確認できるよう開いたままにする"
+    "message": "残す"
   },
   "scheduleNextRun": {
     "message": "次回実行：$when$",

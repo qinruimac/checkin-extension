@@ -348,13 +348,13 @@
     "message": "Hora de cada dia"
   },
   "scheduleTabPolicy": {
-    "message": "Ao terminar, as abas"
+    "message": "Abas após o check-in automático"
   },
   "scheduleTabClose": {
-    "message": "Fechá-las automaticamente"
+    "message": "Fechar"
   },
   "scheduleTabKeep": {
-    "message": "Deixá-las abertas para eu conferir"
+    "message": "Manter"
   },
   "scheduleNextRun": {
     "message": "Próxima execução: $when$",

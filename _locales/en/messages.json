@@ -348,13 +348,13 @@
     "message": "Time each day"
   },
   "scheduleTabPolicy": {
-    "message": "After finishing, tabs"
+    "message": "Tabs after auto check-in"
   },
   "scheduleTabClose": {
-    "message": "Close them automatically"
+    "message": "Close"
   },
   "scheduleTabKeep": {
-    "message": "Keep them open so I can check"
+    "message": "Keep"
   },
   "scheduleNextRun": {
     "message": "Next run: $when$",

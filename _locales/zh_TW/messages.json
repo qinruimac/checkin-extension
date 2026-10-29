@@ -348,13 +348,13 @@
     "message": "每天執行時間"
   },
   "scheduleTabPolicy": {
-    "message": "執行後分頁"
+    "message": "自動簽到後，標籤頁"
   },
   "scheduleTabClose": {
-    "message": "跑完自動關閉"
+    "message": "關閉"
   },
   "scheduleTabKeep": {
-    "message": "跑完保留，方便查看"
+    "message": "保留"
   },
   "scheduleNextRun": {
     "message": "下次執行：$when$",

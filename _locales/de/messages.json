@@ -348,13 +348,13 @@
     "message": "Uhrzeit jeden Tag"
   },
   "scheduleTabPolicy": {
-    "message": "Nach dem Durchlauf, Tabs"
+    "message": "Tabs nach Auto-Check-in"
   },
   "scheduleTabClose": {
-    "message": "Automatisch schließen"
+    "message": "Schließen"
   },
   "scheduleTabKeep": {
-    "message": "Offen lassen, damit ich nachsehen kann"
+    "message": "Behalten"
   },
   "scheduleNextRun": {
     "message": "Nächster Lauf: $when$",

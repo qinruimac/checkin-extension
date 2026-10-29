@@ -348,13 +348,13 @@
     "message": "Hora cada día"
   },
   "scheduleTabPolicy": {
-    "message": "Al terminar, las pestañas"
+    "message": "Pestañas tras el check-in auto"
   },
   "scheduleTabClose": {
-    "message": "Cerrarlas automáticamente"
+    "message": "Cerrar"
   },
   "scheduleTabKeep": {
-    "message": "Dejarlas abiertas para revisar"
+    "message": "Mantener"
   },
   "scheduleNextRun": {
     "message": "Próxima ejecución: $when$",

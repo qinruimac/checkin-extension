@@ -348,13 +348,13 @@
     "message": "Время каждый день"
   },
   "scheduleTabPolicy": {
-    "message": "После выполнения вкладки"
+    "message": "Вкладки после автозапуска"
   },
   "scheduleTabClose": {
-    "message": "Закрывать автоматически"
+    "message": "Закрыть"
   },
   "scheduleTabKeep": {
-    "message": "Оставить открытыми, чтобы проверить"
+    "message": "Оставить"
   },
   "scheduleNextRun": {
     "message": "Следующий запуск: $when$",
