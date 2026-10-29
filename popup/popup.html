@@ -70,18 +70,17 @@
 
   <!-- 自动签到设置面板（可折叠/展开） -->
   <section id="schedule-panel" class="schedule-panel hidden">
-    <h2 class="form-title">__MSG_scheduleTitle__</h2>
-    <div class="form-group schedule-row">
-      <label for="schedule-enabled">__MSG_scheduleEnable__</label>
+    <div class="schedule-row">
+      <label for="schedule-enabled">__MSG_scheduleTitle__</label>
       <input type="checkbox" id="schedule-enabled">
     </div>
-    <div class="form-group schedule-sub">
+    <div class="form-group schedule-inline schedule-sub">
       <label for="schedule-time">__MSG_scheduleTime__</label>
       <input type="time" id="schedule-time">
     </div>
-    <div class="form-group schedule-sub">
-      <span class="schedule-label">__MSG_scheduleTabPolicy__</span>
-      <div class="schedule-radios">
+    <div class="form-group schedule-inline schedule-sub">
+      <span class="schedule-label-inline">__MSG_scheduleTabPolicy__</span>
+      <div class="schedule-radios-inline">
         <label class="schedule-radio">
           <input type="radio" name="tab-policy" value="close">
           <span>__MSG_scheduleTabClose__</span>
