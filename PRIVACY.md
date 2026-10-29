@@ -2,6 +2,8 @@
 
 **最后更新日期：2026 年 10 月 18 日**
 
+> 多语言在线版（10 种语言，随浏览器语言自动识别，也可手动切换）：https://erui.org/checkin/privacy.html
+
 感谢您使用"签到助手"（以下简称"本扩展"）。我们非常重视您的隐私。本隐私政策旨在说明本扩展如何收集、使用、存储和保护您的数据。
 
 ## 1. 我们收集什么数据
@@ -76,12 +78,14 @@
 
 ## 8. 隐私政策更新
 
-如果本扩展的数据处理方式发生变化，我们将更新本隐私政策。更新后的政策将在本页面发布，并更新"最后更新日期"。
+如果本扩展的数据处理方式发生变化，我们将更新本隐私政策。更新后的政策将在官方站点（https://erui.org/checkin/privacy.html）与本仓库本页面同步发布，并更新"最后更新日期"。
 
 ## 9. 联系我们
 
 如果您对本隐私政策有任何疑问，请通过以下方式联系：
 
+- 官方站点：[https://erui.org/checkin/](https://erui.org/checkin/)
+- 邮箱：support@erui.org
 - GitHub 项目地址：[https://github.com/qinruimac/checkin-extension](https://github.com/qinruimac/checkin-extension)
 - 在项目页面提交 Issue 反馈
 

@@ -4,6 +4,9 @@
 
 基于 Manifest V3 开发，同时兼容 **Edge** 和 **Chrome** 浏览器。支持 10 种语言界面切换。
 
+- 官方站点（产品介绍，10 种语言）：https://erui.org/checkin/
+- 在线隐私政策（10 种语言）：https://erui.org/checkin/privacy.html
+
 ## 功能特性
 
 ### 1. 快速新增签到任务（元素选择器模式）
@@ -99,8 +102,8 @@ checkin-extension/
 
 ### 从商店安装
 
-- Edge Add-ons：搜索"签到助手"
-- Chrome Web Store：搜索"签到助手"
+- **Edge Add-ons**：https://microsoftedge.microsoft.com/addons/detail/jfoiljgknpbcddkpfpaglcoeeflgpiha
+- **Chrome Web Store**：https://chromewebstore.google.com/detail/gdgdjllgdagmhkdmomcikgpocabfnmai
 
 ## 使用方法
 
@@ -178,7 +181,10 @@ checkin-extension/
 
 ## 隐私政策
 
-详见 [PRIVACY.md](PRIVACY.md)。任务列表通过浏览器内置的 `chrome.storage.sync` 跟随浏览器账号同步，本扩展不自建后端、不收集任何个人数据；未登录浏览器账号时，数据仅存储在本地浏览器中。
+- 在线版（10 种语言，随浏览器语言自动识别）：https://erui.org/checkin/privacy.html
+- 本仓库文本：详见 [PRIVACY.md](PRIVACY.md)
+
+任务列表通过浏览器内置的 `chrome.storage.sync` 跟随浏览器账号同步，本扩展不自建后端、不收集任何个人数据；未登录浏览器账号时，数据仅存储在本地浏览器中。
 
 ## 反馈与贡献
 
