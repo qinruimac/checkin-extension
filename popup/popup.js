@@ -97,6 +97,7 @@ const scheduleEnabled = document.getElementById('schedule-enabled');
 const scheduleTime = document.getElementById('schedule-time');
 const scheduleNext = document.getElementById('schedule-next');
 const scheduleLast = document.getElementById('schedule-last');
+const scheduleResult = document.getElementById('schedule-result');
 
 // ===== 倒计时状态 =====
 let countdownTimer = null;
@@ -416,8 +417,10 @@ async function updateScheduleInfo() {
 
   if (st.lastRunAt) {
     const failed = Math.max(0, st.total - st.success);
-    scheduleLast.textContent = fmtFullTime(st.lastRunAt) + '　' + i18n('scheduleResult', [String(st.success), String(failed)]);
+    scheduleResult.textContent = i18n('scheduleResult', [String(st.success), String(failed)]);
+    scheduleLast.textContent = fmtFullTime(st.lastRunAt);
   } else {
+    scheduleResult.textContent = '';
     scheduleLast.textContent = i18n('scheduleNever');
   }
 }

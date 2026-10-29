@@ -347,30 +347,32 @@ body {
 .sc-radio input[type="radio"]:focus-visible { outline: 2px solid var(--purple); outline-offset: 1px; }
 .sc-radio input[type="radio"]:checked ~ span { color: var(--accent-ink); font-weight: 600; }
 
-/* —— 底部信息区：与设置区分层，键值两列对齐 —— */
+/* —— 底部信息区：与设置区分层。
+   三列共享同一个 grid（标签 / 结果 / 时间），两行的时间因此严格右对齐成列，
+   数量统计跟在标签后面做次要信息 —— */
 .sc-info {
   margin-top: 13px;
   padding-top: 10px;
   border-top: 1px solid var(--line);
   display: grid;
-  gap: 5px;
-}
-.sc-info-row {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
+  grid-template-columns: auto 1fr auto;
   align-items: baseline;
+  gap: 6px 10px;
 }
 .sc-info-key {
   font-size: 11px;
   color: var(--ink-faint);
   white-space: nowrap;
 }
+.sc-info-mid {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
 .sc-info-val {
   font-size: 11px;
   color: var(--ink-soft);
   text-align: right;
-  word-break: break-all;
+  white-space: nowrap;
 }
 
 /* ===== 手工添加表单 ===== */
