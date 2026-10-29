@@ -348,35 +348,13 @@
     "message": "Hora"
   },
   "scheduleTabPolicy": {
-    "message": "Pestañas tras el check-in auto"
+    "message": "Pestañas"
   },
   "scheduleTabClose": {
     "message": "Cerrar"
   },
   "scheduleTabKeep": {
     "message": "Mantener"
-  },
-  "scheduleNextRun": {
-    "message": "Próxima ejecución: $when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "Última ejecución: $time$, $success$ correctos, $failed$ fallidos",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "Aún no se ha ejecutado"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "Próxima"
+  },
+  "scheduleLastLabel": {
+    "message": "Última"
   }
 }

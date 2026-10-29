@@ -348,35 +348,13 @@
     "message": "Время"
   },
   "scheduleTabPolicy": {
-    "message": "Вкладки после автозапуска"
+    "message": "Вкладки"
   },
   "scheduleTabClose": {
     "message": "Закрыть"
   },
   "scheduleTabKeep": {
     "message": "Оставить"
-  },
-  "scheduleNextRun": {
-    "message": "Следующий запуск: $when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "Последний запуск: $time$, успешно: $success$, не удалось: $failed$",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "Ещё не выполнялось"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "Следующий"
+  },
+  "scheduleLastLabel": {
+    "message": "Последний"
   }
 }

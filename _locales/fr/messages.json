@@ -348,35 +348,13 @@
     "message": "Heure"
   },
   "scheduleTabPolicy": {
-    "message": "Onglets après l'auto check-in"
+    "message": "Onglets"
   },
   "scheduleTabClose": {
     "message": "Fermer"
   },
   "scheduleTabKeep": {
     "message": "Garder"
-  },
-  "scheduleNextRun": {
-    "message": "Prochaine exécution : $when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "Dernière exécution : $time$, $success$ réussis, $failed$ échoués",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "Pas encore exécuté"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "Prochain"
+  },
+  "scheduleLastLabel": {
+    "message": "Dernier"
   }
 }

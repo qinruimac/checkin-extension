@@ -348,35 +348,13 @@
     "message": "時刻"
   },
   "scheduleTabPolicy": {
-    "message": "自動実行後のタブ"
+    "message": "タブ"
   },
   "scheduleTabClose": {
     "message": "閉じる"
   },
   "scheduleTabKeep": {
     "message": "残す"
-  },
-  "scheduleNextRun": {
-    "message": "次回実行：$when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "前回実行：$time$、成功 $success$ 件、失敗 $failed$ 件",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "まだ実行していません"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "次回実行"
+  },
+  "scheduleLastLabel": {
+    "message": "前回実行"
   }
 }

@@ -348,35 +348,13 @@
     "message": "Hora"
   },
   "scheduleTabPolicy": {
-    "message": "Abas após o check-in automático"
+    "message": "Abas"
   },
   "scheduleTabClose": {
     "message": "Fechar"
   },
   "scheduleTabKeep": {
     "message": "Manter"
-  },
-  "scheduleNextRun": {
-    "message": "Próxima execução: $when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "Última execução: $time$, $success$ com sucesso, $failed$ falhas",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "Ainda não executado"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "Próxima"
+  },
+  "scheduleLastLabel": {
+    "message": "Última"
   }
 }

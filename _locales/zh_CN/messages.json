@@ -348,35 +348,13 @@
     "message": "时间"
   },
   "scheduleTabPolicy": {
-    "message": "自动签到后，标签页"
+    "message": "标签页"
   },
   "scheduleTabClose": {
     "message": "关闭"
   },
   "scheduleTabKeep": {
     "message": "保留"
-  },
-  "scheduleNextRun": {
-    "message": "下次执行：$when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "上次执行：$time$，成功 $success$ 个，失败 $failed$ 个",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "暂未执行"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "下次执行"
+  },
+  "scheduleLastLabel": {
+    "message": "上次执行"
   }
 }

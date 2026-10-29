@@ -348,35 +348,13 @@
     "message": "시간"
   },
   "scheduleTabPolicy": {
-    "message": "자동 실행 후 탭"
+    "message": "탭"
   },
   "scheduleTabClose": {
     "message": "닫기"
   },
   "scheduleTabKeep": {
     "message": "유지"
-  },
-  "scheduleNextRun": {
-    "message": "다음 실행: $when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "지난 실행: $time$, 성공 $success$개, 실패 $failed$개",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "아직 실행하지 않음"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "다음 실행"
+  },
+  "scheduleLastLabel": {
+    "message": "지난 실행"
   }
 }

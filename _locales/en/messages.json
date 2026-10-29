@@ -348,35 +348,13 @@
     "message": "Time"
   },
   "scheduleTabPolicy": {
-    "message": "Tabs after auto check-in"
+    "message": "Tabs"
   },
   "scheduleTabClose": {
     "message": "Close"
   },
   "scheduleTabKeep": {
     "message": "Keep"
-  },
-  "scheduleNextRun": {
-    "message": "Next run: $when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "Last run: $time$, $success$ succeeded, $failed$ failed",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "Not run yet"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "Next run"
+  },
+  "scheduleLastLabel": {
+    "message": "Last run"
   }
 }

@@ -348,35 +348,13 @@
     "message": "時間"
   },
   "scheduleTabPolicy": {
-    "message": "自動簽到後，標籤頁"
+    "message": "標籤頁"
   },
   "scheduleTabClose": {
     "message": "關閉"
   },
   "scheduleTabKeep": {
     "message": "保留"
-  },
-  "scheduleNextRun": {
-    "message": "下次執行：$when$",
-    "placeholders": {
-      "when": {
-        "content": "$1"
-      }
-    }
-  },
-  "scheduleLastRun": {
-    "message": "上次執行：$time$，成功 $success$ 個，失敗 $failed$ 個",
-    "placeholders": {
-      "time": {
-        "content": "$1"
-      },
-      "success": {
-        "content": "$2"
-      },
-      "failed": {
-        "content": "$3"
-      }
-    }
   },
   "scheduleNever": {
     "message": "暫未執行"
@@ -414,5 +392,11 @@
         "content": "$1"
       }
     }
+  },
+  "scheduleNextLabel": {
+    "message": "下次執行"
+  },
+  "scheduleLastLabel": {
+    "message": "上次執行"
   }
 }

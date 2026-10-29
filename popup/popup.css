@@ -219,67 +219,111 @@ body {
 .btn-schedule:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* ===== 自动签到设置面板 ===== */
-/* 内部限高 + 滚动：为将来加"星期过滤 / 多时段"预留，保证弹窗总高不超 600px */
+/* 结构：两列栅格（标签列 / 控件列）+ 底部信息区。
+   控件统一从第二列起点起步，形成竖向“列”的秩序感；
+   所有控件改为自绘，避免原生控件与自绘控件视觉语言打架。 */
 .schedule-panel {
-  padding: 14px 16px;
+  padding: 15px 16px 13px;
   background-color: var(--surface);
   border-bottom: 1px solid var(--line);
   animation: slideDown 0.25s var(--ease);
-  max-height: 300px;
-  overflow-y: auto;
-}
-.schedule-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
-/* 标题+开关、时间+选择框：各自成组，组内紧凑靠拢，不再两端拉开 */
-.schedule-group { display: inline-flex; align-items: center; gap: 6px; }
-.schedule-group label { margin-bottom: 0; cursor: pointer; font-size: 13px; white-space: nowrap; }
-.schedule-row input[type="checkbox"] {
-  flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  cursor: pointer;
-  accent-color: var(--accent-hover);
-}
-/* 必须压过 .form-group input:not(...) 的 width:100%（特异性更高），否则时间框会撑爆弹窗 */
-.schedule-panel .schedule-row input[type="time"] { width: 110px; flex: 0 0 auto; }
-/* 标题组：开启时变主色加粗（只作用于开关文案，不影响右侧"时间"标签） */
-.schedule-row.is-checked label[for="schedule-enabled"],
-.schedule-row:has(input:checked) label[for="schedule-enabled"] {
-  color: var(--accent-ink);
-  font-weight: 600;
 }
 
-/* 标签页策略行：整行紧凑排左侧（时间行保持左右分布） */
-.schedule-policy { justify-content: flex-start; }
-.schedule-label-inline {
-  flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink-soft);
+.schedule-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;   /* 标签列取最长标签宽度，控件列占满剩余 */
+  align-items: center;
+  gap: 13px 12px;
+}
+.sc-label {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink);
   white-space: nowrap;
 }
-/* 两个选项并排，不再上下各占一行 */
-.schedule-radios-inline { display: flex; gap: 10px; flex-wrap: wrap; }
-/* 简洁单选：沿用 Bootstrap form-check 的实现（float + 负 margin + margin-top 半差值），
-   这套参数在常规文档流里对齐最稳，比 flex 居中可靠 */
-.schedule-radio {
+/* 开关处于“关”时，下列设置不生效：整体压暗但仍可改（可先设好再打开） */
+.schedule-panel.is-off .sc-sub { opacity: 0.4; }
+.schedule-panel.is-off .sc-label.sc-sub { color: var(--ink-soft); }
+
+/* —— 拨动开关：自绘，替代原生复选框 —— */
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.switch input[type="checkbox"] {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+.switch-track {
+  position: relative;
+  display: block;
+  width: 34px;
+  height: 20px;
+  border-radius: var(--r-pill);
+  background-color: var(--line-strong);
+  transition: background-color var(--t);
+}
+.switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(26,31,54,0.25);
+  transition: transform var(--t);
+}
+.switch input:checked + .switch-track { background-color: var(--accent-hover); }
+.switch input:checked + .switch-track .switch-thumb { transform: translateX(14px); }
+.switch input:focus-visible + .switch-track { outline: 2px solid var(--purple); outline-offset: 2px; }
+
+/* —— 时间输入：已脱离 .form-group，需自带完整输入框外观；固定宽度避免撑爆弹窗 —— */
+.schedule-panel input[type="time"] {
+  justify-self: start;
+  width: 104px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--ink);
+  background-color: var(--surface-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  outline: none;
+  text-align: center;
+  transition: all var(--t);
+}
+.schedule-panel input[type="time"]:hover { border-color: var(--line-strong); }
+.schedule-panel input[type="time"]:focus {
+  border-color: var(--brand-soft);
+  background-color: var(--surface);
+  box-shadow: 0 0 0 3px rgba(74,107,184,0.12);
+}
+
+/* —— 二选一：圆点与文字严格对齐（Bootstrap form-check 布局） —— */
+.sc-radios { display: flex; gap: 14px; flex-wrap: wrap; }
+.sc-radio {
   position: relative;
   display: block;
   min-height: 18px;
   line-height: 18px;
-  padding-left: 20px;
+  padding-left: 19px;
   font-size: 13px;
   color: var(--ink-soft);
   cursor: pointer;
   user-select: none;
+  white-space: nowrap;
 }
-.schedule-radio:hover { color: var(--ink); }
-/* 自绘单选圆点：原生 radio 在中文排版下圆点与字形中线始终对不齐，
-   改为 appearance:none + radial-gradient 画点，圆心即几何中心，与文字中线严格对齐 */
-.schedule-radio input[type="radio"] {
-  /* 行盒 18px、圆圈 13px → margin-top = (18-13)/2，垂直居中 */
+.sc-radio:hover { color: var(--ink); }
+.sc-radio input[type="radio"] {
+  /* 行盒 18px、圆圈 13px → margin-top = (18-13)/2，圆心与文字中心同为 9px */
   float: left;
-  margin-left: -20px;
+  margin-left: -19px;
   margin-top: 2.5px;
   vertical-align: top;
   appearance: none;
@@ -291,31 +335,43 @@ body {
   border-radius: 50%;
   background-color: var(--surface);
   cursor: pointer;
+  transition: border-color var(--t), background-color var(--t);
 }
-.schedule-radio input[type="radio"]:checked {
+.sc-radio input[type="radio"]:hover { border-color: var(--accent-hover); }
+.sc-radio input[type="radio"]:checked {
   border-color: var(--accent-hover);
-  background-image: radial-gradient(circle, var(--accent-hover) 0 4px, rgba(0,0,0,0) 4.5px);
+  background-image: radial-gradient(circle, var(--accent-hover) 0 3.5px, rgba(0,0,0,0) 4px);
   background-repeat: no-repeat;
   background-position: center;
 }
-.schedule-radio input[type="radio"]:focus-visible {
-  outline: 2px solid var(--purple);
-  outline-offset: 1px;
-}
-/* 二选一：选中项文字变深加粗 + 圆点实心（自绘），未选中保持灰字 */
-.schedule-radio.is-checked,
-.schedule-radio:has(input:checked) {
-  color: var(--accent-ink);
-  font-weight: 600;
-}
-/* 开关关闭时，时间与标签页策略不生效，整体压暗以示区分（仍可提前改好再打开开关） */
-.schedule-panel.is-off .schedule-sub { opacity: 0.45; }
-.schedule-info {
-  margin-top: 10px;
-  padding-top: 8px;
+.sc-radio input[type="radio"]:focus-visible { outline: 2px solid var(--purple); outline-offset: 1px; }
+.sc-radio input[type="radio"]:checked ~ span { color: var(--accent-ink); font-weight: 600; }
+
+/* —— 底部信息区：与设置区分层，键值两列对齐 —— */
+.sc-info {
+  margin-top: 13px;
+  padding-top: 10px;
   border-top: 1px solid var(--line);
+  display: grid;
+  gap: 5px;
 }
-.schedule-info-line { font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+.sc-info-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+.sc-info-key {
+  font-size: 11px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.sc-info-val {
+  font-size: 11px;
+  color: var(--ink-soft);
+  text-align: right;
+  word-break: break-all;
+}
 
 /* ===== 手工添加表单 ===== */
 .manual-form {
