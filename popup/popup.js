@@ -393,7 +393,23 @@ async function loadScheduleUI() {
   scheduleTime.value = cfg.time;
   document.querySelectorAll('input[name="tab-policy"]').forEach(r => { r.checked = (r.value === cfg.tabPolicy); });
   btnSchedule.classList.toggle('is-on', cfg.enabled);
+  applyScheduleVisualState();
   await updateScheduleInfo();
+}
+
+/**
+ * 刷新面板的选中态视觉：勾选框本身由浏览器绘制，这里额外给整行加高亮，
+ * 让"现在是开还是关 / 选的是哪一项"一眼可辨（不依赖 :has() 支持）
+ */
+function applyScheduleVisualState() {
+  const on = scheduleEnabled.checked;
+  schedulePanel.classList.toggle('is-off', !on);
+  const row = scheduleEnabled.closest('.schedule-row');
+  if (row) row.classList.toggle('is-checked', on);
+  document.querySelectorAll('input[name="tab-policy"]').forEach(r => {
+    const label = r.closest('.schedule-radio');
+    if (label) label.classList.toggle('is-checked', r.checked);
+  });
 }
 
 /** 面板底部的两行只读信息：下次执行时间、上次执行结果 */
@@ -434,6 +450,7 @@ function toggleSchedulePanel() {
 async function saveScheduleConfig(patch) {
   const cfg = await ScheduleStorage.setScheduleConfig(patch);
   btnSchedule.classList.toggle('is-on', cfg.enabled);
+  applyScheduleVisualState();
   await updateScheduleInfo();
   // 闹钟由 service worker 进程托管，改完配置必须通知它重建
   try { await chrome.runtime.sendMessage({ action: 'rebuildAlarm' }); } catch (e) { /* 后台不可用时忽略 */ }

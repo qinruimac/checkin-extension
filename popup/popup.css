@@ -19,6 +19,7 @@
   --accent:          #3dd4b4;
   --accent-hover:    #2ec0a2;
   --accent-light:    #e0f7f2;
+  --accent-ink:      #0b7a64;   /* 强调色文字版：白底对比度 5.3:1，小字可读 */
 
   --purple:          #8080e0;
   --purple-light:    #eeeefc;
@@ -222,12 +223,25 @@ body {
   background-color: var(--surface);
   border-bottom: 1px solid var(--line);
   animation: slideDown 0.25s var(--ease);
-  max-height: 260px;
+  max-height: 300px;
   overflow-y: auto;
 }
 .schedule-row { display: flex; align-items: center; justify-content: space-between; }
-.schedule-row label { margin-bottom: 0; }
-.schedule-row input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+.schedule-row label { margin-bottom: 0; cursor: pointer; }
+.schedule-row input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--accent-hover);
+}
+/* 开关打开时整行变主色加粗：勾选框 + 文字双重反馈，扫一眼就知道是开是关 */
+.schedule-row.is-checked label,
+.schedule-row:has(input:checked) label {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
 .schedule-label {
   display: block;
   font-size: 12px;
@@ -240,11 +254,35 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 7px 10px;
   font-size: 13px;
-  color: var(--ink);
+  color: var(--ink-soft);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
   cursor: pointer;
+  user-select: none;
+  transition: all var(--t);
 }
-.schedule-radio input[type="radio"] { width: auto; cursor: pointer; }
+.schedule-radio:hover { border-color: var(--line-strong); }
+.schedule-radio input[type="radio"] {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--accent-hover);
+}
+/* 二选一：选中项整块高亮 + 文字变深，未选中保持灰框，一眼看出选了哪个 */
+.schedule-radio.is-checked,
+.schedule-radio:has(input:checked) {
+  color: var(--accent-ink);
+  font-weight: 600;
+  border-color: var(--accent);
+  background-color: var(--accent-light);
+}
+/* 开关关闭时，时间与标签页策略不生效，整体压暗以示区分（仍可提前改好再打开开关） */
+.schedule-panel.is-off .schedule-sub { opacity: 0.45; }
 .schedule-info {
   margin-top: 10px;
   padding-top: 8px;
@@ -282,7 +320,9 @@ body {
   margin-bottom: 4px;
 }
 
-.form-group input, .form-group select {
+/* 复选框 / 单选框不参与上面的"扁平输入框"外观：
+   appearance: none 会把它们的勾选标记一起抹掉，导致看不出选中状态 */
+.form-group input:not([type="checkbox"]):not([type="radio"]), .form-group select {
   width: 100%;
   padding: 8px 12px;
   font-size: 13px;
@@ -296,7 +336,7 @@ body {
   appearance: none;
 }
 .form-group input::placeholder { color: var(--ink-faint); }
-.form-group input:focus, .form-group select:focus {
+.form-group input:not([type="checkbox"]):not([type="radio"]):focus, .form-group select:focus {
   border-color: var(--brand-soft);
   background-color: var(--surface);
   box-shadow: 0 0 0 3px rgba(74,107,184,0.12);
