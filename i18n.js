@@ -16,6 +16,7 @@
   'use strict';
 
   var customMsgs = null;
+  var currentLang = null;
 
   /**
    * 初始化/刷新语言覆盖层。
@@ -28,6 +29,7 @@
         lang = r.user_language;
       } catch (e) { lang = null; }
     }
+    currentLang = (lang && lang !== 'auto') ? lang : null;
     if (!lang || lang === 'auto') { customMsgs = null; return; }
     try {
       var res = await fetch(chrome.runtime.getURL('_locales/' + lang + '/messages.json'));
@@ -58,5 +60,17 @@
     return msg;
   }
 
-  global.CheckinI18n = { init: init, getMsg: getMsg };
+  /**
+   * 当前生效语言（BCP 47 tag，供 Intl 日期等格式化用）。
+   * 手动切换时为切换值；auto/未初始化时回退浏览器 UI 语言。
+   */
+  function getLang() {
+    var l = currentLang;
+    if (!l && typeof chrome !== 'undefined' && chrome.i18n && chrome.i18n.getUILanguage) {
+      try { l = chrome.i18n.getUILanguage(); } catch (e) { /* 忽略 */ }
+    }
+    return String(l || 'en').replace('_', '-');
+  }
+
+  global.CheckinI18n = { init: init, getMsg: getMsg, getLang: getLang };
 })(typeof self !== 'undefined' ? self : this);

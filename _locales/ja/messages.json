@@ -365,7 +365,7 @@
     }
   },
   "scheduleLastRun": {
-    "message": "前回：$time$ · 成功 $success$ 件、失敗 $failed$ 件",
+    "message": "前回実行：$time$、成功 $success$ 件、失敗 $failed$ 件",
     "placeholders": {
       "time": {
         "content": "$1"
@@ -386,12 +386,6 @@
   },
   "scheduleBtnTip": {
     "message": "自動チェックインの設定"
-  },
-  "scheduleToday": {
-    "message": "今日"
-  },
-  "scheduleTomorrow": {
-    "message": "明日"
   },
   "scheduleSaved": {
     "message": "保存しました"

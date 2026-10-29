@@ -365,7 +365,7 @@
     }
   },
   "scheduleLastRun": {
-    "message": "지난 실행: $time$ · 성공 $success$개, 실패 $failed$개",
+    "message": "지난 실행: $time$, 성공 $success$개, 실패 $failed$개",
     "placeholders": {
       "time": {
         "content": "$1"
@@ -386,12 +386,6 @@
   },
   "scheduleBtnTip": {
     "message": "자동 체크인 설정"
-  },
-  "scheduleToday": {
-    "message": "오늘"
-  },
-  "scheduleTomorrow": {
-    "message": "내일"
   },
   "scheduleSaved": {
     "message": "저장됨"

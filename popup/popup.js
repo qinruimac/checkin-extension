@@ -418,25 +418,30 @@ async function updateScheduleInfo() {
   const st = await ScheduleStorage.getScheduleState();
 
   if (cfg.enabled) {
-    const d = new Date(ScheduleStorage.nextRunTimestamp(cfg.time));
-    const now = new Date();
-    const isToday = d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
-    const day = isToday ? i18n('scheduleToday') : i18n('scheduleTomorrow');
-    scheduleNext.textContent = i18n('scheduleNextRun', [day + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes())]);
+    scheduleNext.textContent = i18n('scheduleNextRun', [fmtFullTime(ScheduleStorage.nextRunTimestamp(cfg.time))]);
   } else {
     scheduleNext.textContent = i18n('scheduleDisabled');
   }
 
   if (st.lastRunAt) {
-    const d = new Date(st.lastRunAt);
     scheduleLast.textContent = i18n('scheduleLastRun', [
-      pad2(d.getHours()) + ':' + pad2(d.getMinutes()),
+      fmtFullTime(st.lastRunAt),
       String(st.success),
       String(Math.max(0, st.total - st.success))
     ]);
   } else {
     scheduleLast.textContent = i18n('scheduleNever');
   }
+}
+
+/** 完整时间 "2026年10月30日 08:00"（随界面语言）：只有 00:01 会让用户分不清是哪天 */
+function fmtFullTime(ts) {
+  const d = new Date(ts);
+  let datePart;
+  try {
+    datePart = d.toLocaleDateString(CheckinI18n.getLang(), { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch (e) { datePart = d.toLocaleDateString(); }
+  return datePart + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
 }
 
 function toggleSchedulePanel() {

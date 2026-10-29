@@ -365,7 +365,7 @@
     }
   },
   "scheduleLastRun": {
-    "message": "Dernière : $time$ · $success$ réussis, $failed$ échoués",
+    "message": "Dernière exécution : $time$, $success$ réussis, $failed$ échoués",
     "placeholders": {
       "time": {
         "content": "$1"
@@ -386,12 +386,6 @@
   },
   "scheduleBtnTip": {
     "message": "Paramètres du check-in automatique"
-  },
-  "scheduleToday": {
-    "message": "aujourd’hui"
-  },
-  "scheduleTomorrow": {
-    "message": "demain"
   },
   "scheduleSaved": {
     "message": "Enregistré"

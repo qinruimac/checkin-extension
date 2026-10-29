@@ -282,6 +282,8 @@ body {
   cursor: pointer;
   accent-color: var(--accent-hover);
 }
+/* 文字行高与控件高度一致（16px），两盒同高后居中对齐，圆点不再比字高出一截 */
+.schedule-radio span { line-height: 16px; }
 /* 二选一：选中项整块高亮 + 文字变深，未选中保持灰框，一眼看出选了哪个 */
 .schedule-radio.is-checked,
 .schedule-radio:has(input:checked) {

@@ -365,7 +365,7 @@
     }
   },
   "scheduleLastRun": {
-    "message": "上次：$time$ · 成功 $success$ 个，失败 $failed$ 个",
+    "message": "上次执行：$time$，成功 $success$ 个，失败 $failed$ 个",
     "placeholders": {
       "time": {
         "content": "$1"
@@ -386,12 +386,6 @@
   },
   "scheduleBtnTip": {
     "message": "自动签到设置"
-  },
-  "scheduleToday": {
-    "message": "今天"
-  },
-  "scheduleTomorrow": {
-    "message": "明天"
   },
   "scheduleSaved": {
     "message": "已保存"

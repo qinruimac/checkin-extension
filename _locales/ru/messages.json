@@ -365,7 +365,7 @@
     }
   },
   "scheduleLastRun": {
-    "message": "Последний: $time$ · успешно $success$, не удалось $failed$",
+    "message": "Последний запуск: $time$, успешно: $success$, не удалось: $failed$",
     "placeholders": {
       "time": {
         "content": "$1"
@@ -386,12 +386,6 @@
   },
   "scheduleBtnTip": {
     "message": "Настройки автоматического чекина"
-  },
-  "scheduleToday": {
-    "message": "сегодня"
-  },
-  "scheduleTomorrow": {
-    "message": "завтра"
   },
   "scheduleSaved": {
     "message": "Сохранено"
