@@ -23,11 +23,9 @@
 - 在线隐私政策（10 种语言）：https://erui.org/checkin/privacy.html
 - 源码与反馈：https://github.com/qinruimac/checkin-extension
 
-| 简体中文 | English |
-| --- | --- |
-| ![签到助手简体中文界面](docs/screenshots/popup-zh_CN.png) | ![Check-in Assistant English UI](docs/screenshots/popup-en.png) |
+![签到助手界面与功能](docs/screenshots/store-zh_CN.png)
 
-界面共支持 10 种语言，跟随浏览器语言自动切换，也可手动指定。
+界面共支持 10 种语言，跟随浏览器语言自动切换，也可手动指定；[查看 10 种语言界面总览](docs/screenshots/_overview-store.png)。
 
 ## 功能特性
 
