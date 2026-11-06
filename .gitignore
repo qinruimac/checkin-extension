@@ -10,6 +10,12 @@ STORE_UPDATE.md
 # 功能设计方案（本地评审文档）
 SCHEDULE_DESIGN.md
 
+# 周刊投稿草稿（本地工作文件）
+WEEKLY_SUBMISSION.md
+
+# 原始界面截图（体积大，正式展示图见 docs/screenshots/）
+popup_shots/
+
 # 商店打包产物
 *.zip
 

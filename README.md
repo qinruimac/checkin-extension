@@ -1,11 +1,33 @@
 # 签到助手 (checkin-extension)
 
-不只是打开网页——选取页面上的签到按钮，自动模拟点击完成签到。支持元素选取、手工添加、批量执行，一键搞定所有签到任务。
+[![Version](https://img.shields.io/badge/version-1.2.0-0b7a64?style=flat-square)](CHANGELOG.md)
+[![License](https://img.shields.io/github/license/qinruimac/checkin-extension?style=flat-square&color=blue)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/qinruimac/checkin-extension?style=flat-square&logo=github)](https://github.com/qinruimac/checkin-extension/stargazers)
+[![Language](https://img.shields.io/github/languages/top/qinruimac/checkin-extension?style=flat-square)](https://github.com/qinruimac/checkin-extension)
+[![Platform](https://img.shields.io/badge/platform-Edge%20%7C%20Chrome-0078D4?style=flat-square)]()
+
+不只是打开网页——选取页面上的签到按钮，自动模拟点击完成签到。支持元素选取、手工添加、批量执行和定时自动执行，一键搞定所有签到任务。
 
 基于 Manifest V3 开发，同时兼容 **Edge** 和 **Chrome** 浏览器。支持 10 种语言界面切换。
 
+## 立即安装
+
+| 浏览器 | 商店链接 |
+| --- | --- |
+| **Edge Add-ons** | https://microsoftedge.microsoft.com/addons/detail/jfoiljgknpbcddkpfpaglcoeeflgpiha |
+| **Chrome Web Store** | https://chromewebstore.google.com/detail/gdgdjllgdagmhkdmomcikgpocabfnmai |
+
+其他链接：
+
 - 官方站点（产品介绍，10 种语言）：https://erui.org/checkin/
 - 在线隐私政策（10 种语言）：https://erui.org/checkin/privacy.html
+- 源码与反馈：https://github.com/qinruimac/checkin-extension
+
+| 简体中文 | English |
+| --- | --- |
+| ![签到助手简体中文界面](docs/screenshots/popup-zh_CN.png) | ![Check-in Assistant English UI](docs/screenshots/popup-en.png) |
+
+界面共支持 10 种语言，跟随浏览器语言自动切换，也可手动指定。
 
 ## 功能特性
 
@@ -111,8 +133,7 @@ checkin-extension/
 
 ### 从商店安装
 
-- **Edge Add-ons**：https://microsoftedge.microsoft.com/addons/detail/jfoiljgknpbcddkpfpaglcoeeflgpiha
-- **Chrome Web Store**：https://chromewebstore.google.com/detail/gdgdjllgdagmhkdmomcikgpocabfnmai
+两个商店的直达链接见文首「立即安装」表格，此处不再重复。
 
 ## 使用方法
 
@@ -185,7 +206,7 @@ checkin-extension/
 
 - 部分网站可能有反自动化检测，自动点击可能不生效
 - CSS 选择器基于添加时的页面结构生成，如果网站改版可能需要重新选取
-- 执行任务时标签页在后台打开，不会切换当前标签页；任务完成后标签页保留打开，确认无误后可手动关闭或直接关闭浏览器
+- 执行任务时标签页在后台打开，不会切换当前标签页；手动执行完成后标签页保留，确认无误后可手动关闭；定时执行默认跑完关闭，失败的任务会保留标签页方便排查（可在定时设置里改为「全部保留」）
 - 扩展安装或更新后，此前已经打开的页面需要刷新后才能使用元素选取功能（执行签到不受影响，未及时刷新时会提示）
 - 建议在添加任务前先手动签到一次，确认签到按钮的位置和选择器
 
