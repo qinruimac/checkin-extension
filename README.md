@@ -13,6 +13,7 @@
 ## 立即安装
 
  **Edge Add-ons** ： https://microsoftedge.microsoft.com/addons/detail/jfoiljgknpbcddkpfpaglcoeeflgpiha 
+ 
  **Chrome Web Store** ： https://chromewebstore.google.com/detail/gdgdjllgdagmhkdmomcikgpocabfnmai 
 
 其他链接：
